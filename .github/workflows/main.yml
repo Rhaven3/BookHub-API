@@ -1,0 +1,21 @@
+name: Importation massive
+ 
+permissions:
+  issues: write
+  contents: read
+ 
+on: 
+  workflow_dispatch: # Permet de lancer l'action manuellement avec un bouton
+ 
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+ 
+      - name: Issue Importer Action
+        uses: dsanchezcr/issue-importer-action@v1.0.0
+        with:
+          file-path: 'tickets_bibliotheque.csv' # Remplace par le nom de ton fichier CSV
+          github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbookhub=self.webpackChunkbookhub||[]).push([["322"],{4444(o){o.exports=JSON.parse('{"metadata":{"permalink":"/BookHub-API/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":0,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);

@@ -1,0 +1,271 @@
+<!doctype html><html lang=fr dir=ltr class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-cahierDesCharges" data-has-hydrated=false><head><meta charset=UTF-8><meta name=generator content="Docusaurus v3.10.2"><title data-rh=true>Cahier des charges | BookHub</title><meta data-rh=true name=viewport content="width=device-width, initial-scale=1.0"/><meta data-rh=true name=twitter:card content=summary_large_image /><meta data-rh=true property=og:image content=https://Rhaven3.github.io/BookHub-API/img/docusaurus-social-card.jpg /><meta data-rh=true name=twitter:image content=https://Rhaven3.github.io/BookHub-API/img/docusaurus-social-card.jpg /><meta data-rh=true property=og:url content=https://Rhaven3.github.io/BookHub-API/docs/cahierDesCharges /><meta data-rh=true property=og:locale content=fr /><meta data-rh=true name=docusaurus_locale content=fr /><meta data-rh=true name=docsearch:language content=fr /><meta data-rh=true name=docusaurus_version content=current /><meta data-rh=true name=docusaurus_tag content=docs-default-current /><meta data-rh=true name=docsearch:version content=current /><meta data-rh=true name=docsearch:docusaurus_tag content=docs-default-current /><meta data-rh=true property=og:title content="Cahier des charges | BookHub"/><meta data-rh=true name=description content="Livrable de conception (Sprint 0) - User stories, UML, maquettes, modèle de données, architecture"/><meta data-rh=true property=og:description content="Livrable de conception (Sprint 0) - User stories, UML, maquettes, modèle de données, architecture"/><link data-rh=true rel=icon href=/BookHub-API/img/favicon.ico /><link data-rh=true rel=canonical href=https://Rhaven3.github.io/BookHub-API/docs/cahierDesCharges /><link data-rh=true rel=alternate href=https://Rhaven3.github.io/BookHub-API/docs/cahierDesCharges hreflang=fr /><link data-rh=true rel=alternate href=https://Rhaven3.github.io/BookHub-API/docs/cahierDesCharges hreflang=x-default /><script data-rh=true type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://Rhaven3.github.io/BookHub-API/docs/cahierDesCharges","name":"Cahier des charges","position":1}]}</script><link rel=stylesheet href=/BookHub-API/assets/css/styles.ac9f1a99.css /><script src=/BookHub-API/assets/js/runtime~main.0d945f9b.js defer></script><script src=/BookHub-API/assets/js/main.44d56b28.js defer></script></head><body><svg style="display: none;"><defs>
+<symbol id=theme-svg-external-link viewBox="0 0 24 24"><path fill=currentColor d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme-d7a")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id=__docusaurus><link rel=preload as=image href=/BookHub-API/img/logo.svg /><div role=region aria-label="Aller au contenu principal"><a class=skipToContent_fXgn href=#__docusaurus_skipToContent_fallback>Aller au contenu principal</a></div><nav aria-label=Main class="theme-layout-navbar navbar navbar--fixed-top"><div class=navbar__inner><div class="theme-layout-navbar-left navbar__items"><button aria-label="Ouvrir/fermer la barre de navigation" aria-expanded=false class="navbar__toggle clean-btn" type=button><svg width=30 height=30 viewBox="0 0 30 30" aria-hidden=true><path stroke=currentColor stroke-linecap=round stroke-miterlimit=10 stroke-width=2 d="M4 7h22M4 15h22M4 23h22"/></svg></button><a class=navbar__brand href=/BookHub-API/><div class=navbar__logo><img src=/BookHub-API/img/logo.svg alt="BookHub Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"/><img src=/BookHub-API/img/logo.svg alt="BookHub Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"/></div><b class="navbar__title text--truncate">BookHub</b></a><a aria-current=page class="navbar__item navbar__link navbar__link--active" href=/BookHub-API/docs/cahierDesCharges>Cahier des charges</a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href=https://github.com/Rhaven3/BookHub.git target=_blank rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_nPIU><use href=#theme-svg-external-link /></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type=button disabled title="system mode" aria-label="Basculer entre le mode sombre et clair (actuellement system mode)"><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill=currentColor d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill=currentColor d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill=currentColor d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"/></svg></button></div><div class=navbarSearchContainer_Bca1></div></div></div><div role=presentation class=navbar-sidebar__backdrop></div></nav><div id=__docusaurus_skipToContent_fallback class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class=docsWrapper_hBAB><button aria-label="Retour au début de la page" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type=button></button><div class=docRoot_UBD9><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class=sidebarViewport_aRkj><div class=sidebar_njMd><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current=page href=/BookHub-API/docs/cahierDesCharges><span class=linkLabel_WmDU>Cahier des charges</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/BookHub-API/docs/user-stories><span class=linkLabel_WmDU>User stories</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/BookHub-API/docs/modele-de-donnees><span class=linkLabel_WmDU>Modèle de données</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/BookHub-API/docs/diagrammes-uml><span class=linkLabel_WmDU>Diagrammes UML</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/BookHub-API/docs/maquettes><span class=linkLabel_WmDU>Maquettes</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/BookHub-API/docs/architecture-logicielle><span class=linkLabel_WmDU>Architecture logicielle</span></a></ul></nav></div></div></aside><main class=docMainContainer_TBSr><div class="container padding-top--md padding-bottom--lg"><div class=row><div class="col docItemCol_VOVn"><div class=docItemContainer_Djhp><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Fil d'Ariane"><ul class=breadcrumbs><li class=breadcrumbs__item><a aria-label="Page d'accueil" class=breadcrumbs__link href=/BookHub-API/><svg viewBox="0 0 24 24" class=breadcrumbHomeIcon_YNFT><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill=currentColor /></svg></a><li class="breadcrumbs__item breadcrumbs__item--active"><span class=breadcrumbs__link>Cahier des charges</span></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type=button class="clean-btn tocCollapsibleButton_TO0P">Sur cette page</button></div><div class="theme-doc-markdown markdown"><header><h1>Cahier des charges - BookHub</h1></header>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=0-contexte-du-projet>0. Contexte du projet<a href=#0-contexte-du-projet class=hash-link aria-label="Lien direct vers 0. Contexte du projet" title="Lien direct vers 0. Contexte du projet" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=01-présentation>0.1 Présentation<a href=#01-présentation class=hash-link aria-label="Lien direct vers 0.1 Présentation" title="Lien direct vers 0.1 Présentation" translate=no>​</a></h3>
+<p><strong>Nom du projet</strong>
+BookHub - Plateforme collaborative de gestion de bibliothèque</p>
+<p><strong>Contexte</strong>
+L'association "Quartier Solidaire" gère depuis 15 ans une bibliothèque communautaire avec un fonds de 2000 ouvrages et environ 300 adhérents actifs. La gestion actuelle repose sur un système papier (fiches cartonnées, registres manuscrits) qui présente de nombreuses limites.</p>
+<p><strong>Problématiques identifiées</strong></p>
+<table><thead><tr><th>Problématique<th>Impact<th>Priorité<tbody><tr><td>Gestion manuelle des emprunts<td>Erreurs, perte de temps (30 min/jour)<td>Haute<tr><td>Pas de catalogue en ligne<td>Impossibilité de consulter à distance<td>Haute<tr><td>Pas de système de réservation<td>Déplacements inutiles des adhérents<td>Moyenne<tr><td>Difficultés à gérer les retards<td>Relances manuelles chronophages<td>Haute<tr><td>Pas de statistiques<td>Impossibilité de piloter l'activité<td>Basse</table>
+<p><strong>Solution proposée</strong>
+Développement d'une application web moderne permettant :</p>
+<ul>
+<li class="">La gestion complète des emprunts et réservations</li>
+<li class="">Un catalogue en ligne accessible 24/7</li>
+<li class="">Des tableaux de bord pour le pilotage</li>
+<li class="">La mise en conformité RGPD</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=02-contexte-organisationnel-et-enjeux>0.2 Contexte organisationnel et enjeux<a href=#02-contexte-organisationnel-et-enjeux class=hash-link aria-label="Lien direct vers 0.2 Contexte organisationnel et enjeux" title="Lien direct vers 0.2 Contexte organisationnel et enjeux" translate=no>​</a></h3>
+<p><strong>Association "Quartier Solidaire"</strong></p>
+<ul>
+<li class="">Type : Association loi 1901</li>
+<li class="">Activités : Bibliothèque, ateliers culturels, aide aux devoirs</li>
+<li class="">Effectif : 3 salariés, 15 bénévoles</li>
+<li class="">Adhérents : 300 actifs, 450 total</li>
+</ul>
+<p><strong>Équipe bibliothèque</strong></p>
+<ul>
+<li class="">1 bibliothécaire à temps partiel (Ahmed, 45 ans)</li>
+<li class="">4 bénévoles (présence hebdomadaire)</li>
+<li class="">Horaires d'ouverture : Mardi au samedi, 14h-19h</li>
+</ul>
+<p><strong>Enjeux stratégiques</strong></p>
+<ul>
+<li class="">Modernisation : image plus moderne, attractive</li>
+<li class="">Efficacité : automatisation, gain de temps</li>
+<li class="">Accessibilité : service accessible à tous</li>
+<li class="">Conformité : mise en conformité RGPD</li>
+<li class="">Éco-responsabilité : réduction du papier</li>
+</ul>
+<p><strong>Indicateurs de succès</strong></p>
+<ul>
+<li class="">80% des adhérents utilisent la plateforme après 6 mois</li>
+<li class="">Réduction de 50% du temps de gestion</li>
+<li class="">Note satisfaction ≥ 4/5</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=03-objectifs>0.3 Objectifs<a href=#03-objectifs class=hash-link aria-label="Lien direct vers 0.3 Objectifs" title="Lien direct vers 0.3 Objectifs" translate=no>​</a></h3>
+<p><strong>Objectif général</strong>
+Créer une plateforme web complète, accessible et éco-conçue pour la gestion de la bibliothèque associative.</p>
+<p><strong>Objectifs fonctionnels</strong>
+Consultation du catalogue en ligne, automatisation des emprunts/retours, système de réservation, notation et commentaires, tableaux de bord statistiques.</p>
+<p><strong>Objectifs techniques</strong>
+Architecture multicouche REST, authentification JWT, base de données normalisée, procédures stockées et triggers présents et pertinents, responsive design, tests unitaires.</p>
+<p><strong>Objectifs qualité</strong>
+Sécurité ANSSI, performance &lt; 2s, documentation complète.</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=04-périmètre-fonctionnel-mvp>0.4 Périmètre fonctionnel (MVP)<a href=#04-périmètre-fonctionnel-mvp class=hash-link aria-label="Lien direct vers 0.4 Périmètre fonctionnel (MVP)" title="Lien direct vers 0.4 Périmètre fonctionnel (MVP)" translate=no>​</a></h3>
+<table><thead><tr><th>Module<th>Priorité<th>Contenu<tbody><tr><td>1. Authentification<td>⭐⭐⭐<td>Inscription / Connexion, gestion profil, rôles (USER, LIBRARIAN, ADMIN)<tr><td>2. Catalogue<td>⭐⭐⭐<td>Liste et détail des livres, recherche et filtres, gestion CRUD (bibliothécaire)<tr><td>3. Emprunt<td>⭐⭐⭐<td>Emprunter un livre, mes emprunts, enregistrer un retour<tr><td>4. Réservation<td>⭐⭐<td>Réserver un livre, file d'attente<tr><td>5. Notation<td>⭐⭐<td>Noter (1-5 étoiles), commenter, modération<tr><td>6. Dashboards<td>⭐⭐<td>Dashboard lecteur, bibliothécaire, admin</table>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=05-spécifications-techniques>0.5 Spécifications techniques<a href=#05-spécifications-techniques class=hash-link aria-label="Lien direct vers 0.5 Spécifications techniques" title="Lien direct vers 0.5 Spécifications techniques" translate=no>​</a></h3>
+<p><strong>Backend</strong>
+Java 17+, Spring Boot 3.2+, Spring Security + JWT, Spring Data JPA, SQL Server 2019+, Gradle, Swagger.</p>
+<p><strong>Frontend</strong>
+Angular 17+, TypeScript 5+, CSS, HttpClient.</p>
+<p><strong>API REST — Endpoints principaux</strong></p>
+<table><thead><tr><th>Domaine<th>Endpoints<tbody><tr><td>Authentification<td><code>POST /api/auth/register</code>, <code>POST /api/auth/login</code><tr><td>Livres<td><code>GET /api/books</code>, <code>GET /api/books/{id}</code>, <code>GET /api/books/search</code>, <code>POST /api/books</code> (LIBRARIAN), <code>PUT /api/books/{id}</code> (LIBRARIAN), <code>DELETE /api/books/{id}</code> (ADMIN)<tr><td>Emprunts<td><code>POST /api/loans</code>, <code>GET /api/loans/my</code>, <code>GET /api/loans</code> (LIBRARIAN), <code>PUT /api/loans/{id}/return</code> (LIBRARIAN)<tr><td>Réservations<td><code>POST /api/reservations</code>, <code>GET /api/reservations/my</code>, <code>DELETE /api/reservations/{id}</code><tr><td>Notations<td><code>POST /api/books/{id}/ratings</code>, <code>PUT /api/ratings/{id}</code>, <code>DELETE /api/ratings/{id}</code> (LIBRARIAN)</table>
+<p><strong>Codes HTTP</strong>
+Succès : <code>200 OK</code>, <code>201 Created</code>, <code>204 No Content</code>
+Erreurs client : <code>400 Bad Request</code>, <code>401 Unauthorized</code>, <code>403 Forbidden</code>, <code>404 Not Found</code></p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=06-sécurité>0.6 Sécurité<a href=#06-sécurité class=hash-link aria-label="Lien direct vers 0.6 Sécurité" title="Lien direct vers 0.6 Sécurité" translate=no>​</a></h3>
+<p><strong>JWT</strong> — Algorithme HS256 ; secret 256 bits minimum ; expiration 24h ; payload : email, role
+<strong>Mots de passe</strong> — Hachage BCrypt (coût 12) ; politique : 12+ caractères, 1 maj, 1 min, 1 chiffre, 1 spécial</p>
+<p><strong>Protection OWASP</strong></p>
+<ul>
+<li class="">Injection SQL : requêtes paramétrées (JPA), Spring Data exclusivement</li>
+<li class="">XSS : sanitization Angular, échappement templates</li>
+<li class="">CSRF : tokens CSRF activés, SameSite cookies</li>
+<li class="">Validation : client (Validators Angular) + serveur (<code>@Valid</code>, Jakarta Validation)</li>
+</ul>
+<p><strong>RGPD</strong>
+Minimisation des données, consentement obligatoire, droit d'accès (profil), droit de rectification, droit à l'oubli (suppression compte).</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=07-contraintes-et-exigences>0.7 Contraintes et exigences<a href=#07-contraintes-et-exigences class=hash-link aria-label="Lien direct vers 0.7 Contraintes et exigences" title="Lien direct vers 0.7 Contraintes et exigences" translate=no>​</a></h3>
+<ul>
+<li class=""><strong>Performance</strong> : chargement &lt; 2s, API &lt; 500ms, recherche &lt; 1s</li>
+<li class=""><strong>Compatibilité</strong> : Chrome/Firefox/Edge (2 dernières versions), responsive (mobile/tablette/desktop)</li>
+<li class=""><strong>Qualité</strong> : code commenté, conventions respectées, tests ≥ 20% (backend et frontend)</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=08-livrables-et-planning>0.8 Livrables et planning<a href=#08-livrables-et-planning class=hash-link aria-label="Lien direct vers 0.8 Livrables et planning" title="Lien direct vers 0.8 Livrables et planning" translate=no>​</a></h3>
+<p><strong>Livrables</strong></p>
+<ul>
+<li class="">Documentation conception (J2) : user stories, diagrammes UML, maquettes, MCD/MLD/MPD, architecture</li>
+<li class="">Code source (J9) : backend Spring Boot, frontend Angular, scripts SQL, README</li>
+<li class="">Présentation (J10) : Swagger, tests unitaires, diaporama, démo, tous membres interviennent</li>
+</ul>
+<p><strong>Planning</strong></p>
+<table><thead><tr><th>Phase<th>Jours<th>Focus<tbody><tr><td>Sprint 0<td>J1-J2<td>Conception<tr><td>Sprint 1<td>J3-J5<td>MVP (auth, catalogue, emprunts)<tr><td>Sprint 2<td>J6-J9<td>Complétion (résa, notation, tests)<tr><td>Clôture<td>J10<td>Documentation, présentation</table>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=1-user-stories-avec-critères-dacceptation>1. User Stories avec critères d'acceptation<a href=#1-user-stories-avec-critères-dacceptation class=hash-link aria-label="Lien direct vers 1. User Stories avec critères d'acceptation" title="Lien direct vers 1. User Stories avec critères d'acceptation" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=11-authentification>1.1 Authentification<a href=#11-authentification class=hash-link aria-label="Lien direct vers 1.1 Authentification" title="Lien direct vers 1.1 Authentification" translate=no>​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-auth-01--inscription>US-AUTH-01 — Inscription<a href=#us-auth-01--inscription class=hash-link aria-label="Lien direct vers US-AUTH-01 — Inscription" title="Lien direct vers US-AUTH-01 — Inscription" translate=no>​</a></h4>
+<p><strong>En tant que</strong> visiteur, <strong>je veux</strong> créer un compte <strong>afin de</strong> accéder aux services.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Formulaire : email, password, prénom, nom</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Validation email (format, unicité)</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Politique de mot de passe forte</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Hachage BCrypt</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Rôle <code>USER</code> par défaut</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Redirection vers la page de connexion</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-auth-02--connexion>US-AUTH-02 — Connexion<a href=#us-auth-02--connexion class=hash-link aria-label="Lien direct vers US-AUTH-02 — Connexion" title="Lien direct vers US-AUTH-02 — Connexion" translate=no>​</a></h4>
+<p><strong>En tant qu'</strong> utilisateur inscrit, <strong>je veux</strong> me connecter **afin d'**accéder à mon espace.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Formulaire : email, password</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Génération JWT (24h)</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Stockage token côté client</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Redirection selon rôle</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-auth-03--profil>US-AUTH-03 — Profil<a href=#us-auth-03--profil class=hash-link aria-label="Lien direct vers US-AUTH-03 — Profil" title="Lien direct vers US-AUTH-03 — Profil" translate=no>​</a></h4>
+<p><strong>En tant qu'</strong> utilisateur connecté, <strong>je veux</strong> gérer mon profil <strong>afin de</strong> maintenir mes informations.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Affichage des informations</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Modification prénom/nom/téléphone</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Changement de mot de passe</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Suppression du compte (RGPD)</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=12-catalogue>1.2 Catalogue<a href=#12-catalogue class=hash-link aria-label="Lien direct vers 1.2 Catalogue" title="Lien direct vers 1.2 Catalogue" translate=no>​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-book-01--consultation>US-BOOK-01 — Consultation<a href=#us-book-01--consultation class=hash-link aria-label="Lien direct vers US-BOOK-01 — Consultation" title="Lien direct vers US-BOOK-01 — Consultation" translate=no>​</a></h4>
+<p><strong>En tant qu'</strong> utilisateur, <strong>je veux</strong> consulter les livres <strong>afin de</strong> découvrir les ouvrages.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Affichage en grille responsive</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Informations : couverture, titre, auteur, disponibilité</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Pagination (20/page)</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Badge de disponibilité</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Clic → détail du livre</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-book-02--détail-livre>US-BOOK-02 — Détail livre<a href=#us-book-02--détail-livre class=hash-link aria-label="Lien direct vers US-BOOK-02 — Détail livre" title="Lien direct vers US-BOOK-02 — Détail livre" translate=no>​</a></h4>
+<p><strong>En tant qu'</strong> utilisateur, <strong>je veux</strong> voir les détails <strong>afin de</strong> décider si j'emprunte.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Toutes les informations du livre</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Note moyenne et commentaires</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Bouton "Emprunter" (si disponible)</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Bouton "Réserver" (si indisponible)</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-book-03--recherche>US-BOOK-03 — Recherche<a href=#us-book-03--recherche class=hash-link aria-label="Lien direct vers US-BOOK-03 — Recherche" title="Lien direct vers US-BOOK-03 — Recherche" translate=no>​</a></h4>
+<p><strong>En tant qu'</strong> utilisateur, <strong>je veux</strong> rechercher <strong>afin de</strong> trouver rapidement.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Barre de recherche visible</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Recherche par titre, auteur, ISBN</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Insensible à la casse</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Filtres : catégorie, disponibilité</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Tri multiples</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-book-04--gestion-bibliothécaire>US-BOOK-04 — Gestion (Bibliothécaire)<a href=#us-book-04--gestion-bibliothécaire class=hash-link aria-label="Lien direct vers US-BOOK-04 — Gestion (Bibliothécaire)" title="Lien direct vers US-BOOK-04 — Gestion (Bibliothécaire)" translate=no>​</a></h4>
+<p><strong>En tant que</strong> bibliothécaire, <strong>je veux</strong> gérer le catalogue **afin d'**ajouter/modifier/supprimer.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Page admin protégée</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->CRUD complet</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Validation des champs</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Impossibilité de supprimer si emprunts en cours</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=13-emprunt>1.3 Emprunt<a href=#13-emprunt class=hash-link aria-label="Lien direct vers 1.3 Emprunt" title="Lien direct vers 1.3 Emprunt" translate=no>​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-loan-01--emprunter>US-LOAN-01 — Emprunter<a href=#us-loan-01--emprunter class=hash-link aria-label="Lien direct vers US-LOAN-01 — Emprunter" title="Lien direct vers US-LOAN-01 — Emprunter" translate=no>​</a></h4>
+<p><strong>En tant que</strong> lecteur, <strong>je veux</strong> emprunter un livre <strong>afin de</strong> le lire.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Bouton "Emprunter"</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Vérifications : livre disponible, max 3 emprunts simultanés, pas de retard</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Durée : 14 jours</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Décrémentation des exemplaires</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Confirmation avec date de retour</li>
+</ul>
+<p><strong>Règles de gestion</strong></p>
+<ul>
+<li class="">RG-LOAN-01 : Max 3 emprunts/utilisateur</li>
+<li class="">RG-LOAN-02 : Durée = 14 jours</li>
+<li class="">RG-LOAN-03 : Bloqué si retard</li>
+<li class="">RG-LOAN-04 : Même livre ré-empruntable</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-loan-02--mes-emprunts>US-LOAN-02 — Mes emprunts<a href=#us-loan-02--mes-emprunts class=hash-link aria-label="Lien direct vers US-LOAN-02 — Mes emprunts" title="Lien direct vers US-LOAN-02 — Mes emprunts" translate=no>​</a></h4>
+<p><strong>En tant que</strong> lecteur, <strong>je veux</strong> voir mes emprunts <strong>afin de</strong> connaître les dates.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Onglets "En cours" / "Historique"</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->En cours : liste des emprunts actifs</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Historique : emprunts passés</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Indication des retards</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-loan-03--retour-bibliothécaire>US-LOAN-03 — Retour (Bibliothécaire)<a href=#us-loan-03--retour-bibliothécaire class=hash-link aria-label="Lien direct vers US-LOAN-03 — Retour (Bibliothécaire)" title="Lien direct vers US-LOAN-03 — Retour (Bibliothécaire)" translate=no>​</a></h4>
+<p><strong>En tant que</strong> bibliothécaire, <strong>je veux</strong> enregistrer un retour <strong>afin de</strong> libérer l'exemplaire.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Bouton "Retour"</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Calcul automatique du retard</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Incrémentation des exemplaires</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Statut <code>RETURNED</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=14-réservation>1.4 Réservation<a href=#14-réservation class=hash-link aria-label="Lien direct vers 1.4 Réservation" title="Lien direct vers 1.4 Réservation" translate=no>​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-resa-01--réserver>US-RESA-01 — Réserver<a href=#us-resa-01--réserver class=hash-link aria-label="Lien direct vers US-RESA-01 — Réserver" title="Lien direct vers US-RESA-01 — Réserver" translate=no>​</a></h4>
+<p><strong>En tant que</strong> lecteur, <strong>je veux</strong> réserver **afin d'**être notifié.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Bouton "Réserver" (si indisponible)</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Max 5 réservations</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Affichage du rang</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-resa-02--mes-réservations>US-RESA-02 — Mes réservations<a href=#us-resa-02--mes-réservations class=hash-link aria-label="Lien direct vers US-RESA-02 — Mes réservations" title="Lien direct vers US-RESA-02 — Mes réservations" translate=no>​</a></h4>
+<p><strong>En tant que</strong> lecteur, <strong>je veux</strong> voir mes réservations <strong>afin de</strong> connaître mon rang.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Liste avec rang</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Statut (Attente/Disponible/Annulée)</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Annulation possible</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=15-notation>1.5 Notation<a href=#15-notation class=hash-link aria-label="Lien direct vers 1.5 Notation" title="Lien direct vers 1.5 Notation" translate=no>​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-rate-01--noter>US-RATE-01 — Noter<a href=#us-rate-01--noter class=hash-link aria-label="Lien direct vers US-RATE-01 — Noter" title="Lien direct vers US-RATE-01 — Noter" translate=no>​</a></h4>
+<p><strong>En tant que</strong> lecteur ayant emprunté, <strong>je veux</strong> noter <strong>afin de</strong> partager mon avis.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Étoiles 1-5</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Note moyenne calculée</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Modification possible</li>
+</ul>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-rate-02--commenter>US-RATE-02 — Commenter<a href=#us-rate-02--commenter class=hash-link aria-label="Lien direct vers US-RATE-02 — Commenter" title="Lien direct vers US-RATE-02 — Commenter" translate=no>​</a></h4>
+<p><strong>En tant que</strong> lecteur, <strong>je veux</strong> commenter <strong>afin de</strong> donner un avis détaillé.</p>
+<p><strong>Critères d'acceptation</strong></p>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Zone texte (max 1000 caractères)</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Affichage sous la fiche livre</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Modification possible</li>
+<li class=task-list-item><input type=checkbox disabled/> <!-- -->Modération par le bibliothécaire</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=16-dashboards>1.6 Dashboards<a href=#16-dashboards class=hash-link aria-label="Lien direct vers 1.6 Dashboards" title="Lien direct vers 1.6 Dashboards" translate=no>​</a></h3>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-dash-01--dashboard-lecteur>US-DASH-01 — Dashboard lecteur<a href=#us-dash-01--dashboard-lecteur class=hash-link aria-label="Lien direct vers US-DASH-01 — Dashboard lecteur" title="Lien direct vers US-DASH-01 — Dashboard lecteur" translate=no>​</a></h4>
+<p><strong>Widgets</strong> : emprunts en cours, retards (alerte), réservations, livres lus.</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-dash-02--dashboard-bibliothécaire>US-DASH-02 — Dashboard bibliothécaire<a href=#us-dash-02--dashboard-bibliothécaire class=hash-link aria-label="Lien direct vers US-DASH-02 — Dashboard bibliothécaire" title="Lien direct vers US-DASH-02 — Dashboard bibliothécaire" translate=no>​</a></h4>
+<p><strong>Widgets</strong> : total livres, emprunts actifs, retards, top 10 livres, graphique d'évolution.</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=us-dash-03--dashboard-admin>US-DASH-03 — Dashboard admin<a href=#us-dash-03--dashboard-admin class=hash-link aria-label="Lien direct vers US-DASH-03 — Dashboard admin" title="Lien direct vers US-DASH-03 — Dashboard admin" translate=no>​</a></h4>
+<p><strong>Widgets</strong> : toutes les statistiques du dashboard bibliothécaire.</p>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=1-user-stories>1. User Stories<a href=#1-user-stories class=hash-link aria-label="Lien direct vers 1. User Stories" title="Lien direct vers 1. User Stories" translate=no>​</a></h2>
+<p><a href=/BookHub-API/assets/files/user-stories-e1daa24ad404e3e0518772661d83d5e5.pdf target=_blank class="">Télécharger le document User Stories (PDF)</a></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=2-diagrammes-uml>2. Diagrammes UML<a href=#2-diagrammes-uml class=hash-link aria-label="Lien direct vers 2. Diagrammes UML" title="Lien direct vers 2. Diagrammes UML" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=21-diagramme-de-cas-dutilisation>2.1 Diagramme de cas d'utilisation<a href=#21-diagramme-de-cas-dutilisation class=hash-link aria-label="Lien direct vers 2.1 Diagramme de cas d'utilisation" title="Lien direct vers 2.1 Diagramme de cas d'utilisation" translate=no>​</a></h3>
+<p><img decoding=async loading=lazy alt="Use case" src=/BookHub-API/assets/images/usecase-bfca79c4ad5a4313a09c2273296c1d5d.png width=869 height=680 class=img_ev3q /></p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=diagramme-de-séquence>Diagramme de séquence<a href=#diagramme-de-séquence class=hash-link aria-label="Lien direct vers Diagramme de séquence" title="Lien direct vers Diagramme de séquence" translate=no>​</a></h3>
+<p><img decoding=async loading=lazy alt="Connexion utilisateur" src=/BookHub-API/assets/images/connexion-user-79831644e553f55b4c5a3b43982a663b.png width=835 height=635 class=img_ev3q /></p>
+<p><img decoding=async loading=lazy alt="Emprunt d&amp;#39;un livre" src=/BookHub-API/assets/images/emprunt-livre-5a3df702d1a995191f64632adb3521cd.png width=1069 height=1137 class=img_ev3q /></p>
+<p><img decoding=async loading=lazy alt=Réservation src=/BookHub-API/assets/images/reservation-diag-sequence-54d06f461cd799d05d353b8da4ed60d4.png width=5038 height=2712 class=img_ev3q /></p>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=3-maquettes-wireframes>3. Maquettes (Wireframes)<a href=#3-maquettes-wireframes class=hash-link aria-label="Lien direct vers 3. Maquettes (Wireframes)" title="Lien direct vers 3. Maquettes (Wireframes)" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=wireframe-bookhub>Wireframe BookHub<a href=#wireframe-bookhub class=hash-link aria-label="Lien direct vers Wireframe BookHub" title="Lien direct vers Wireframe BookHub" translate=no>​</a></h3>
+<p><img decoding=async loading=lazy alt="Wireframe BookHub" src=/BookHub-API/assets/images/BookHub-5d7559840db734e65b85f723211d6482.png width=5717 height=4990 class=img_ev3q /></p>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=4-modèle-de-données>4. Modèle de données<a href=#4-modèle-de-données class=hash-link aria-label="Lien direct vers 4. Modèle de données" title="Lien direct vers 4. Modèle de données" translate=no>​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=mcd-modèle-conceptuel-de-données>MCD (Modèle Conceptuel de Données)<a href=#mcd-modèle-conceptuel-de-données class=hash-link aria-label="Lien direct vers MCD (Modèle Conceptuel de Données)" title="Lien direct vers MCD (Modèle Conceptuel de Données)" translate=no>​</a></h3>
+<p><img decoding=async loading=lazy alt="MCD BookHub" src=/BookHub-API/assets/images/mcd-bookhub-35da19ff2481bb9ddd6ceefba6a7dd27.png width=1067 height=613 class=img_ev3q /></p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=mld-modèle-logique-de-données>MLD (Modèle Logique de Données)<a href=#mld-modèle-logique-de-données class=hash-link aria-label="Lien direct vers MLD (Modèle Logique de Données)" title="Lien direct vers MLD (Modèle Logique de Données)" translate=no>​</a></h3>
+<p><img decoding=async loading=lazy alt="MLD BookHub" src=/BookHub-API/assets/images/mld-bookhub-e8b9a54426f64c3228e2838b32092f83.png width=1331 height=645 class=img_ev3q /></p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=mpd-modèle-physique-de-données>MPD (Modèle Physique de Données)<a href=#mpd-modèle-physique-de-données class=hash-link aria-label="Lien direct vers MPD (Modèle Physique de Données)" title="Lien direct vers MPD (Modèle Physique de Données)" translate=no>​</a></h2>
+<p><a href=/BookHub-API/assets/files/script_sql-e436e768ead2544f0b08a96fd07c2381.sql target=_blank class="">Télécharger le script SQL du MPD</a></p>
+<hr/>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=5-architecture-logicielle>5. Architecture logicielle<a href=#5-architecture-logicielle class=hash-link aria-label="Lien direct vers 5. Architecture logicielle" title="Lien direct vers 5. Architecture logicielle" translate=no>​</a></h2>
+<p><img decoding=async loading=lazy alt="Diagramme d&amp;#39;architecture" src=/BookHub-API/assets/images/diag-architecture-9944d8ab56a99bcd492fc68101540ac9.png width=1259 height=879 class=img_ev3q /></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href=https://github.com/Rhaven3/BookHub.git/tree/main/docs/cahierDesCharges.mdx target=_blank rel="noopener noreferrer" class=theme-edit-this-page><svg fill=currentColor height=20 width=20 viewBox="0 0 40 40" class=iconEdit_Z9Sw aria-hidden=true><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"/></g></svg>Éditer cette page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Pages de documentation"><a class="pagination-nav__link pagination-nav__link--next" href=/BookHub-API/docs/user-stories><div class=pagination-nav__sublabel>Suivant</div><div class=pagination-nav__label>User stories</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href=#0-contexte-du-projet class="table-of-contents__link toc-highlight">0. Contexte du projet</a><ul><li><a href=#01-présentation class="table-of-contents__link toc-highlight">0.1 Présentation</a><li><a href=#02-contexte-organisationnel-et-enjeux class="table-of-contents__link toc-highlight">0.2 Contexte organisationnel et enjeux</a><li><a href=#03-objectifs class="table-of-contents__link toc-highlight">0.3 Objectifs</a><li><a href=#04-périmètre-fonctionnel-mvp class="table-of-contents__link toc-highlight">0.4 Périmètre fonctionnel (MVP)</a><li><a href=#05-spécifications-techniques class="table-of-contents__link toc-highlight">0.5 Spécifications techniques</a><li><a href=#06-sécurité class="table-of-contents__link toc-highlight">0.6 Sécurité</a><li><a href=#07-contraintes-et-exigences class="table-of-contents__link toc-highlight">0.7 Contraintes et exigences</a><li><a href=#08-livrables-et-planning class="table-of-contents__link toc-highlight">0.8 Livrables et planning</a></ul><li><a href=#1-user-stories-avec-critères-dacceptation class="table-of-contents__link toc-highlight">1. User Stories avec critères d'acceptation</a><ul><li><a href=#11-authentification class="table-of-contents__link toc-highlight">1.1 Authentification</a><li><a href=#12-catalogue class="table-of-contents__link toc-highlight">1.2 Catalogue</a><li><a href=#13-emprunt class="table-of-contents__link toc-highlight">1.3 Emprunt</a><li><a href=#14-réservation class="table-of-contents__link toc-highlight">1.4 Réservation</a><li><a href=#15-notation class="table-of-contents__link toc-highlight">1.5 Notation</a><li><a href=#16-dashboards class="table-of-contents__link toc-highlight">1.6 Dashboards</a></ul><li><a href=#1-user-stories class="table-of-contents__link toc-highlight">1. User Stories</a><li><a href=#2-diagrammes-uml class="table-of-contents__link toc-highlight">2. Diagrammes UML</a><ul><li><a href=#21-diagramme-de-cas-dutilisation class="table-of-contents__link toc-highlight">2.1 Diagramme de cas d'utilisation</a><li><a href=#diagramme-de-séquence class="table-of-contents__link toc-highlight">Diagramme de séquence</a></ul><li><a href=#3-maquettes-wireframes class="table-of-contents__link toc-highlight">3. Maquettes (Wireframes)</a><ul><li><a href=#wireframe-bookhub class="table-of-contents__link toc-highlight">Wireframe BookHub</a></ul><li><a href=#4-modèle-de-données class="table-of-contents__link toc-highlight">4. Modèle de données</a><ul><li><a href=#mcd-modèle-conceptuel-de-données class="table-of-contents__link toc-highlight">MCD (Modèle Conceptuel de Données)</a><li><a href=#mld-modèle-logique-de-données class="table-of-contents__link toc-highlight">MLD (Modèle Logique de Données)</a></ul><li><a href=#mpd-modèle-physique-de-données class="table-of-contents__link toc-highlight">MPD (Modèle Physique de Données)</a><li><a href=#5-architecture-logicielle class="table-of-contents__link toc-highlight">5. Architecture logicielle</a></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class=footer__title>Docs</div><ul class="footer__items clean-list"><li class=footer__item><a class=footer__link-item href=/BookHub-API/docs/cahierDesCharges>Cahier des charges</a></ul></div><div class="theme-layout-footer-column col footer__col"><div class=footer__title>Projet</div><ul class="footer__items clean-list"><li class=footer__item><a href=https://github.com/Rhaven3/BookHub.git target=_blank rel="noopener noreferrer" class=footer__link-item>Association Quartier Solidaire<svg width=13.5 height=13.5 aria-label="(opens in new tab)" class=iconExternalLink_nPIU><use href=#theme-svg-external-link /></svg></a></ul></div></div><div class="footer__bottom text--center"><div class=footer__copyright>Copyright © 2026 BookHub - Quartier Solidaire. Built with Docusaurus.</div></div></div></footer></div></body>

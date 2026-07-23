@@ -1,7 +1,5 @@
-package fr.eni.td2j.bookhub_api.controller;
+package fr.eni.td2j.bookhub_api.author;
 
-import fr.eni.td2j.bookhub_api.entity.Author;
-import fr.eni.td2j.bookhub_api.repository.AuthorRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

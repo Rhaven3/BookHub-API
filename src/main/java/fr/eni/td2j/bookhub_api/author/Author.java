@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.entity;
+package fr.eni.td2j.bookhub_api.author;
 
 import jakarta.persistence.*;
 import lombok.*;

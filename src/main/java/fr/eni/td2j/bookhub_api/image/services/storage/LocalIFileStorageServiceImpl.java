@@ -23,18 +23,15 @@ import java.util.Objects;
 
 @Service
 public class LocalIFileStorageServiceImpl implements IFileStorageService {
-
-    /**
-     *
-     */
+    
     @Value("${app.upload.dir}")
     private String uploadDir;
 
     /**
      *
-     * Méthode en charge de
+     * Méthode en charge de stocker un fichier
      * @param file
-     * @return
+     * @return Le nom du fichier stocké
      */
     @Override
     public String store(MultipartFile file) {
@@ -60,9 +57,9 @@ public class LocalIFileStorageServiceImpl implements IFileStorageService {
 
     /**
      *
-     * Méthode en charge de
+     * Méthode en charge de charger un fichier
      * @param filename
-     * @return
+     * @return Le fichier sous forme de Resource
      */
     @Override
     public Resource load(String filename) {
@@ -78,7 +75,7 @@ public class LocalIFileStorageServiceImpl implements IFileStorageService {
 
     /**
      *
-     * Méthode en charge de
+     * Méthode en charge de supprimer un fichier
      * @param filename
      */
     @Override
@@ -93,7 +90,7 @@ public class LocalIFileStorageServiceImpl implements IFileStorageService {
 
     /**
      *
-     * Méthode en charge de
+     * Méthode en charge de valider un fichier
      * @param file
      */
     private void validateFile(MultipartFile file) {

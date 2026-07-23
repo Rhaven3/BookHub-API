@@ -11,6 +11,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @Builder
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"fname", "lname"}))
 public class Author {
 
     @Id

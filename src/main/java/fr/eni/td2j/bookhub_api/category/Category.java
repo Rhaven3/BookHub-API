@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.entity;
+package fr.eni.td2j.bookhub_api.category;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,12 +11,11 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @Builder
-public class Author {
-
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fname;
-    private String lname;
 
+    private String name;
 }

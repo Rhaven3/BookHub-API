@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddressCreateDTO {
+public class AddressDTO {
     @NotBlank(message = "La rue est obligatoire")
     private String street;
 

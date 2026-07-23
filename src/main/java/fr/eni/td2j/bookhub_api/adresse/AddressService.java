@@ -1,7 +1,10 @@
 package fr.eni.td2j.bookhub_api.adresse;
 
-import fr.eni.td2j.bookhub_api.adresse.dto.request.AddressCreateDTO;
+import fr.eni.td2j.bookhub_api.adresse.dto.request.AddressDTO;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddressService {
@@ -16,17 +19,22 @@ public class AddressService {
         return addressRepository.findById(id).orElse(null);
     }
 
-    public Address saveAddress (AddressCreateDTO addressDTO){
-        Address addressExisting = addressRepository.findByStreetAndCityAndPostalCodeAndCountry(
+    public List<Address> getAllAddresses() {
+        return addressRepository.findAll();
+    }
+
+    public Address saveAddress (AddressDTO addressDTO){
+        Optional<Address> addressExisting = addressRepository.findByStreetAndCityAndPostalCodeAndCountry(
                 addressDTO.getStreet(),
                 addressDTO.getCity(),
                 addressDTO.getPostalCode(),
                 addressDTO.getCountry()
         );
-        if(addressExisting != null){
-            return addressExisting;
+        if(addressExisting.isPresent()){
+            return addressExisting.get();
         }
-        return addressRepository.save(
+
+        Address saved = addressRepository.save(
                 Address.builder()
                         .street(addressDTO.getStreet())
                         .city(addressDTO.getCity())
@@ -34,5 +42,7 @@ public class AddressService {
                         .country(addressDTO.getCountry())
                         .build()
         );
+        return saved;
     }
+
 }

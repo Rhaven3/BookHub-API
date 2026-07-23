@@ -1,8 +1,9 @@
-package fr.eni.td2j.bookhub_api.user;
+package fr.eni.td2j.bookhub_api.security;
 
+import fr.eni.td2j.bookhub_api.user.User;
+import fr.eni.td2j.bookhub_api.user.UserRepository;
 import fr.eni.td2j.bookhub_api.user.dto.request.LoginDTO;
 import fr.eni.td2j.bookhub_api.user.dto.response.AuthResponse;
-import fr.eni.td2j.bookhub_api.security.JwtService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,6 +41,13 @@ public class AuthController {
         long expiresAt = System.currentTimeMillis() + JwtService.ACCESS_TOKEN_DURATION;
 
         AuthResponse response = new AuthResponse(token, user.getEmail(), user.getRole(), expiresAt);
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/register")
+    public ResponseEntity<> register(@RequestBody RegisterDTO dto) {
+
+        ApiResponse<?> response = authService.register(dto);
+
         return ResponseEntity.ok(response);
     }
 }

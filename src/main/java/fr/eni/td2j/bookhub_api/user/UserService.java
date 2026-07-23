@@ -2,9 +2,12 @@ package fr.eni.td2j.bookhub_api.user;
 
 import fr.eni.td2j.bookhub_api.adresse.Address;
 import fr.eni.td2j.bookhub_api.adresse.AddressService;
+import fr.eni.td2j.bookhub_api.exception.AddressCreationException;
 import fr.eni.td2j.bookhub_api.user.dto.request.RegisterDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service

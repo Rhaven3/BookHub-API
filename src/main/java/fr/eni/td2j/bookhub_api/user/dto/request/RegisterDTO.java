@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.user.dto.request;
 
-import fr.eni.td2j.bookhub_api.adresse.dto.request.AddressCreateDTO;
+import fr.eni.td2j.bookhub_api.adresse.dto.request.AddressDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -27,5 +27,5 @@ public class RegisterDTO {
     private String phone;
 
     @Valid
-    private AddressCreateDTO address;
+    private AddressDTO address;
 }

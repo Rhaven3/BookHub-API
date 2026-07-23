@@ -1,7 +1,5 @@
-package fr.eni.td2j.bookhub_api.service;
+package fr.eni.td2j.bookhub_api.author;
 
-import fr.eni.td2j.bookhub_api.entity.Author;
-import fr.eni.td2j.bookhub_api.repository.AuthorRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

@@ -2,14 +2,53 @@ package fr.eni.td2j.bookhub_api.author;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-public interface AuthorService {
+@Service
+public class AuthorService {
+    private final AuthorRepository repository;
 
-    Page<Author> findAll(Pageable pageable);
-    Optional<Author> findById(Long id);
-    Author create(Author author);
-    Author update(Long id, Author author);
-    void deleteById(Long id);
+    public AuthorService(AuthorRepository repository) {
+        this.repository = repository;
+    }
+
+    public Page<Author> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    public Optional<Author> findById(Long id) {
+        return repository.findById(id);
+    }
+
+    public Author create(Author author) {
+
+        if (author.getId() != null) {
+            throw new IllegalArgumentException("L'id doit être null.");
+        }
+
+        if (repository.existsByFnameIgnoreCaseAndLnameIgnoreCase(author.getFname(), author.getLname())) {
+            throw new IllegalArgumentException("Cet auteur existe déjà.");
+        }
+        return repository.save(author);
+    }
+
+    public Author update(Long id, Author author) {
+
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException("Auteur introuvable.");
+        }
+        author.setId(id);
+        return repository.save(author);
+    }
+
+    public void deleteById(Long id) {
+
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException("Auteur introuvable.");
+        }
+        repository.deleteById(id);
+
+    }
 }

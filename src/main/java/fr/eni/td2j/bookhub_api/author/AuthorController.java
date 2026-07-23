@@ -1,71 +1,68 @@
 package fr.eni.td2j.bookhub_api.author;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/author")
 public class AuthorController {
 
-    private final AuthorRepository authorRepository;
+    private final AuthorService authorService;
 
-    public AuthorController(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Author>> findAll() {
-        List<Author> authors = authorRepository.findAll();
-        return ResponseEntity.ok().body(authors);
-
+    public ResponseEntity<Page<Author>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(authorService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Author> findById(@PathVariable Long id) {
-        Optional<Author> author = authorRepository.findById(id);
-        return author.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
+
+        return authorService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?>  create(@RequestBody Author author) {
-        if (authorRepository.findById(author.getId()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("l'id doit etre null " + author.getId());
-        }
+    public ResponseEntity<?> create(@RequestBody Author author) {
 
         try {
-            authorRepository.save(author);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Error creating author" + e.getMessage());
+            Author created = authorService.create(author);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        return ResponseEntity.ok("le auteur est crée");
 
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Author author) {
-        if (authorRepository.findById(id).isPresent()) {
-            author.setId(id);
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id,
+                                    @RequestBody Author author) {
+
         try {
-            authorRepository.save(author);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Error updating author" + e.getMessage());
+            return ResponseEntity.ok(authorService.update(id, author));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok("le auteur est modifié");
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
+
         try {
-            authorRepository.deleteById(id);
+            this.authorService.deleteById(id);
             return ResponseEntity.ok("auteur supprimé");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Error deleting author" + e.getMessage());
         }
+
     }
 }

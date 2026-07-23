@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.author;
+package fr.eni.td2j.bookhub_api.editor;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,13 +11,11 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @Builder
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"fname", "lname"}))
-public class Author {
-
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+public class Editor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String fname;
-    private String lname;
 
+    private String name;
 }

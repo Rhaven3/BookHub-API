@@ -1,7 +1,5 @@
-package fr.eni.td2j.bookhub_api.services;
+package fr.eni.td2j.bookhub_api.user;
 
-import fr.eni.td2j.bookhub_api.entity.User;
-import fr.eni.td2j.bookhub_api.repository.UserRepository;
 import fr.eni.td2j.bookhub_api.security.CustomUserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

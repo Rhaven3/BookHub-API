@@ -2,7 +2,7 @@ package fr.eni.td2j.bookhub_api.security;
 
 import java.util.List;
 
-import fr.eni.td2j.bookhub_api.services.UserDetailsCustomService;
+import fr.eni.td2j.bookhub_api.user.UserDetailsCustomService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -56,7 +56,7 @@ public class SecurityConfig {
      * lesquelles nécessitent une authentification, et branche le filtre JWT.
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable()) // pas besoin de CSRF en API stateless (pas de cookies de session)
@@ -65,21 +65,12 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // pas de session HTTP, tout passe par le JWT
                 .authorizeHttpRequests(auth -> auth
                         // --- Routes publiques (à adapter à TES routes BookHub) ---
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/livres/**").permitAll() // ex: consultation libre du catalogue
-                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll() // requêtes préflight CORS
-
-                        // --- Routes protégées (exemples à adapter) ---
-                        .requestMatchers("/api/auth/me").authenticated()
-                        .requestMatchers("/api/utilisateurs/**").authenticated()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/auth/login").permitAll()
 
                         // --- Tout le reste nécessite d'être authentifié ---
                         .anyRequest().authenticated())
-                // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // insère notre filtre JWT avant celui de Spring
-                //.httpBasic(AbstractHttpConfigurer::disable); // on désactive l'auth HTTP Basic (on n'utilise que le JWT)
-                .httpBasic(basic -> {});
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // insère notre filtre JWT avant celui de Spring
+                .httpBasic(AbstractHttpConfigurer::disable); // on désactive l'auth HTTP Basic (on n'utilise que le JWT)
         return http.build();
     }
 
@@ -90,5 +81,32 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * Fournit à Spring Security la logique pour vérifier un couple email/mot de passe :
+     * - où aller chercher l'utilisateur (UserDetailsCustomService, qu'on a créé plus tôt)
+     * - comment vérifier le mot de passe (le PasswordEncoder défini juste au-dessus)
+     * <p>
+     * C'est ce provider que l'AuthenticationManager (bean suivant) utilisera en interne
+     * quand on appellera authenticationManager.authenticate(...) dans le contrôleur de login.
+     */
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(UserDetailsCustomService userDetailsCustomService) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsCustomService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    /**
+     * Expose l'AuthenticationManager en tant que bean Spring, pour pouvoir l'injecter
+     * directement dans le contrôleur d'authentification (AuthController).
+     * <p>
+     * C'est cet objet qui sera appelé via authenticationManager.authenticate(...)
+     * pour vérifier l'email + mot de passe envoyés au login.
+     */
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }

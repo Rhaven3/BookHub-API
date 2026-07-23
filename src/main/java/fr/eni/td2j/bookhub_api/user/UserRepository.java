@@ -1,6 +1,5 @@
-package fr.eni.td2j.bookhub_api.repository;
+package fr.eni.td2j.bookhub_api.user;
 
-import fr.eni.td2j.bookhub_api.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

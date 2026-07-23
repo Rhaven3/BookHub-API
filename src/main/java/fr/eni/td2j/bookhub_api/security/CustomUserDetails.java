@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.security;
 
-import fr.eni.td2j.bookhub_api.entity.User;
+import fr.eni.td2j.bookhub_api.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -69,7 +69,7 @@ public class CustomUserDetails implements UserDetails {
      */
     @Override
     public String getPassword() {
-        return user.getMotDePasse();
+        return user.getPassword();
     }
 
     /**

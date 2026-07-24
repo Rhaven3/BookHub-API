@@ -1,10 +1,8 @@
 package fr.eni.td2j.bookhub_api.feature.user;
 
-<<<<<<< Updated upstream
-import fr.eni.td2j.bookhub_api.adresse.Address;
-import fr.eni.td2j.bookhub_api.adresse.AddressService;
-=======
->>>>>>> Stashed changes
+
+import fr.eni.td2j.bookhub_api.feature.adresse.Address;
+import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

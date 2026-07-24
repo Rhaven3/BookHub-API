@@ -1,10 +1,7 @@
 package fr.eni.td2j.bookhub_api.feature.user.dto.request;
 
-<<<<<<< Updated upstream
-import fr.eni.td2j.bookhub_api.adresse.dto.request.AddressDTO;
-=======
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressCreateDTO;
->>>>>>> Stashed changes
+
+import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -45,4 +45,10 @@ public class UserController {
 
         return ResponseEntity.ok(ApiResponse.success(null, "Test d'accès réussi pour l'utilisateur : " + auth.getName()));
     }
+
+    @GetMapping("/profile")
+    public UserResponseDTO me(Authentication auth) {
+
+        return userService.getCurrentUser(auth.getName());
+    }
 }

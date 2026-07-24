@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * le corps de la réponse (ici du texte, potentiellement un JSON structuré plus tard).
  */
 @RestControllerAdvice
-public class AuthExceptionHandler {
+public class AuthExceptionHandler extends RuntimeException{
 
     /**
      * Intercepte une BadCredentialsException (levée par l'AuthenticationManager

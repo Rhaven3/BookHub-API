@@ -20,7 +20,7 @@ public class User {
     private String role;
 
     @Column(nullable = true)
-    private String name;
+    private String lastName;
 
     @Column(nullable = true)
     private String firstName;
@@ -36,6 +36,6 @@ public class User {
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = true)
     private Address address;
 }

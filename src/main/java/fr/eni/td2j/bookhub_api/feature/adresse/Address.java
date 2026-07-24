@@ -4,6 +4,7 @@ import fr.eni.td2j.bookhub_api.common.BaseEntity;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Address extends BaseEntity {
 
     @Column(nullable = false)

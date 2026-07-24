@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.adresse;
 
+import fr.eni.td2j.bookhub_api.common.BaseEntity;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Address {
+public class Address extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

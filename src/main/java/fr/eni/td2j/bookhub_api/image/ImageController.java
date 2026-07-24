@@ -20,11 +20,11 @@ public class ImageController {
     private final IFileStorageService fileStorageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ApiResponse<Image>> upload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ApiResponse<Image>> upload(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
         String storedFilename = fileStorageService.store(file);
 
         Image image = new Image();
-        image.setName(storedFilename);
+        image.setName(name);
         image.setPath("./uploads/" + storedFilename);
 
         imageService.addImage(image);

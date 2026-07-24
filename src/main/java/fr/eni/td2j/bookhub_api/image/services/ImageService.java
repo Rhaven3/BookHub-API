@@ -16,7 +16,6 @@ public class ImageService {
 
     private final ImageRepository repository;
 
-
     public Page<Image> getImages(Pageable pageable) {
         return repository.findAll(pageable);
     }
@@ -33,19 +32,6 @@ public class ImageService {
         if (repository.existsByName(image.getName())) {
             throw new BadRequestException("Une image avec ce nom existe déjà");
         }
-        repository.save(image);
-    }
-
-    public void updateName(Long id, String newName) {
-
-        if (repository.existsByName(newName)) {
-            throw new BadRequestException("Une image avec ce nom existe déjà");
-        }
-
-        repository.findById(id).orElseThrow(() -> new NotFoundException("Image non trouvé."));
-
-        Image image = getImage(id);
-        image.setName(newName);
 
         repository.save(image);
     }

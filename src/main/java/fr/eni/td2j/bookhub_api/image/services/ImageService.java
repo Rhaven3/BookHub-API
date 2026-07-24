@@ -49,4 +49,8 @@ public class ImageService {
 
         return repository.existsByName(name);
     }
+
+    public Page<Image> getImageLikeName(String name, Pageable pageable) {
+        return repository.findByNameLike(name, pageable);
+    }
 }

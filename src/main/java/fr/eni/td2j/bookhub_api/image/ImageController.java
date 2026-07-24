@@ -68,6 +68,30 @@ public class ImageController {
         return ResponseEntity.ok().body(ApiResponse.of(HttpStatus.OK.value(), "Image récupérée avec succès", imageService.getImageByName(name)));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<Page<Image>>> getImageLikeName(
+            @RequestParam String name,
+            Pageable pageable) {
+
+        if (name.isBlank()) {
+            return ResponseEntity.ok(
+                    ApiResponse.of(
+                            HttpStatus.OK.value(),
+                            "Toutes les images",
+                            imageService.getImages(pageable)
+                    )
+            );
+        }
+
+        return ResponseEntity.ok(
+                ApiResponse.of(
+                        HttpStatus.OK.value(),
+                        "Images trouvées",
+                        imageService.getImageLikeName(name, pageable)
+                )
+        );
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Image>> deleteImage(@PathVariable Long id) {
         imageService.deleteImage(id);

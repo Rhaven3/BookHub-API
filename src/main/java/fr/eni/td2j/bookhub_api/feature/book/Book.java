@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.book;
 
+import fr.eni.td2j.bookhub_api.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,12 +12,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @Builder
-public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Book extends BaseEntity {
 
     @Column(nullable = false, length = 255)
     private String title;

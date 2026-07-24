@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.editor;
 
+import fr.eni.td2j.bookhub_api.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,13 +10,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
-public class Editor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Editor extends BaseEntity {
+    @Column(nullable = false)
     private String name;
 }

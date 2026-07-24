@@ -1,10 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.adresse;
 
-<<<<<<< Updated upstream:src/main/java/fr/eni/td2j/bookhub_api/adresse/AddressService.java
-import fr.eni.td2j.bookhub_api.adresse.dto.request.AddressDTO;
-=======
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressCreateDTO;
->>>>>>> Stashed changes:src/main/java/fr/eni/td2j/bookhub_api/feature/adresse/AddressService.java
+import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

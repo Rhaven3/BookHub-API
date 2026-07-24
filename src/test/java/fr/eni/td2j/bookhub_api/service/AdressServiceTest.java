@@ -1,9 +1,16 @@
 package fr.eni.td2j.bookhub_api.service;
 
+<<<<<<< Updated upstream
 import fr.eni.td2j.bookhub_api.adresse.Address;
 import fr.eni.td2j.bookhub_api.adresse.AddressRepository;
 import fr.eni.td2j.bookhub_api.adresse.AddressService;
 import fr.eni.td2j.bookhub_api.adresse.dto.request.AddressDTO;
+=======
+import fr.eni.td2j.bookhub_api.feature.adresse.Address;
+import fr.eni.td2j.bookhub_api.feature.adresse.AddressRepository;
+import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
+import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressCreateDTO;
+>>>>>>> Stashed changes
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

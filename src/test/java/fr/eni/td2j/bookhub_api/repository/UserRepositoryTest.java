@@ -1,8 +1,8 @@
 package fr.eni.td2j.bookhub_api.repository;
 
-import fr.eni.td2j.bookhub_api.user.User;
-import fr.eni.td2j.bookhub_api.user.UserDetailsCustomService;
-import fr.eni.td2j.bookhub_api.user.UserRepository;
+import fr.eni.td2j.bookhub_api.feature.user.User;
+import fr.eni.td2j.bookhub_api.security.UserDetailsCustomService;
+import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

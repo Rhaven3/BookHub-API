@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.security;
 
-import fr.eni.td2j.bookhub_api.user.User;
+import fr.eni.td2j.bookhub_api.feature.user.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

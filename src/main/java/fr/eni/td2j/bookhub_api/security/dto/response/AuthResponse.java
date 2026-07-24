@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.user.dto.response;
+package fr.eni.td2j.bookhub_api.security.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

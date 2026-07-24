@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Address extends BaseEntity {
-
     @Column(nullable = false)
     private String street;
 

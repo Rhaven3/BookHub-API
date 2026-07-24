@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.security;
 
-import fr.eni.td2j.bookhub_api.user.User;
+import fr.eni.td2j.bookhub_api.feature.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetails;

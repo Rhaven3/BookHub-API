@@ -1,8 +1,8 @@
 package fr.eni.td2j.bookhub_api.security;
 
-import fr.eni.td2j.bookhub_api.user.User;
-import fr.eni.td2j.bookhub_api.user.UserRepository;
-import fr.eni.td2j.bookhub_api.user.dto.request.LoginDTO;
+import fr.eni.td2j.bookhub_api.feature.user.User;
+import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
+import fr.eni.td2j.bookhub_api.feature.user.dto.request.LoginDTO;
 import fr.eni.td2j.bookhub_api.security.dto.response.AuthResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

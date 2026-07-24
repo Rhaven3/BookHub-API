@@ -4,12 +4,18 @@ import fr.eni.td2j.bookhub_api.common.ApiResponse;
 import fr.eni.td2j.bookhub_api.image.services.ImageService;
 import fr.eni.td2j.bookhub_api.image.services.storage.IFileStorageService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tika.Tika;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +37,20 @@ public class ImageController {
         imageService.addImage(image);
 
         return ResponseEntity.ok().body(ApiResponse.of(HttpStatus.OK.value(), "Image téléchargée avec succès", image));
+    }
+
+    @GetMapping("/download/{filename}")
+    public ResponseEntity<Resource> downloadImage(@PathVariable String filename) throws IOException {
+        Resource resource = fileStorageService.load(filename);
+
+        String contentType;
+        try (InputStream is = resource.getInputStream()) {
+            contentType = new Tika().detect(is);
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType != null ? contentType : "application/octet-stream"))
+                .body(resource);
     }
 
     @GetMapping

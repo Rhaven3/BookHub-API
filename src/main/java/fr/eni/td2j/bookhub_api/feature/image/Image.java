@@ -9,10 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
-
 @Entity
 public class Image extends BaseEntity {
 

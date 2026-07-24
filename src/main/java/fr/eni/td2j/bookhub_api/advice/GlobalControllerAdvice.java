@@ -21,36 +21,36 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiResponse<?>> handlePathNotFound(NotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ApiResponse.of(HttpStatus.NOT_FOUND.value(), ex.getMessage(), null));
+                .body(ApiResponse.error(HttpStatus.NOT_FOUND.value(), ex.getMessage()));
     }
 
     @ExceptionHandler(FileStorageException.class)
     public ResponseEntity<ApiResponse<?>> handleFileStorageException(FileStorageException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), null));
+                .body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()));
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiResponse<?>> handleBadRequest(BadRequestException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.of(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null));
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleGeneric(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.of(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erreur interne", null));
+                .body(ApiResponse.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erreur interne"));
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ApiResponse<?>> handleMaxSize(MaxUploadSizeExceededException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.of(HttpStatus.BAD_REQUEST.value(), "Fichier trop volumineux (" + maxSize + ")", null));
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), "Fichier trop volumineux (" + maxSize + ")"));
     }
 
     @ExceptionHandler(MissingServletRequestPartException.class)
     public ResponseEntity<ApiResponse<?>> handleMissingPart(MissingServletRequestPartException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.of(HttpStatus.BAD_REQUEST.value(), "Le fichier est requis", null));
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), "Le fichier est requis"));
     }
 }

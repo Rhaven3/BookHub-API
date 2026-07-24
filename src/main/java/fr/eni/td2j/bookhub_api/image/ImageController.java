@@ -29,27 +29,27 @@ public class ImageController {
 
         imageService.addImage(image);
 
-        return ResponseEntity.ok().body(ApiResponse.of(HttpStatus.OK.value(), "Image téléchargée avec succès", image));
+        return ResponseEntity.ok().body(ApiResponse.success(image, "Image téléchargée avec succès"));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<Image>>> getImages(Pageable pageable) {
-        return ResponseEntity.ok().body(ApiResponse.of(HttpStatus.OK.value(), "Images récupérées avec succès", imageService.getImages(pageable)));
+        return ResponseEntity.ok().body(ApiResponse.success(imageService.getImages(pageable), "Images récupérées avec succès"));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Image>> getImage(@PathVariable Long id) {
-        return ResponseEntity.ok().body(ApiResponse.of(HttpStatus.OK.value(), "Image récupérée avec succès", imageService.getImage(id)));
+        return ResponseEntity.ok().body(ApiResponse.success(imageService.getImage(id), "Image récupérée avec succès"));
     }
 
     @GetMapping("/nom/{name}")
     public ResponseEntity<ApiResponse<Image>> getImageByName(@PathVariable String name) {
-        return ResponseEntity.ok().body(ApiResponse.of(HttpStatus.OK.value(), "Image récupérée avec succès", imageService.getImageByName(name)));
+        return ResponseEntity.ok().body(ApiResponse.success(imageService.getImageByName(name), "Image récupérée avec succès"));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Image>> deleteImage(@PathVariable Long id) {
         imageService.deleteImage(id);
-        return ResponseEntity.ok().body(ApiResponse.of(HttpStatus.OK.value(), "Image supprimée avec succès", null));
+        return ResponseEntity.ok().body(ApiResponse.success(null, "Image supprimée avec succès"));
     }
 }

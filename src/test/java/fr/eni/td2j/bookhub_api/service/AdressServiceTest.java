@@ -35,7 +35,7 @@ public class AdressServiceTest {
     @BeforeEach
     void setUp() {
         address = Address.builder()
-                .id(1L)
+                //.id(1L)
                 .street("1 rue de la Paix")
                 .city("Paris")
                 .postalCode("75002")

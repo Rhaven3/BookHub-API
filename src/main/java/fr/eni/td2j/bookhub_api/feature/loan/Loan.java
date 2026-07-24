@@ -1,27 +1,26 @@
 package fr.eni.td2j.bookhub_api.feature.loan;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import fr.eni.td2j.bookhub_api.common.BaseEntity;
+import fr.eni.td2j.bookhub_api.feature.user.User;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Builder
 @Entity
-public class Loan {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private Long id;
+public class Loan extends BaseEntity {
     private LocalDateTime loanDate;
     private LocalDateTime expectedReturnDate;
     private LocalDateTime actualReturnDate;
     private LoanEnum status;
+    @ManyToOne
+    private User user;
 
     /**
      * retourne le nombre de jours de retard si il est en retard, -1 si il n'y a pas de retard

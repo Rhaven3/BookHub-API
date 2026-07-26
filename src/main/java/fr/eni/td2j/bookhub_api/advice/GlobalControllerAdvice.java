@@ -4,6 +4,7 @@ import fr.eni.td2j.bookhub_api.common.ApiResponse;
 import fr.eni.td2j.bookhub_api.exception.BadRequestException;
 import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
 import fr.eni.td2j.bookhub_api.exception.FileStorageException;
+import fr.eni.td2j.bookhub_api.exception.InvalidRefreshTokenException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -82,5 +83,12 @@ public class GlobalControllerAdvice {
     public ResponseEntity<ApiResponse<?>> handleBadCredentials(BadCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "Email ou mot de passe incorrect"));
+    }
+
+    // Exception pour un refresh token absent, invalide, expiré ou révoqué
+    @ExceptionHandler(InvalidRefreshTokenException.class)
+    public ResponseEntity<ApiResponse<?>> handleInvalidRefreshToken(InvalidRefreshTokenException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage()));
     }
 }

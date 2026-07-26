@@ -73,6 +73,9 @@ public class SecurityConfig {
                         // --- Routes publiques (à adapter à TES routes BookHub) ---
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/register").permitAll()
+                        // /refresh et /logout s'appuient sur le cookie refreshToken, pas sur l'access token Bearer
+                        .requestMatchers("/api/auth/refresh").permitAll()
+                        .requestMatchers("/api/auth/logout").permitAll()
 
                         // --- Tout le reste nécessite d'être authentifié ---
                         .anyRequest().authenticated())

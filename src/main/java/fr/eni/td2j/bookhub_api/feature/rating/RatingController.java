@@ -1,37 +1,35 @@
-package fr.eni.td2j.bookhub_api.feature.book;
+package fr.eni.td2j.bookhub_api.feature.rating;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/book")
-public class BookController {
-
-    private final BookService bookService;
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
+@RequestMapping("/rating")
+public class RatingController {
+     private final RatingService ratingService;
+     public RatingController(RatingService ratingService) {
+        this.ratingService = ratingService;
+     }
 
     @GetMapping
-    public ResponseEntity<Page<Book>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(bookService.findAll(pageable));
+    public ResponseEntity<Page<Rating>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(ratingService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> findById(@PathVariable Long id) {
-        return bookService.findById(id)
+    public ResponseEntity<Rating> findById(@PathVariable Long id) {
+        return ratingService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Book book) {
+    public ResponseEntity<?> create(@RequestBody Rating rating) {
         try {
-            Book created = bookService.create(book);
-            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+            Rating created = ratingService.create(rating);
+            return ResponseEntity.status(201).body(created);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -39,11 +37,11 @@ public class BookController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                    @RequestBody Book book) {
+                                    @RequestBody Rating rating) {
         try {
-            Book updated = bookService.update(id, book);
+            Rating updated = ratingService.update(rating);
             return ResponseEntity.ok(updated);
-        }  catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -52,7 +50,7 @@ public class BookController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
 
         try {
-            bookService.delete(id);
+            ratingService.delete(id);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

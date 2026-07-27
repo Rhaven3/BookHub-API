@@ -8,7 +8,6 @@ import fr.eni.td2j.bookhub_api.feature.category.Category;
 import fr.eni.td2j.bookhub_api.feature.category.CategoryRepository;
 import fr.eni.td2j.bookhub_api.feature.editor.Editor;
 import fr.eni.td2j.bookhub_api.feature.editor.EditorRepository;
-import fr.eni.td2j.bookhub_api.feature.image.Image;
 import fr.eni.td2j.bookhub_api.feature.image.ImageRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

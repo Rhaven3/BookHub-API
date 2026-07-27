@@ -3,10 +3,12 @@ package fr.eni.td2j.bookhub_api.security;
 import fr.eni.td2j.bookhub_api.common.ApiResponse;
 import fr.eni.td2j.bookhub_api.exception.InvalidRefreshTokenException;
 import fr.eni.td2j.bookhub_api.feature.user.User;
+import fr.eni.td2j.bookhub_api.feature.user.UserMapper;
 import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
 import fr.eni.td2j.bookhub_api.feature.user.UserService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.LoginDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
+import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
 import fr.eni.td2j.bookhub_api.security.dto.response.AuthResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,14 +37,16 @@ public class AuthController {
     private final JwtService jwtService;
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
+    private final UserMapper userMapper;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService, UserService userService, RefreshTokenService refreshTokenService) {
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService, UserService userService, RefreshTokenService refreshTokenService, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
         this.userService = userService;
         this.refreshTokenService = refreshTokenService;
+        this.userMapper = userMapper;
     }
 
     @PostMapping("/login")
@@ -53,6 +57,7 @@ public class AuthController {
         );
 
         User user = userRepository.findByEmail(dto.getEmail()).orElseThrow();
+        UserResponseDTO userResponseDTO = userMapper.toDto(user);
 
         String accessToken = jwtService.generateToken(user);
         long expiresAt = System.currentTimeMillis() + JwtService.ACCESS_TOKEN_DURATION;
@@ -60,7 +65,7 @@ public class AuthController {
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
         response.addHeader(HttpHeaders.SET_COOKIE, buildRefreshCookie(refreshToken.getToken(), REFRESH_COOKIE_MAX_AGE).toString());
 
-        AuthResponse authResponse = new AuthResponse(accessToken, user.getEmail(), user.getRole(), expiresAt);
+        AuthResponse authResponse = new AuthResponse(accessToken, userResponseDTO, expiresAt);
         return ResponseEntity.ok(authResponse);
     }
 
@@ -81,12 +86,13 @@ public class AuthController {
         RefreshToken rotated = refreshTokenService.rotate(verified);
 
         User user = rotated.getUser();
+        UserResponseDTO userResponseDTO = userMapper.toDto(user);
         String accessToken = jwtService.generateToken(user);
         long expiresAt = System.currentTimeMillis() + JwtService.ACCESS_TOKEN_DURATION;
 
         response.addHeader(HttpHeaders.SET_COOKIE, buildRefreshCookie(rotated.getToken(), REFRESH_COOKIE_MAX_AGE).toString());
 
-        AuthResponse authResponse = new AuthResponse(accessToken, user.getEmail(), user.getRole(), expiresAt);
+        AuthResponse authResponse = new AuthResponse(accessToken, userResponseDTO, expiresAt);
         return ResponseEntity.ok(authResponse);
     }
 

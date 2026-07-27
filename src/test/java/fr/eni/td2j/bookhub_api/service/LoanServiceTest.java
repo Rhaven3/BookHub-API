@@ -140,4 +140,9 @@ public class LoanServiceTest {
         assertThrows(UserNotConnectedException.class,
                 () -> loanService.create(loanDTO, userDetails));
     }
+
+    @Test
+    void create_shouldThrowException_whenLoanDTOIsNull() {
+        assertThrows(IllegalArgumentException.class, () -> loanService.create(null, userDetails));
+    }
 }

@@ -24,7 +24,8 @@ const config = {
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
-  deploymentBranch: 'docs',
+
+  deploymentBranch: 'gh-pages',
 
 
   i18n: {

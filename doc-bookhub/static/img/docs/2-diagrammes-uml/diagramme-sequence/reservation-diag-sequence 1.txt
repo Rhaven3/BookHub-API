@@ -1,0 +1,51 @@
+sequenceDiagram
+    actor Lecteur
+    actor Bibliotecaire
+    participant Angular
+    participant API
+    participant BookService
+    participant LoanService
+    participant ReservationService
+    participant NotificationService
+    participant BDD
+
+    Lecteur->>+Angular: Ajout de la Période d'Emprunt
+    Angular->>+API: GET /api/books/
+    API->>+LivreService: getAllBookWithDisponibility(date)
+    LivreService->>BDD:
+    BDD->>LivreService:
+    LivreService->>-API:
+    API->>-Angular: 
+
+    Angular->>-Lecteur: Catalogue des Livres avec leur Disponibilité
+    alt retard en cours ou nbr réservation >= 5
+        Angular->>Lecteur: Bloquage de la Réservation
+    else
+        loop
+            Lecteur->>+Angular: Réservation d'un Livre indisponible
+            Angular->>+API: POST /api/reservations/
+            API->>+ReservationService: create()
+            ReservationService->>ReservationService: Calcul de la position dans la file d'attente
+            ReservationService->>BDD: Création d'une réservation pour un Livre
+            BDD->>ReservationService:
+            ReservationService->>-API:
+            API->>-Angular:
+            Angular->>-Lecteur: Retour de la position de la Réservation créeer
+        end
+    end
+
+    Bibliotecaire->>+Angular: Validé le retour d'un Emprunt
+    Angular->>API: PATCH status /api/loans/
+    API->>EmpruntService:
+    EmpruntService->>BDD:
+    BDD->>EmpruntService:
+    EmpruntService->>ReservationService: actualise(emprunt)
+    ReservationService->>ReservationService: change le status de la première réservation et ajoute une date limite de d'emprunt prioritaire
+    ReservationService->>NotificationService: createLimiteDateEmpruntWarningForFirstReservation()
+    NotificationService->>BDD:
+    BDD->>NotificationService:
+    NotificationService->>ReservationService:
+    ReservationService->>EmpruntService:
+    EmpruntService->>API:
+    API->>Angular:
+    Angular->>Lecteur: Notifie l'utilisateur à la première occasion

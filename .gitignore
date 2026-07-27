@@ -36,3 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 .env
+
+# Docusaurus
+docs/node_modules/
+docs/.docusaurus/
+docs/build/

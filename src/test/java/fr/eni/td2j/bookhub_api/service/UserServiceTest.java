@@ -115,7 +115,7 @@ public class UserServiceTest {
                 .build();
 
         UpdateUserDTO dto = new UpdateUserDTO();
-        dto.setName("Dupont");
+        dto.setLastName("Dupont");
         dto.setFirstName("Jean");
         dto.setPhone("0612345678");
         dto.setAddress(addressDTO);
@@ -123,7 +123,7 @@ public class UserServiceTest {
         Address updatedAddress = new Address();
         UserResponseDTO expectedResponse = UserResponseDTO.builder()
                 .id(1L)
-                .name("Dupont")
+                .lastName("Dupont")
                 .firstName("Jean")
                 .email(email)
                 .phone("0612345678")

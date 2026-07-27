@@ -7,6 +7,7 @@ import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookService;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,10 @@ public class LoanService {
     }
 
     public Object update(Long id, Loan loan) {
+        return null;
+    }
+
+    public Page<Loan> findByConnectedUser() {
         return null;
     }
 }

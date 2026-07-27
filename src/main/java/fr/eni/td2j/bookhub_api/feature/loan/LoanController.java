@@ -19,30 +19,31 @@ public class LoanController {
         this.loanRepository = loanRepository;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<Loan>> findAll(Pageable pageable) {
         return ResponseEntity.ok(loanRepository.findAll(pageable));
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<Page<Loan>> findAllByUser(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
+        return ResponseEntity.ok(loanService.findByConnectedUser());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Loan> findById(@PathVariable Long id) {
-
         return loanRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody LoanDTO loanDTO, @AuthenticationPrincipal UserDetails userDetails) {
-
         try {
             Loan created = loanService.create(loanDTO, userDetails);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 
     @PutMapping("/{id}")

@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.eni.td2j.bookhub_api.feature.adresse.Address;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class User {
 
     @Id
@@ -20,7 +21,7 @@ public class User {
     private String role;
 
     @Column(nullable = true)
-    private String name;
+    private String lastName;
 
     @Column(nullable = true)
     private String firstName;
@@ -36,6 +37,6 @@ public class User {
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = true)
     private Address address;
 }

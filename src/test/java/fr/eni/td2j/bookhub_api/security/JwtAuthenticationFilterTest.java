@@ -72,7 +72,7 @@ class JwtAuthenticationFilterTest {
         User user = new User();
         user.setId(1L);
         user.setEmail("user@example.com");
-        user.setName("user");
+        user.setLastName("user");
         user.setFirstName("test");
         CustomUserDetails userDetails = new CustomUserDetails(user);
 
@@ -95,7 +95,7 @@ class JwtAuthenticationFilterTest {
         User user = new User();
         user.setId(1L);
         user.setEmail("user@example.com");
-        user.setName("user");
+        user.setLastName("user");
         user.setFirstName("test");
         CustomUserDetails userDetails = new CustomUserDetails(user);
 

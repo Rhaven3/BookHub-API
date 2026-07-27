@@ -1,5 +1,8 @@
 package fr.eni.td2j.bookhub_api.feature.loan;
 
+import fr.eni.td2j.bookhub_api.exception.BookNotAvailableException;
+import fr.eni.td2j.bookhub_api.exception.NotFoundException;
+import fr.eni.td2j.bookhub_api.exception.UserNotConnectedException;
 import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookService;
 import fr.eni.td2j.bookhub_api.feature.user.User;
@@ -28,14 +31,14 @@ public class LoanService {
         }
         User user = userService.getConnectedUser(userDetails);
         if (user == null) {
-            throw new IllegalArgumentException("User not connected");
+            throw new UserNotConnectedException("User not connected");
         }
         Book book = bookService.findById(loanDTO.bookId).orElse(null);
         if (book == null) {
-            throw new IllegalArgumentException("Book not found");
+            throw new NotFoundException("Book not found");
         }
         if (!book.isAvailable()) {
-            throw new IllegalArgumentException("Book is not available");
+            throw new BookNotAvailableException("Book is not available");
         }
 
         LocalDateTime now = LocalDateTime.now();

@@ -1,5 +1,8 @@
 package fr.eni.td2j.bookhub_api.service;
 
+import fr.eni.td2j.bookhub_api.exception.BookNotAvailableException;
+import fr.eni.td2j.bookhub_api.exception.NotFoundException;
+import fr.eni.td2j.bookhub_api.exception.UserNotConnectedException;
 import fr.eni.td2j.bookhub_api.feature.author.Author;
 import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookService;
@@ -15,6 +18,7 @@ import fr.eni.td2j.bookhub_api.security.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -25,10 +29,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LoanServiceTest {
@@ -89,14 +93,51 @@ public class LoanServiceTest {
     }
 
     @Test
-    void create() {
+    void create_shouldSaveLoanWithCorrectData_whenBookIsAvailable() {
         when(userService.getConnectedUser(any(UserDetails.class))).thenReturn(user);
         when(bookService.findById(anyLong())).thenReturn(Optional.of(book));
         when(loanRepository.save(any(Loan.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Loan loan = loanService.create(loanDTO, userDetails);
-        System.out.println(loan);
-
         verify(loanRepository).save(any(Loan.class));
+
+        ArgumentCaptor<Loan> loanCaptor = ArgumentCaptor.forClass(Loan.class);
+        verify(loanRepository).save(loanCaptor.capture());
+
+        Loan savedLoan = loanCaptor.getValue();
+        assertEquals(user, savedLoan.getUser());
+        assertEquals(book, savedLoan.getBook());
+        assertEquals(loanDTO.getExpectedReturnDate(), savedLoan.getExpectedReturnDate());
+        assertNotNull(loan);
+    }
+
+    @Test
+    void create_shouldThrowException_whenBookIsNotAvailable() {
+        book.setAvailable(false);
+        when(userService.getConnectedUser(any(UserDetails.class))).thenReturn(user);
+        when(bookService.findById(anyLong())).thenReturn(Optional.of(book));
+
+        assertThrows(BookNotAvailableException.class,
+                () -> loanService.create(loanDTO, userDetails));
+
+        verify(loanRepository, never()).save(any(Loan.class));
+    }
+
+    @Test
+    void create_shouldThrowException_whenBookNotFound() {
+        when(userService.getConnectedUser(any(UserDetails.class))).thenReturn(user);
+        when(bookService.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class,
+                () -> loanService.create(loanDTO, userDetails));
+
+        verify(loanRepository, never()).save(any(Loan.class));
+    }
+
+    @Test
+    void create_shouldThrowException_whenUserNotConnected() {
+        when(userService.getConnectedUser(any(UserDetails.class))).thenReturn(null);
+        assertThrows(UserNotConnectedException.class,
+                () -> loanService.create(loanDTO, userDetails));
     }
 }

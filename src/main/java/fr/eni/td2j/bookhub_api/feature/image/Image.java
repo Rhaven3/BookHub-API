@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,6 +13,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
+@SuperBuilder
 @Entity
 public class Image extends BaseEntity {
 

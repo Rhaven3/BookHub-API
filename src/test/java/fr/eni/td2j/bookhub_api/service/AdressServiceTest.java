@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.service;
 
+
 import fr.eni.td2j.bookhub_api.feature.adresse.Address;
 import fr.eni.td2j.bookhub_api.feature.adresse.AddressRepository;
 import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
@@ -35,7 +36,7 @@ public class AdressServiceTest {
     @BeforeEach
     void setUp() {
         address = Address.builder()
-                //.id(1L)
+                .id(1L)
                 .street("1 rue de la Paix")
                 .city("Paris")
                 .postalCode("75002")

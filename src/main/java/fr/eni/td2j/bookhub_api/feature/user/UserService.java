@@ -1,9 +1,14 @@
 package fr.eni.td2j.bookhub_api.feature.user;
 
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
+
+import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
+import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import fr.eni.td2j.bookhub_api.feature.adresse.Address;
 import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
+import fr.eni.td2j.bookhub_api.feature.user.dto.request.UpdateUserDTO;
+import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,28 +19,33 @@ public class UserService {
     private final AddressService addressService;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(AddressService addressService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserService(AddressService addressService, PasswordEncoder passwordEncoder, UserRepository userRepository, UserMapper userMapper) {
         this.addressService = addressService;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
-    public User register(RegisterDTO dto) {
+    public void register(RegisterDTO dto) {
+        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new EmailAlreadyExistsException("Cet email est déjà utilisé");
+        }
         Address address = addressService.saveAddress(dto.getAddress());
 
         User user = User.builder()
-                .role(dto.getRole())
-                .name(dto.getName())
+                .role("USER")
+                .lastName(dto.getName())
                 .firstName(dto.getFirstName())
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .phone(dto.getPhone())
                 .address(address)
                 .build();
-
-        return userRepository.save(user);
+        userRepository.save(user);
     }
+
     public UserResponseDTO updateProfile(String email, UpdateUserDTO dto) {
 
         User user = userRepository.findByEmail(email)
@@ -75,3 +85,4 @@ public class UserService {
                 .orElse(null);
     }
 }
+

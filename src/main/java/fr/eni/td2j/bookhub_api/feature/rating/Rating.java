@@ -4,6 +4,7 @@ import fr.eni.td2j.bookhub_api.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 @Entity
 public class Rating extends BaseEntity {
     @Column(nullable = false)

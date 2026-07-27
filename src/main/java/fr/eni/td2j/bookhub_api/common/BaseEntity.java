@@ -2,6 +2,7 @@ package fr.eni.td2j.bookhub_api.common;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
@@ -9,7 +10,7 @@ import lombok.*;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
+@SuperBuilder
 @MappedSuperclass
 public class BaseEntity {
 

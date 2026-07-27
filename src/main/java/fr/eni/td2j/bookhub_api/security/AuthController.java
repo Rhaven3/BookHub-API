@@ -1,9 +1,16 @@
 package fr.eni.td2j.bookhub_api.security;
 
+import fr.eni.td2j.bookhub_api.common.ApiResponse;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
+import fr.eni.td2j.bookhub_api.feature.user.UserService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.LoginDTO;
+import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
 import fr.eni.td2j.bookhub_api.security.dto.response.AuthResponse;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,12 +24,14 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserService userService;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService, UserService userService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.userService = userService;
     }
     @PostMapping("/test")
     public void test (){
@@ -43,11 +52,24 @@ public class AuthController {
         AuthResponse response = new AuthResponse(token, user.getEmail(), user.getRole(), expiresAt);
         return ResponseEntity.ok(response);
     }
-//    @PostMapping("/register")
-//    public ResponseEntity<> register(@RequestBody RegisterDTO dto) {
-//
-//        ApiResponse<?> response = authService.register(dto);
-//
-//        return ResponseEntity.ok(response);
-//    }
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse<?>> register(@RequestBody RegisterDTO dto) {
+        userService.register(dto);
+        ApiResponse<?> response = ApiResponse.success("Compte créé avec succès", null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) {
+
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/api/auth")
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return ResponseEntity.ok().build();
+    }
 }

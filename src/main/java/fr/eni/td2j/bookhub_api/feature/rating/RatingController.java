@@ -1,5 +1,7 @@
 package fr.eni.td2j.bookhub_api.feature.rating;
 
+import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingCreateDTO;
+import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingUpdateDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class RatingController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Rating rating, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<?> create(@RequestBody RatingCreateDTO rating, @AuthenticationPrincipal UserDetails userDetails) {
         try {
             Rating created = ratingService.create(rating, userDetails);
             return ResponseEntity.status(201).body(created);
@@ -39,11 +41,11 @@ public class RatingController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                    @RequestBody Rating rating,
+                                    @RequestBody RatingUpdateDTO rating,
                                     @AuthenticationPrincipal UserDetails userDetails
     ) {
         try {
-            Rating updated = ratingService.update(rating, userDetails);
+            Rating updated = ratingService.update(id, rating, userDetails);
             return ResponseEntity.ok(updated);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

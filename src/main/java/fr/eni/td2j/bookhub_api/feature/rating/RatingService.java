@@ -4,6 +4,8 @@ import fr.eni.td2j.bookhub_api.exception.BadRequestException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookRepository;
+import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingCreateDTO;
+import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingUpdateDTO;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
 import fr.eni.td2j.bookhub_api.feature.user.UserService;
@@ -36,34 +38,36 @@ public class RatingService {
         return ratingRepository.findById(id);
     }
 
-    public Rating create(Rating rating, UserDetails userDetails) {
-        if (rating.getId() != null) {
-            throw new BadRequestException("L'id doit être null.");
-        }
+    public Rating create(RatingCreateDTO dto, UserDetails userDetails) {
 
-        rating.setUser(userService.getConnectedUser(userDetails));
-        rating.setBook(getBook(rating));
-        rating.setDate(LocalDateTime.now());
-        rating.setStatus(RatingEnum.PUBLISH);
+        User user = userService.getConnectedUser(userDetails);
+
+        Book book = bookRepository.findById(dto.getBookId())
+                .orElseThrow(() -> new NotFoundException("Livre introuvable."));
+
+        Rating rating = Rating.builder()
+                .note(dto.getNote())
+                .commentary(dto.getCommentary())
+                .date(LocalDateTime.now())
+                .status(RatingEnum.PUBLISH)
+                .book(book)
+                .user(user)
+                .build();
 
         return ratingRepository.save(rating);
     }
 
-    public Rating update(Rating rating, UserDetails userDetails) {
-        Rating existingRating = findById(rating.getId())
+    public Rating update(Long id, RatingUpdateDTO rating, UserDetails userDetails) {
+        Rating existingRating = findById(id)
                 .orElseThrow(() -> new NotFoundException("Note non trouvée."));
 
-        if (rating.getId() != null && rating.getId().equals(existingRating.getId())) {
-            throw new BadRequestException("L'id de l'avis ne correspond pas à l'URL.");
+        if (!existingRating.getUser().getEmail().equals(userDetails.getUsername())) {
+            throw new BadRequestException("Vous ne pouvez modifier que vos propres avis.");
         }
 
         existingRating.setCommentary(rating.getCommentary());
         existingRating.setNote(rating.getNote());
-        existingRating.setStatus(rating.getStatus());
         existingRating.setDate(LocalDateTime.now());
-
-        existingRating.setUser(userService.getConnectedUser(userDetails));
-        existingRating.setBook(getBook(rating));
 
         return ratingRepository.save(existingRating);
     }

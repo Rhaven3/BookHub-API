@@ -18,8 +18,8 @@ public class RatingController {
      }
 
     @GetMapping
-    public ResponseEntity<Page<Rating>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(ratingService.findAll(pageable));
+    public ResponseEntity<Page<Rating>> findAll(Pageable pageable, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(ratingService.findAll(pageable, userDetails));
     }
 
     @GetMapping("/{id}")

@@ -31,8 +31,15 @@ public class RatingService {
         this.bookRepository = bookRepository;
     }
 
-    public Page<Rating> findAll(Pageable pageable) {
-        return ratingRepository.findAll(pageable);
+    public Page<Rating> findAll(Pageable pageable, UserDetails userDetails) {
+
+        User conectedUser = userService.getConnectedUser(userDetails);
+
+        if (conectedUser != null && "ADMIN".equals(conectedUser.getRole())) {
+            return ratingRepository.findAll(pageable);
+        }
+
+        return ratingRepository.findByStatus(RatingEnum.PUBLISH, pageable);
     }
 
     public Optional<Rating> findById(Long id) {

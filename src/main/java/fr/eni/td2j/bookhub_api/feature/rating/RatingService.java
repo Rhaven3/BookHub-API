@@ -6,6 +6,7 @@ import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookRepository;
 import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingCreateDTO;
 import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingUpdateDTO;
+import fr.eni.td2j.bookhub_api.feature.user.Role;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
 import fr.eni.td2j.bookhub_api.feature.user.UserService;
@@ -72,11 +73,27 @@ public class RatingService {
         return ratingRepository.save(existingRating);
     }
 
-    public void delete(Long id) {
-        Rating rating = ratingRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Note non trouvée."));
+    public void delete(Long id, UserDetails userDetails) {
 
-        ratingRepository.delete(rating);
+        Rating rating = ratingRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Avis introuvable."));
+
+        User connectedUser =  userService.getConnectedUser(userDetails);
+
+        boolean isAdmin = connectedUser.getRole().equals("ADMIN");
+
+        boolean isOwner = rating.getUser().getId().equals(connectedUser.getId());
+
+        if (!isAdmin && !isOwner) {
+            throw new BadRequestException("Vous ne pouvez supprimer que vos propres avis.");
+        }
+
+        rating.setStatus(RatingEnum.CANCELED);
+
+        ratingRepository.save(rating);
+
+
+
     }
 
     private Book getBook(Rating rating) {

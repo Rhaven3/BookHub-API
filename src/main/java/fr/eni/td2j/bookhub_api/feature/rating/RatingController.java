@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/rating")
+@RequestMapping("api/rating")
 public class RatingController {
      private final RatingService ratingService;
      public RatingController(RatingService ratingService) {
@@ -53,10 +53,10 @@ public class RatingController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
 
         try {
-            ratingService.delete(id);
+            ratingService.delete(id, userDetails);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();

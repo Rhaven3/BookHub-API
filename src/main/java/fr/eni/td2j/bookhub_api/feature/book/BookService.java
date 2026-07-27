@@ -78,6 +78,8 @@ public class BookService {
                 .map(Author::getId)
                 .toList();
 
+        System.out.println("IDs reçus : " + authorIds);
+
         List<Author> authors = authorRepository.findAllById(authorIds);
 
         if (authors.size() != authorIds.size()) {

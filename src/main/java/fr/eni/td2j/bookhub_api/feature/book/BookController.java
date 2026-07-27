@@ -16,7 +16,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<Book>> findAll(Pageable pageable) {
         return ResponseEntity.ok(bookService.findAll(pageable));
     }
@@ -28,8 +28,8 @@ public class BookController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@Valid @RequestBody Book book) {
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Book book) {
         try {
             Book created = bookService.create(book);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);

@@ -8,6 +8,7 @@ import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.UpdateUserDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -80,5 +81,14 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
         return userMapper.toDto(user);
+    }
+
+    public User getConnectedUser(UserDetails userDetails) {
+        if (userDetails == null) {
+            return null;
+        }
+
+        return userRepository.findByEmail(userDetails.getUsername())
+                .orElse(null);
     }
 }

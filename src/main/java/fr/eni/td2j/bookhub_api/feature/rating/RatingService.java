@@ -6,8 +6,10 @@ import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookRepository;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
+import fr.eni.td2j.bookhub_api.feature.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,12 +19,12 @@ import java.util.Optional;
 public class RatingService {
 
     private final RatingRepository ratingRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final BookRepository bookRepository;
 
-    public RatingService(RatingRepository ratingRepository, UserRepository userRepository, BookRepository bookRepository) {
+    public RatingService(RatingRepository ratingRepository, UserService userService, BookRepository bookRepository) {
         this.ratingRepository = ratingRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.bookRepository = bookRepository;
     }
 
@@ -34,19 +36,20 @@ public class RatingService {
         return ratingRepository.findById(id);
     }
 
-    public Rating create(Rating rating) {
+    public Rating create(Rating rating, UserDetails userDetails) {
         if (rating.getId() != null) {
             throw new BadRequestException("L'id doit être null.");
         }
 
-        rating.setUser(getUser(rating));
+        rating.setUser(userService.getConnectedUser(userDetails));
         rating.setBook(getBook(rating));
         rating.setDate(LocalDateTime.now());
+        rating.setStatus(RatingEnum.PUBLISH);
 
         return ratingRepository.save(rating);
     }
 
-    public Rating update(Rating rating) {
+    public Rating update(Rating rating, UserDetails userDetails) {
         Rating existingRating = findById(rating.getId())
                 .orElseThrow(() -> new NotFoundException("Note non trouvée."));
 
@@ -57,9 +60,9 @@ public class RatingService {
         existingRating.setCommentary(rating.getCommentary());
         existingRating.setNote(rating.getNote());
         existingRating.setStatus(rating.getStatus());
-        existingRating.setDate(rating.getDate());
+        existingRating.setDate(LocalDateTime.now());
 
-        existingRating.setUser(getUser(rating));
+        existingRating.setUser(userService.getConnectedUser(userDetails));
         existingRating.setBook(getBook(rating));
 
         return ratingRepository.save(existingRating);
@@ -77,8 +80,4 @@ public class RatingService {
                 .orElseThrow(() -> new NotFoundException("Livre non trouvé."));
     }
 
-    private User getUser(Rating rating) {
-        return userRepository.findById(rating.getUser().getId())
-                .orElseThrow(() -> new NotFoundException("Utilisateur non trouvé."));
-    }
 }

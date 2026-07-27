@@ -1,6 +1,6 @@
-package fr.eni.td2j.bookhub_api.feature.adresse;
+package fr.eni.td2j.bookhub_api.feature.address;
 
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
+import fr.eni.td2j.bookhub_api.feature.address.dto.request.AddressDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

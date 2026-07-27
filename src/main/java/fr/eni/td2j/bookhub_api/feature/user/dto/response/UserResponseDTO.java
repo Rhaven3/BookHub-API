@@ -1,9 +1,7 @@
 package fr.eni.td2j.bookhub_api.feature.user.dto.response;
 
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
+import fr.eni.td2j.bookhub_api.feature.address.dto.request.AddressDTO;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter

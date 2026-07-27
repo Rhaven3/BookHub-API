@@ -4,10 +4,13 @@ import fr.eni.td2j.bookhub_api.common.ApiResponse;
 import fr.eni.td2j.bookhub_api.exception.BadRequestException;
 import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
 import fr.eni.td2j.bookhub_api.exception.FileStorageException;
+import fr.eni.td2j.bookhub_api.exception.InvalidRefreshTokenException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -68,5 +71,24 @@ public class GlobalControllerAdvice {
     public ResponseEntity<ApiResponse<?>> handleNoHandlerFound(NoHandlerFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(HttpStatus.NOT_FOUND.value(), "Route non trouvée : " + ex.getRequestURL()));
+    }
+    // Exception pour les accès refusés par rôle/permission - 403
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ApiResponse<?>> handleAuthorizationDenied(AuthorizationDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.error(HttpStatus.FORBIDDEN.value(), "Vous n'avez pas les droits nécessaires pour cette action"));
+    }
+    // Exception pour le couplage password email
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiResponse<?>> handleBadCredentials(BadCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), "Email ou mot de passe incorrect"));
+    }
+
+    // Exception pour un refresh token absent, invalide, expiré ou révoqué
+    @ExceptionHandler(InvalidRefreshTokenException.class)
+    public ResponseEntity<ApiResponse<?>> handleInvalidRefreshToken(InvalidRefreshTokenException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage()));
     }
 }

@@ -1,10 +1,10 @@
 package fr.eni.td2j.bookhub_api.service;
 
 
-import fr.eni.td2j.bookhub_api.feature.adresse.Address;
-import fr.eni.td2j.bookhub_api.feature.adresse.AddressRepository;
-import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
+import fr.eni.td2j.bookhub_api.feature.address.Address;
+import fr.eni.td2j.bookhub_api.feature.address.AddressRepository;
+import fr.eni.td2j.bookhub_api.feature.address.AddressService;
+import fr.eni.td2j.bookhub_api.feature.address.dto.request.AddressDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ public class AdressServiceTest {
 
     private Address address;
 
-    private AddressDTO addressCreateDTO;
+    private AddressDTO addressDTO;
 
     @BeforeEach
     void setUp() {
@@ -43,11 +43,11 @@ public class AdressServiceTest {
                 .country("France")
                 .build();
 
-        addressCreateDTO = new AddressDTO();
-        addressCreateDTO.setCity("Paris");
-        addressCreateDTO.setCountry("France");
-        addressCreateDTO.setStreet("1 rue de la Paix");
-        addressCreateDTO.setPostalCode("75002");
+        addressDTO = new AddressDTO();
+        addressDTO.setCity("Paris");
+        addressDTO.setCountry("France");
+        addressDTO.setStreet("1 rue de la Paix");
+        addressDTO.setPostalCode("75002");
     }
 
     // On test l'utilisation d'une adresse existante via les infos du DTO
@@ -55,13 +55,13 @@ public class AdressServiceTest {
     @Test
     void saveAddress_shouldReturnExistingAddress_whenAlreadyExists() {
         when(addressRepository.findByStreetAndCityAndPostalCodeAndCountry(
-                addressCreateDTO.getStreet(),
-                addressCreateDTO.getCity(),
-                addressCreateDTO.getPostalCode(),
-                addressCreateDTO.getCountry()
+                addressDTO.getStreet(),
+                addressDTO.getCity(),
+                addressDTO.getPostalCode(),
+                addressDTO.getCountry()
         )).thenReturn(Optional.of(address));
 
-        Address result = addressService.saveAddress(addressCreateDTO);
+        Address result = addressService.saveAddress(addressDTO);
 
         assertThat(result).isEqualTo(address);
         verify(addressRepository, never()).save(any(Address.class));
@@ -72,15 +72,15 @@ public class AdressServiceTest {
     @Test
     void saveAddress_shouldCreateAndReturnNewAddress_whenNotExists() {
         when(addressRepository.findByStreetAndCityAndPostalCodeAndCountry(
-                addressCreateDTO.getStreet(),
-                addressCreateDTO.getCity(),
-                addressCreateDTO.getPostalCode(),
-                addressCreateDTO.getCountry()
+                addressDTO.getStreet(),
+                addressDTO.getCity(),
+                addressDTO.getPostalCode(),
+                addressDTO.getCountry()
         )).thenReturn(Optional.empty());
 
         when(addressRepository.save(any(Address.class))).thenReturn(address);
 
-        Address result = addressService.saveAddress(addressCreateDTO);
+        Address result = addressService.saveAddress(addressDTO);
 
         assertThat(result).isEqualTo(address);
         verify(addressRepository).save(any(Address.class));

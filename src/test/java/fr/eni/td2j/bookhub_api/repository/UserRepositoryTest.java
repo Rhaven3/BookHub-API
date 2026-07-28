@@ -32,7 +32,7 @@ public class UserRepositoryTest {
         userDetailsCustomService = new UserDetailsCustomService(userRepository);
         user = User.builder()
                 .id(1l)
-                .name("Dupont")
+                .lastName("Dupont")
                 .firstName("Jean")
                 .email("jean@eni.fr")
                 .phone("0600000000")

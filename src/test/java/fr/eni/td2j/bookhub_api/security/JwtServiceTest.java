@@ -22,7 +22,7 @@ class JwtServiceTest {
 
         user = User.builder()
                 .id(1L)
-                .name("Dupont")
+                .lastName("Dupont")
                 .firstName("Jean")
                 .email("jean@eni.fr")
                 .role("USER")

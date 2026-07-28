@@ -45,7 +45,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // TODO : remplace par l'URL de TON frontend BookHub
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of("http://localhost:4200"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // nécessaire si tu envoies des cookies/credentials
@@ -73,6 +73,9 @@ public class SecurityConfig {
                         // --- Routes publiques (à adapter à TES routes BookHub) ---
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/register").permitAll()
+                        // /refresh et /logout s'appuient sur le cookie refreshToken, pas sur l'access token Bearer
+                        .requestMatchers("/api/auth/refresh").permitAll()
+                        .requestMatchers("/api/auth/logout").permitAll()
 
                         // --- Tout le reste nécessite d'être authentifié ---
                         .anyRequest().authenticated())

@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.feature.adresse;
+package fr.eni.td2j.bookhub_api.feature.address;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.eni.td2j.bookhub_api.common.BaseEntity;

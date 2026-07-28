@@ -24,7 +24,6 @@ public class UserController {
             Authentication auth,
            @Valid @RequestBody UpdateUserDTO dto
     ) {
-        System.out.println("je passe dans le controller de UPDATE");
         UserResponseDTO response = userService.updateProfile(auth.getName(), dto);
         return ResponseEntity.ok(ApiResponse.success(response, "Profil mis à jour avec succès"));
     }
@@ -44,5 +43,11 @@ public class UserController {
     ) {
 
         return ResponseEntity.ok(ApiResponse.success(null, "Test d'accès réussi pour l'utilisateur : " + auth.getName()));
+    }
+
+    @GetMapping("/profile")
+    public UserResponseDTO me(Authentication auth) {
+
+        return userService.getCurrentUser(auth.getName());
     }
 }

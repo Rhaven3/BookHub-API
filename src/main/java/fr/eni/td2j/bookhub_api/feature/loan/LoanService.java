@@ -7,71 +7,69 @@ import fr.eni.td2j.bookhub_api.exception.NotOwnedException;
 import fr.eni.td2j.bookhub_api.exception.businessRule.BookNotAvailableException;
 import fr.eni.td2j.bookhub_api.exception.businessRule.HasDelayException;
 import fr.eni.td2j.bookhub_api.exception.businessRule.MaxLoanException;
-import fr.eni.td2j.bookhub_api.exception.NotOwnedException;
 import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookRepository;
-import fr.eni.td2j.bookhub_api.feature.book.BookService;
 import fr.eni.td2j.bookhub_api.feature.loan.dto.LoanDTO;
 import fr.eni.td2j.bookhub_api.feature.loan.dto.LoanResponseDTO;
 import fr.eni.td2j.bookhub_api.feature.user.Role;
 import fr.eni.td2j.bookhub_api.feature.user.User;
+import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
 import fr.eni.td2j.bookhub_api.feature.user.UserService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LoanService {
     private final LoanRepository loanRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
-    private final BookService bookService;
     private final BookRepository bookRepository;
     private final LoanMapper loanMapper;
 
-    public LoanService(LoanRepository loanRepository, BookRepository bookRepository, LoanMapper loanMapper, UserService userService, BookService bookService) {
-        this.loanRepository = loanRepository;
-        this.bookRepository = bookRepository;
-        this.userService = userService;
-        this.bookService = bookService;
-        this.loanMapper = loanMapper;
-    }
 
-
+    @Transactional
     public Loan create(LoanDTO loanDTO, UserDetails userDetails) {
+
         if (loanDTO == null) {
             throw new IllegalArgumentException("LoanDTO cannot be null");
         }
-        // check if user is connected
-        UserResponseDTO userResponseDTO = userService.getCurrentUser(userDetails.getUsername());
-        User user = userService.findByEmail(userResponseDTO.getEmail());
-        if (user == null) {
-            throw new NotFoundException("User not connected");
-        }
+
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new NotFoundException("Utilisateur introuvable."));
+
         Book book = bookRepository.findById(loanDTO.getBookId())
                 .orElseThrow(() -> new NotFoundException("Livre introuvable."));
 
         if (!book.isAvailable()) {
-            throw new BookNotAvailableException("Book is not available");
+            throw new BookNotAvailableException("Le livre n'est pas disponible.");
         }
-        // check if user has reached maximum loan
-        List<Loan> loans = loanRepository.findByUser(user, Pageable.ofSize(1000)).getContent();
-        if (loans.size() == BusinessRule.RGLOAN01) {
-            throw new MaxLoanException("le maximum d'emprunt est atteint (3)");
+
+        List<Loan> loans = loanRepository
+                .findByUser(user, Pageable.ofSize(1000))
+                .getContent();
+
+        if (loans.size() >= BusinessRule.RGLOAN01) {
+            throw new MaxLoanException("Le maximum d'emprunts est atteint (3).");
         }
-        // chech if user has delay
+
         if (hasDelay(loans)) {
-            throw new HasDelayException("l'utilisateur à un retour en retard !!");
+            throw new HasDelayException("L'utilisateur a un retour en retard.");
         }
-        // Book is now unavailable
+
         book.setAvailable(false);
-        bookService.update(loanDTO.bookId, book);
-        // create Loan
+        bookRepository.save(book);
+
         LocalDateTime now = LocalDateTime.now();
+
         Loan loan = Loan.builder()
                 .loanDate(now)
                 .expectedReturnDate(now.plusDays(BusinessRule.RGLOAN02))
@@ -79,16 +77,15 @@ public class LoanService {
                 .user(user)
                 .book(book)
                 .build();
+
         return loanRepository.save(loan);
     }
 
     private boolean hasDelay(List<Loan> loansUser) {
-        int delay = 0;
         for (Loan loan : loansUser) {
-            delay += loan.getDelay();
-        }
-        if (delay > -1) {
-            return true;
+            if (loan.getDelay() > 0) {
+                return true;
+            }
         }
         return false;
     }
@@ -125,10 +122,10 @@ public class LoanService {
         }
         // check if book is available and update book status
         Book book = loan.getBook();
-        boolean bookAvailable = bookService.isBookAvailable(book);
-        if (bookAvailable) {
+
+        if (!book.isAvailable()) {
             book.setAvailable(true);
-            bookService.update(book.getId(), book);
+            bookRepository.save(book);
         }
 
         loan.setActualReturnDate(LocalDateTime.now());

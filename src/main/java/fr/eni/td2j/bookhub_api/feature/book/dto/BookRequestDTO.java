@@ -34,6 +34,8 @@ public class BookRequestDTO {
     @Pattern(regexp = "^(97(8|9))?\\d{9}(\\d|X)$")
     private String isbn;
 
+    private boolean available;
+
     @NotNull
     private Long editorId;
 

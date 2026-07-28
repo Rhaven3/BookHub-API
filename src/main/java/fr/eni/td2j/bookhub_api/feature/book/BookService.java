@@ -13,6 +13,12 @@ import fr.eni.td2j.bookhub_api.feature.editor.Editor;
 import fr.eni.td2j.bookhub_api.feature.editor.EditorRepository;
 import fr.eni.td2j.bookhub_api.feature.image.Image;
 import fr.eni.td2j.bookhub_api.feature.image.ImageRepository;
+import fr.eni.td2j.bookhub_api.feature.loan.Loan;
+import fr.eni.td2j.bookhub_api.feature.loan.LoanEnum;
+import fr.eni.td2j.bookhub_api.feature.loan.LoanRepository;
+import fr.eni.td2j.bookhub_api.feature.reservation.Reservation;
+import fr.eni.td2j.bookhub_api.feature.reservation.ReservationRepository;
+import fr.eni.td2j.bookhub_api.feature.reservation.emuns.ReservationEnum;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,6 +36,8 @@ public class BookService {
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
     private final EditorRepository editorRepository;
+    private final ReservationRepository reservationRepository;
+    private final LoanRepository loanRepository;
     private final ImageRepository imageRepository;
     private final BookMapper bookMapper;
 
@@ -271,4 +279,16 @@ public class BookService {
         return books.map(bookMapper::toDto);
     }
 
+    public boolean isBookAvailable(Book book) {
+        List<Reservation> reservations = reservationRepository.findByBookAndStatus(book, ReservationEnum.WAITING);
+        reservations.addAll(reservationRepository.findByBookAndStatus(book, ReservationEnum.AVAILABLE));
+        if (!reservations.isEmpty()) {
+            return false;
+        }
+        List<Loan> loans = loanRepository.findByBookAndStatus(book, LoanEnum.IN_PROGRESS);
+        if (!loans.isEmpty()) {
+            return false;
+        }
+        return true;
+    }
 }

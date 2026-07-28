@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.book;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/api/book")
 public class BookController {
 
     private final BookService bookService;
@@ -15,7 +16,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<Book>> findAll(Pageable pageable) {
         return ResponseEntity.ok(bookService.findAll(pageable));
     }
@@ -27,7 +28,7 @@ public class BookController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody Book book) {
         try {
             Book created = bookService.create(book);
@@ -44,7 +45,7 @@ public class BookController {
             Book updated = bookService.update(id, book);
             return ResponseEntity.ok(updated);
         }  catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -53,7 +54,7 @@ public class BookController {
 
         try {
             bookService.delete(id);
-            return ResponseEntity.ok("Livre suprimé");
+            return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

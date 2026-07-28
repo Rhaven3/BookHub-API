@@ -3,11 +3,14 @@ package fr.eni.td2j.bookhub_api.feature.user;
 
 import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
-import fr.eni.td2j.bookhub_api.feature.adresse.Address;
-import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
+
+import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
+import fr.eni.td2j.bookhub_api.feature.address.Address;
+import fr.eni.td2j.bookhub_api.feature.address.AddressService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.UpdateUserDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +71,7 @@ public class UserService {
         return userMapper.toDto(savedUser);
     }
 
-    public void deleteAccount(String email){
+    public void deleteAccount(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
         user.setAddress(null);
@@ -85,5 +88,9 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
         return userMapper.toDto(user);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
     }
 }

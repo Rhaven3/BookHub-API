@@ -3,9 +3,9 @@ package fr.eni.td2j.bookhub_api.service;
 
 import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
-import fr.eni.td2j.bookhub_api.feature.adresse.Address;
-import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
+import fr.eni.td2j.bookhub_api.feature.address.Address;
+import fr.eni.td2j.bookhub_api.feature.address.AddressService;
+import fr.eni.td2j.bookhub_api.feature.address.dto.request.AddressDTO;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserMapper;
 import fr.eni.td2j.bookhub_api.feature.user.UserRepository;

@@ -1,6 +1,7 @@
 package fr.eni.td2j.bookhub_api.feature.loan;
 
 import fr.eni.td2j.bookhub_api.common.BaseEntity;
+import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +23,8 @@ public class Loan extends BaseEntity {
     private LoanEnum status;
     @ManyToOne
     private User user;
+    @ManyToOne
+    private Book book;
 
     /**
      * retourne le nombre de jours de retard si il est en retard, -1 si il n'y a pas de retard

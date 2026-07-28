@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.user;
 
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
+import fr.eni.td2j.bookhub_api.feature.address.dto.request.AddressDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +16,7 @@ public class UserMapper {
             addressDTO.setCountry(user.getAddress().getCountry());
         }
         return UserResponseDTO.builder()
-                .id(user.getId())
-                .name(user.getLastName())
+                .lastName(user.getLastName())
                 .firstName(user.getFirstName())
                 .email(user.getEmail())
                 .phone(user.getPhone())

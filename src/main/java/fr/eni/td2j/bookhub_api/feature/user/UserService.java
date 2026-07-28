@@ -3,8 +3,10 @@ package fr.eni.td2j.bookhub_api.feature.user;
 
 import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
-import fr.eni.td2j.bookhub_api.feature.adresse.Address;
-import fr.eni.td2j.bookhub_api.feature.adresse.AddressService;
+
+import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
+import fr.eni.td2j.bookhub_api.feature.address.Address;
+import fr.eni.td2j.bookhub_api.feature.address.AddressService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.UpdateUserDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
@@ -45,14 +47,19 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserResponseDTO updateProfile(String email, UpdateUserDTO dto) {
-
-        User user = userRepository.findByEmail(email)
+    public UserResponseDTO updateProfile(String currentEmail, UpdateUserDTO dto) {
+        User user = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
-        user.setLastName(dto.getName());
+        // Si l'email change, vérifier qu'il n'est pas déjà pris par un autre compte
+        if (!user.getEmail().equals(dto.getEmail())
+                && userRepository.existsByEmail(dto.getEmail())) {
+            throw new EmailAlreadyExistsException("Cet email est déjà utilisé par un autre compte.");
+        }
+        user.setLastName(dto.getLastName());
         user.setFirstName(dto.getFirstName());
         user.setPhone(dto.getPhone());
+        user.setEmail(dto.getEmail());
 
         if (dto.getAddress() != null) {
             Address address = addressService.saveAddress(dto.getAddress());
@@ -64,7 +71,7 @@ public class UserService {
         return userMapper.toDto(savedUser);
     }
 
-    public void deleteAccount(String email){
+    public void deleteAccount(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
         user.setAddress(null);
@@ -81,6 +88,10 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
         return userMapper.toDto(user);
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
     }
 
     public User getConnectedUser(UserDetails userDetails) {

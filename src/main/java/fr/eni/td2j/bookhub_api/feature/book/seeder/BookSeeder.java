@@ -1,7 +1,9 @@
-package fr.eni.td2j.bookhub_api.feature.book;
+package fr.eni.td2j.bookhub_api.feature.book.seeder;
 
 import fr.eni.td2j.bookhub_api.feature.author.Author;
 import fr.eni.td2j.bookhub_api.feature.author.AuthorRepository;
+import fr.eni.td2j.bookhub_api.feature.book.Book;
+import fr.eni.td2j.bookhub_api.feature.book.BookRepository;
 import fr.eni.td2j.bookhub_api.feature.category.Category;
 import fr.eni.td2j.bookhub_api.feature.category.CategoryRepository;
 import fr.eni.td2j.bookhub_api.feature.editor.Editor;
@@ -11,6 +13,7 @@ import fr.eni.td2j.bookhub_api.feature.image.ImageRepository;
 import fr.eni.td2j.bookhub_api.seeder.EntitySeeder;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -77,7 +80,7 @@ public class BookSeeder implements EntitySeeder {
         Book book1984 = Book.builder()
                 .title("1984")
                 .description("Un roman dystopique sur la surveillance de masse.")
-                .publishDate(LocalDate.of(1949, 6, 8))
+                .publishDate(Instant.from(LocalDate.of(1949, 6, 8)))
                 .language("Français")
                 .isbn("978-2070368228")
                 .available(true)
@@ -91,7 +94,7 @@ public class BookSeeder implements EntitySeeder {
         Book bookDune = Book.builder()
                 .title("Dune")
                 .description("L'histoire de Paul Atréides sur la planète Arrakis.")
-                .publishDate(LocalDate.of(1965, 8, 1))
+                .publishDate(Instant.from(LocalDate.of(1965, 8, 1)))
                 .language("Français")
                 .isbn("978-2266334822")
                 .available(true)

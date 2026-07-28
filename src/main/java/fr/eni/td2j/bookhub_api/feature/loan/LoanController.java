@@ -1,5 +1,8 @@
 package fr.eni.td2j.bookhub_api.feature.loan;
 
+import fr.eni.td2j.bookhub_api.feature.loan.dto.LoanDTO;
+import fr.eni.td2j.bookhub_api.feature.loan.dto.LoanResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -13,61 +16,33 @@ import org.springframework.web.bind.annotation.*;
 public class LoanController {
     private final LoanService loanService;
     private final LoanRepository loanRepository;
+    private final LoanMapper loanMapper;
 
-    public LoanController(LoanService loanService, LoanRepository loanRepository) {
+    public LoanController(LoanService loanService, LoanRepository loanRepository, LoanMapper loanMapper) {
         this.loanService = loanService;
         this.loanRepository = loanRepository;
+        this.loanMapper = loanMapper;
     }
 
     @GetMapping
-    public ResponseEntity<Page<Loan>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(loanRepository.findAll(pageable));
+    public ResponseEntity<Page<LoanResponseDTO>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(loanService.findAll(pageable));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<Page<Loan>> findAllByUser(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
-        return ResponseEntity.ok(loanService.findByConnectedUser());
+    public ResponseEntity<Page<LoanResponseDTO>> findAllByUser(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
+        return ResponseEntity.ok(loanService.findByConnectedUser(userDetails, pageable));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Loan> findById(@PathVariable Long id) {
-        return loanRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @PostMapping
+    public ResponseEntity<LoanResponseDTO> create(@Valid @RequestBody LoanDTO loanDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        Loan created = loanService.create(loanDTO, userDetails);
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanMapper.toDto(created));
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody LoanDTO loanDTO, @AuthenticationPrincipal UserDetails userDetails) {
-        try {
-            Loan created = loanService.create(loanDTO, userDetails);
-            return ResponseEntity.status(HttpStatus.CREATED).body(created);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id,
-                                    @RequestBody Loan Loan) {
-
-        try {
-            return ResponseEntity.ok(loanService.update(id, Loan));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
-
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-
-        try {
-            this.loanRepository.deleteById(id);
-            return ResponseEntity.ok("auteur supprimé");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Error deleting Loan" + e.getMessage());
-        }
-
+    @GetMapping("{id}/return")
+    public ResponseEntity<LoanResponseDTO> returnLoan( @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(loanService.returnLoan(id, userDetails));
     }
 }
 

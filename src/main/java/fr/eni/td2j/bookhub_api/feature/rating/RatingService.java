@@ -6,9 +6,7 @@ import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookRepository;
 import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingCreateDTO;
 import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingUpdateDTO;
-import fr.eni.td2j.bookhub_api.feature.user.Role;
 import fr.eni.td2j.bookhub_api.feature.user.User;
-import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
 import fr.eni.td2j.bookhub_api.feature.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +31,7 @@ public class RatingService {
 
     public Page<Rating> findAll(Pageable pageable, UserDetails userDetails) {
 
-        User conectedUser = userService.getConnectedUser(userDetails);
+        User conectedUser = userService.getCurrentUser(userDetails);
 
         if (conectedUser != null && "ADMIN".equals(conectedUser.getRole())) {
             return ratingRepository.findAll(pageable);
@@ -48,7 +46,7 @@ public class RatingService {
 
     public Rating create(RatingCreateDTO dto, UserDetails userDetails) {
 
-        User user = userService.getConnectedUser(userDetails);
+        User user = userService.getCurrentUser(userDetails);
 
         Book book = bookRepository.findById(dto.getBookId())
                 .orElseThrow(() -> new NotFoundException("Livre introuvable."));
@@ -85,7 +83,7 @@ public class RatingService {
         Rating rating = ratingRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Avis introuvable."));
 
-        User connectedUser =  userService.getConnectedUser(userDetails);
+        User connectedUser =  userService.getCurrentUser(userDetails);
 
         boolean isAdmin = connectedUser.getRole().equals("ADMIN");
 

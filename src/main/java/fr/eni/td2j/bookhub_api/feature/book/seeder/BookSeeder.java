@@ -10,7 +10,7 @@ import fr.eni.td2j.bookhub_api.feature.editor.Editor;
 import fr.eni.td2j.bookhub_api.feature.editor.EditorRepository;
 import fr.eni.td2j.bookhub_api.feature.image.Image;
 import fr.eni.td2j.bookhub_api.feature.image.ImageRepository;
-import fr.eni.td2j.bookhub_api.seeder.EntitySeeder;
+import fr.eni.td2j.bookhub_api.common.seeder.EntitySeeder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

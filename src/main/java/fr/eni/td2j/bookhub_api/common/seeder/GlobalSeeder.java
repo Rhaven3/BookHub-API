@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.seeder;
+package fr.eni.td2j.bookhub_api.common.seeder;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;

@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.reservation.dto.mapper;
 
+import fr.eni.td2j.bookhub_api.common.EntityMapper;
 import fr.eni.td2j.bookhub_api.feature.book.dto.mapper.BookMapper;
 import fr.eni.td2j.bookhub_api.feature.reservation.Reservation;
 import fr.eni.td2j.bookhub_api.feature.reservation.dto.ReservationResponseDTO;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ReservationMapper {
+public class ReservationMapper implements EntityMapper<Reservation, ReservationResponseDTO> {
 
     private final UserMapper userMapper;
     private final BookMapper bookMapper;

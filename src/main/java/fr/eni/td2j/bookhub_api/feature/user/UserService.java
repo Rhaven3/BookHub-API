@@ -1,9 +1,9 @@
 package fr.eni.td2j.bookhub_api.feature.user;
 
 
+import fr.eni.td2j.bookhub_api.exception.BadRequestException;
 import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
-
 import fr.eni.td2j.bookhub_api.feature.address.Address;
 import fr.eni.td2j.bookhub_api.feature.address.AddressService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
@@ -29,14 +29,14 @@ public class UserService {
     }
 
     public void register(RegisterDTO dto) {
-        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new EmailAlreadyExistsException("Cet email est déjà utilisé");
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            throw new EmailAlreadyExistsException("Cet email est déjà utilisé par un autre compte.");
         }
         Address address = addressService.saveAddress(dto.getAddress());
 
         User user = User.builder()
                 .role("USER")
-                .lastName(dto.getName())
+                .lastName(dto.getLastName())
                 .firstName(dto.getFirstName())
                 .email(dto.getEmail())
                 .password(passwordEncoder.encode(dto.getPassword()))
@@ -89,11 +89,7 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
-    }
-
-    public User getConnectedUser(UserDetails userDetails) {
+    public User getCurrentUser(UserDetails userDetails) {
         if (userDetails == null) {
             return null;
         }
@@ -101,4 +97,22 @@ public class UserService {
         return userRepository.findByEmail(userDetails.getUsername())
                 .orElse(null);
     }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
+    }
+
+    public void updatePassword(String email, String ancienMotDePasse, String nouveauMotDePasse) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
+
+        if (!passwordEncoder.matches(ancienMotDePasse, user.getPassword())) {
+            throw new BadRequestException("Ancien mot de passe incorrect");
+        }
+
+        user.setPassword(passwordEncoder.encode(nouveauMotDePasse));
+        userRepository.save(user);
+    }
+
 }

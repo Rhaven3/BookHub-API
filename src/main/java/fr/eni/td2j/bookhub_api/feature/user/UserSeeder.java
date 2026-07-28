@@ -2,7 +2,7 @@ package fr.eni.td2j.bookhub_api.feature.user;
 
 import fr.eni.td2j.bookhub_api.feature.address.Address;
 import fr.eni.td2j.bookhub_api.feature.address.AddressRepository;
-import fr.eni.td2j.bookhub_api.seeder.EntitySeeder;
+import fr.eni.td2j.bookhub_api.common.seeder.EntitySeeder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 

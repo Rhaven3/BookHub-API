@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class RegisterDTO {
 
-    private String name;
+    private String lastName;
 
     private String firstName;
 

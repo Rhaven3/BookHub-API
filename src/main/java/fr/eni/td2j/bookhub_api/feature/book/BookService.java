@@ -9,6 +9,12 @@ import fr.eni.td2j.bookhub_api.feature.category.CategoryRepository;
 import fr.eni.td2j.bookhub_api.feature.editor.Editor;
 import fr.eni.td2j.bookhub_api.feature.editor.EditorRepository;
 import fr.eni.td2j.bookhub_api.feature.image.ImageRepository;
+import fr.eni.td2j.bookhub_api.feature.loan.Loan;
+import fr.eni.td2j.bookhub_api.feature.loan.LoanEnum;
+import fr.eni.td2j.bookhub_api.feature.loan.LoanRepository;
+import fr.eni.td2j.bookhub_api.feature.reservation.Reservation;
+import fr.eni.td2j.bookhub_api.feature.reservation.ReservationRepository;
+import fr.eni.td2j.bookhub_api.feature.reservation.emuns.ReservationEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,14 +29,16 @@ public class BookService {
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
     private final EditorRepository editorRepository;
-    private final ImageRepository imageRepository;
+    private final ReservationRepository reservationRepository;
+    private final LoanRepository loanRepository;
 
-    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository, EditorRepository editorRepository, ImageRepository imageRepository) {
+    public BookService(BookRepository bookRepository, AuthorRepository authorRepository, CategoryRepository categoryRepository, EditorRepository editorRepository, ReservationRepository reservationRepository, LoanRepository loanRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.categoryRepository = categoryRepository;
         this.editorRepository = editorRepository;
-        this.imageRepository = imageRepository;
+        this.reservationRepository = reservationRepository;
+        this.loanRepository = loanRepository;
     }
 
     public Page<Book> findAll(Pageable pageable) {
@@ -60,8 +68,8 @@ public class BookService {
     private List<Category> getCategories(Book book) {
 
         List<Long> categoryIds = book.getCategories().stream()
-                 .map(Category::getId)
-                 .toList();
+                .map(Category::getId)
+                .toList();
 
         List<Category> categories = categoryRepository.findAllById(categoryIds);
 
@@ -132,5 +140,18 @@ public class BookService {
                     "Impossible de supprimer un livre actuellement emprunté.");
         }
         bookRepository.delete(book);
+    }
+
+    public boolean isBookAvailable(Book book) {
+        List<Reservation> reservations = reservationRepository.findByBookAndStatus(book, ReservationEnum.WAITING);
+        reservations.addAll(reservationRepository.findByBookAndStatus(book, ReservationEnum.AVAILABLE));
+        if (!reservations.isEmpty()) {
+            return false;
+        }
+        List<Loan> loans = loanRepository.findByBookAndStatus(book, LoanEnum.IN_PROGRESS);
+        if (!loans.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

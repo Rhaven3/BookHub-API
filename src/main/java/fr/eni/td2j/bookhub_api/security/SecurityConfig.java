@@ -2,6 +2,7 @@ package fr.eni.td2j.bookhub_api.security;
 
 import java.util.List;
 
+import fr.eni.td2j.bookhub_api.feature.user.Role;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -77,6 +78,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/refresh").permitAll()
                         .requestMatchers("/api/auth/logout").permitAll()
 
+                        // Les Routes nécessitant d'être un Bibliotécaire
+                        .requestMatchers("/api/loans/*/return").hasAnyRole(Role.LIBRARIAN.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/loans/").hasAnyRole(Role.LIBRARIAN.name(), Role.ADMIN.name())
                         // --- Tout le reste nécessite d'être authentifié ---
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception

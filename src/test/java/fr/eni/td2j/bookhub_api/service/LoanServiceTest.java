@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.service;
 
-import fr.eni.td2j.bookhub_api.exception.BookNotAvailableException;
+import fr.eni.td2j.bookhub_api.exception.businessRule.BookNotAvailableException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import fr.eni.td2j.bookhub_api.feature.author.Author;
 import fr.eni.td2j.bookhub_api.feature.book.Book;
@@ -8,7 +8,7 @@ import fr.eni.td2j.bookhub_api.feature.book.BookService;
 import fr.eni.td2j.bookhub_api.feature.category.Category;
 import fr.eni.td2j.bookhub_api.feature.editor.Editor;
 import fr.eni.td2j.bookhub_api.feature.loan.Loan;
-import fr.eni.td2j.bookhub_api.feature.loan.LoanDTO;
+import fr.eni.td2j.bookhub_api.feature.loan.dto.LoanDTO;
 import fr.eni.td2j.bookhub_api.feature.loan.LoanRepository;
 import fr.eni.td2j.bookhub_api.feature.loan.LoanService;
 import fr.eni.td2j.bookhub_api.feature.user.User;

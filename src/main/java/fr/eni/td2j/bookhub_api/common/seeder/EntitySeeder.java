@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.seeder;
+package fr.eni.td2j.bookhub_api.common.seeder;
 
 public interface EntitySeeder {
     void seed();

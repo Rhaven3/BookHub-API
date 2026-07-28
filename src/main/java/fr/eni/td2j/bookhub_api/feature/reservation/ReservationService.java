@@ -171,4 +171,12 @@ public class ReservationService {
         return repository.findByUser(user, pageable)
                 .map(reservationMapper::toDto);
     }
+
+    public List<ReservationResponseDTO> getByBook(Book book) {
+        return repository.findByBook(book).stream().map(reservationMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<ReservationResponseDTO> getByBookAndStatus(Book book, ReservationEnum status) {
+        return repository.findByBookAndStatus(book, status).stream().map(reservationMapper::toDto).collect(Collectors.toList());
+    }
 }

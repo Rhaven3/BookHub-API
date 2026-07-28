@@ -13,7 +13,6 @@ import fr.eni.td2j.bookhub_api.feature.image.ImageRepository;
 import fr.eni.td2j.bookhub_api.seeder.EntitySeeder;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -80,9 +79,9 @@ public class BookSeeder implements EntitySeeder {
         Book book1984 = Book.builder()
                 .title("1984")
                 .description("Un roman dystopique sur la surveillance de masse.")
-                .publishDate(Instant.from(LocalDate.of(1949, 6, 8)))
+                .publishDate(LocalDate.of(1949, 6, 8))
                 .language("Français")
-                .isbn("978-2070368228")
+                .isbn("9782070368228")
                 .available(true)
                 .owned(true)
                 .authors(List.of(orwell))
@@ -94,9 +93,9 @@ public class BookSeeder implements EntitySeeder {
         Book bookDune = Book.builder()
                 .title("Dune")
                 .description("L'histoire de Paul Atréides sur la planète Arrakis.")
-                .publishDate(Instant.from(LocalDate.of(1965, 8, 1)))
+                .publishDate(LocalDate.of(1965, 8, 1))
                 .language("Français")
-                .isbn("978-2266334822")
+                .isbn("9782266334822")
                 .available(true)
                 .owned(false)
                 .authors(List.of(herbert))

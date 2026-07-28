@@ -17,13 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
 
     private final BookService bookService;
-    private final PageMapper pageMapper;
 
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> findAll(Pageable pageable) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        pageMapper.toDto(
+                        PageMapper.toDto(
                                 bookService.findAll(pageable)
                         ),
                         "Livres récupéré avec succes."
@@ -72,22 +71,12 @@ public class BookController {
 
     @GetMapping("/recherche")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> search(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) Boolean available,
-            @RequestParam(required = false) String authorName,
+            @RequestParam String word,
             Pageable pageable
     ) {
-
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        pageMapper.toDto(
-                                bookService.search(
-                                        title,
-                                        available,
-                                        authorName,
-                                        pageable
-                                )
-                        ),
+                        PageMapper.toDto(bookService.search(word, pageable)),
                         "Livres trouvés avec succès."
                 )
         );
@@ -118,7 +107,7 @@ public class BookController {
             @RequestParam Boolean available, Pageable pageable) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        pageMapper.toDto(
+                        PageMapper.toDto(
                                 bookService.findByAvailable(available, pageable)
                         ),
                         "Livres trouvés avec succès."
@@ -131,7 +120,7 @@ public class BookController {
             @PathVariable Long authorId, Pageable pageable) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        pageMapper.toDto(
+                        PageMapper.toDto(
                                 bookService.findByAuthor(authorId, pageable)
                         ),
                         "Livres trouvés avec succès."
@@ -144,7 +133,7 @@ public class BookController {
             @PathVariable Long categoryId, Pageable pageable) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        pageMapper.toDto(
+                        PageMapper.toDto(
                                 bookService.findByCategory(categoryId, pageable)
                         ),
                         "Livres trouvés avec succès."
@@ -157,7 +146,7 @@ public class BookController {
             @PathVariable Long editorId, Pageable pageable) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        pageMapper.toDto(
+                        PageMapper.toDto(
                                 bookService.findByEditor(editorId, pageable)
                         ),
                         "Livres trouvés avec succès."

@@ -3,6 +3,7 @@ package fr.eni.td2j.bookhub_api.feature.loan;
 import fr.eni.td2j.bookhub_api.exception.BookNotAvailableException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import fr.eni.td2j.bookhub_api.feature.book.Book;
+import fr.eni.td2j.bookhub_api.feature.book.BookRepository;
 import fr.eni.td2j.bookhub_api.feature.book.BookService;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserService;
@@ -16,11 +17,13 @@ import java.time.LocalDateTime;
 @Service
 public class LoanService {
     private final LoanRepository loanRepository;
+    private final BookRepository bookRepository;
     private final UserService userService;
     private final BookService bookService;
 
-    public LoanService(LoanRepository loanRepository, UserService userService, BookService bookService) {
+    public LoanService(LoanRepository loanRepository, BookRepository bookRepository, UserService userService, BookService bookService) {
         this.loanRepository = loanRepository;
+        this.bookRepository = bookRepository;
         this.userService = userService;
         this.bookService = bookService;
     }
@@ -36,10 +39,9 @@ public class LoanService {
         if (user == null) {
             throw new NotFoundException("User not connected");
         }
-        Book book = bookService.findById(loanDTO.bookId).orElse(null);
-        if (book == null) {
-            throw new NotFoundException("Book not found");
-        }
+        Book book = bookRepository.findById(loanDTO.getBookId())
+                .orElseThrow(() -> new NotFoundException("Livre introuvable."));
+
         if (!book.isAvailable()) {
             throw new BookNotAvailableException("Book is not available");
         }

@@ -10,7 +10,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class Book extends BaseEntity {
     @NotNull(message = "La date de publication est obligatoire")
     @PastOrPresent(message = "La date de publication ne peut pas être dans le futur")
     @Column(nullable = false)
-    private Instant publishDate;
+    private LocalDate publishDate;
 
     @NotBlank(message = "La langue est obligatoire")
     @Column(nullable = false, length = 50)

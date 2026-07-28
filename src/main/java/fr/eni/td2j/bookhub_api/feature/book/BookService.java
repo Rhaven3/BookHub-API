@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -58,7 +59,7 @@ public class BookService {
         Book book = Book.builder()
                 .title(requestDTO.getTitle())
                 .description(requestDTO.getDescription())
-                .publishDate(requestDTO.getPublishDate())
+                .publishDate(LocalDate.from(requestDTO.getPublishDate()))
                 .language(requestDTO.getLanguage())
                 .isbn(requestDTO.getIsbn())
                 .available(true)
@@ -136,7 +137,7 @@ public class BookService {
 
         existingBook.setTitle(requestBook.getTitle());
         existingBook.setDescription(requestBook.getDescription());
-        existingBook.setPublishDate(requestBook.getPublishDate());
+        existingBook.setPublishDate(LocalDate.from(requestBook.getPublishDate()));
         existingBook.setLanguage(requestBook.getLanguage());
         existingBook.setIsbn(requestBook.getIsbn());
 
@@ -204,15 +205,8 @@ public class BookService {
                 .map(bookMapper::toDto);
     }
 
-    public Page<BookResponseDTO> search(
-            String title, Boolean available, String authorName, Pageable pageable) {
-
-        return bookRepository.search(
-                title,
-                available,
-                authorName,
-                pageable
-        ).map(bookMapper::toDto);
+    public Page<BookResponseDTO> search(String word, Pageable pageable) {
+        return bookRepository.search(word, pageable).map(bookMapper::toDto);
     }
 
 }

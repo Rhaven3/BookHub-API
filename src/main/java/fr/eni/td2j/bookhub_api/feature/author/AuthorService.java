@@ -42,10 +42,17 @@ public class AuthorService {
         Author existingAuthor = repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Auteur introuvable."));
 
-        if (repository.existsByFnameIgnoreCaseAndLnameIgnoreCase(author.getFname(), author.getLname())
-                && !existingAuthor.getFname().equalsIgnoreCase(author.getFname())
-                || !existingAuthor.getLname().equalsIgnoreCase(author.getLname())) {
+        boolean duplicate = repository.existsByFnameIgnoreCaseAndLnameIgnoreCase(
+                author.getFname(),
+                author.getLname()
+        );
 
+        boolean nameChanged =
+                !existingAuthor.getFname().equalsIgnoreCase(author.getFname())
+                        || !existingAuthor.getLname().equalsIgnoreCase(author.getLname());
+
+
+        if (duplicate && nameChanged) {
             throw new BadRequestException("Cet auteur existe déjà.");
         }
 

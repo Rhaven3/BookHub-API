@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -25,7 +25,7 @@ public class BookRequestDTO {
 
     @NotNull
     @PastOrPresent
-    private Instant publishDate;
+    private LocalDate publishDate;
 
     @NotBlank
     private String language;

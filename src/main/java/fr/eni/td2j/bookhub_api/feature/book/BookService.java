@@ -124,30 +124,47 @@ public class BookService {
     @Transactional
     public BookResponseDTO update(Long id, BookRequestDTO requestBook) {
 
-        Book existingBook = bookRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Livre introuvable."));
+        Book existingBook = bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Livre introuvable."));
 
-        Editor editor = getEditor(requestBook.getEditorId());
+        if (requestBook.getTitle() != null) {
+            existingBook.setTitle(requestBook.getTitle());
+        }
 
-        List<Author> authors = getAuthors(requestBook.getAuthorIds());
+        if (requestBook.getDescription() != null) {
+            existingBook.setDescription(requestBook.getDescription());
+        }
 
-        List<Category> categories = getCategories(requestBook.getCategoryIds());
+        if (requestBook.getPublishDate() != null) {
+            existingBook.setPublishDate(requestBook.getPublishDate());
+        }
 
-        List<Image> images = getImages(requestBook.getImageIds());
+        if (requestBook.getLanguage() != null) {
+            existingBook.setLanguage(requestBook.getLanguage());
+        }
 
-        existingBook.setTitle(requestBook.getTitle());
-        existingBook.setDescription(requestBook.getDescription());
-        existingBook.setPublishDate(LocalDate.from(requestBook.getPublishDate()));
-        existingBook.setLanguage(requestBook.getLanguage());
-        existingBook.setIsbn(requestBook.getIsbn());
+        if (requestBook.getIsbn() != null) {
+            existingBook.setIsbn(requestBook.getIsbn());
+        }
 
-        existingBook.setAuthors(authors);
-        existingBook.setCategories(categories);
-        existingBook.setEditor(editor);
-        existingBook.getImages().clear();
-        existingBook.getImages().addAll(images);
+        if (requestBook.getEditorId() != null) {
+            existingBook.setEditor(getEditor(requestBook.getEditorId()));
+        }
 
-        return bookMapper.toDto(existingBook);
+        if (requestBook.getAuthorIds() != null) {
+            existingBook.setAuthors(getAuthors(requestBook.getAuthorIds()));
+        }
+
+        if (requestBook.getCategoryIds() != null) {
+            existingBook.setCategories(getCategories(requestBook.getCategoryIds()));
+        }
+
+        if (requestBook.getImageIds() != null) {
+            List<Image> images = getImages(requestBook.getImageIds());
+            existingBook.getImages().clear();
+            existingBook.getImages().addAll(images);
+        }
+
+        return bookMapper.toDto(bookRepository.save(existingBook));
     }
 
     public void delete(Long id) {
@@ -167,6 +184,10 @@ public class BookService {
 
     public BookResponseDTO findByTitle(String title) {
 
+        if(title == null || title.isBlank()){
+            throw new BadRequestException("Le titre du livre est obligatoire.");
+        }
+
         Book book = bookRepository.findByTitleIgnoreCase(title)
                 .orElseThrow(() -> new NotFoundException("Livre introuvable."));
 
@@ -174,6 +195,10 @@ public class BookService {
     }
 
     public BookResponseDTO findByIsbn(String isbn) {
+
+        if(isbn == null || isbn.isBlank()){
+            throw new BadRequestException("L'ISBN du livre est obligatoire.");
+        }
 
         Book book = bookRepository.findByIsbn(isbn)
                 .orElseThrow(() -> new NotFoundException("Livre introuvable."));
@@ -183,30 +208,67 @@ public class BookService {
 
     public Page<BookResponseDTO> findByAvailable(boolean available, Pageable pageable) {
 
-        return bookRepository.findByAvailable(available, pageable)
-                .map(bookMapper::toDto);
+        Page<Book> books = bookRepository.findByAvailable(available, pageable);
+
+        if (books.isEmpty()) {
+            throw new NotFoundException(
+                    "Aucun livre trouvé avec ce statut de disponibilité."
+            );
+        }
+
+        return books.map(bookMapper::toDto);
     }
 
     public Page<BookResponseDTO> findByAuthor(Long authorId, Pageable pageable) {
 
-        return bookRepository.findByAuthorsId(authorId, pageable)
-                .map(bookMapper::toDto);
+        Page<Book> books = bookRepository.findByAuthorsId(authorId, pageable);
+
+        if (books.isEmpty()) {
+            throw new NotFoundException("Aucun livre trouvé pour cet auteur.");
+        }
+
+        return books.map(bookMapper::toDto);
     }
 
     public Page<BookResponseDTO> findByCategory(Long categoryId, Pageable pageable) {
 
-        return bookRepository.findByCategoriesId(categoryId, pageable)
-                .map(bookMapper::toDto);
+        Page<Book> books = bookRepository.findByCategoriesId(categoryId, pageable);
+
+        if (books.isEmpty()) {
+            throw new NotFoundException("Aucun livre trouvé pour cette catégorie.");
+        }
+
+        return books.map(bookMapper::toDto);
     }
 
     public Page<BookResponseDTO> findByEditor(Long editorId, Pageable pageable) {
 
-        return bookRepository.findByEditorId(editorId, pageable)
-                .map(bookMapper::toDto);
+        Page<Book> books = bookRepository.findByEditorId(editorId, pageable);
+
+        if (books.isEmpty()) {
+            throw new NotFoundException("Aucun livre trouvé pour cet éditeur.");
+        }
+
+        return books.map(bookMapper::toDto);
     }
 
     public Page<BookResponseDTO> search(String word, Pageable pageable) {
-        return bookRepository.search(word, pageable).map(bookMapper::toDto);
+
+        if (word == null || word.isBlank()) {
+            throw new BadRequestException(
+                    "Le mot de recherche est obligatoire."
+            );
+        }
+
+        Page<Book> books = bookRepository.search(word, pageable);
+
+        if (books.isEmpty()) {
+            throw new NotFoundException(
+                    "Aucun livre trouvé pour cette recherche."
+            );
+        }
+
+        return books.map(bookMapper::toDto);
     }
 
 }

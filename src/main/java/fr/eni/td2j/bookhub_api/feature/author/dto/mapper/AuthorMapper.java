@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthorMapper {
 
-    public AuthorResponseDTO toDto(Author author) {
+    public static AuthorResponseDTO toDto(Author author) {
         if (author == null) {
             return null;
         }

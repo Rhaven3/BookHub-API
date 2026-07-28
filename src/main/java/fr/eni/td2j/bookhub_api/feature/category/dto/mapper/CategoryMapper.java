@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryMapper {
 
-    public CategoryResponseDTO toDto(Category category) {
+    public static CategoryResponseDTO toDto(Category category) {
         if (category == null) {
             return null;
         }

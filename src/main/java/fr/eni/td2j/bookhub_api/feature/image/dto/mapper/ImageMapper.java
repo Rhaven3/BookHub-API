@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImageMapper {
 
-    public ImageResponseDTO toDto(Image image) {
+    public static ImageResponseDTO toDto(Image image) {
         return ImageResponseDTO.builder()
                 .id(image.getId())
                 .name(image.getName())

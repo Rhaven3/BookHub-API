@@ -6,7 +6,7 @@ import fr.eni.td2j.bookhub_api.feature.editor.dto.EditorResponseDTO;
 import fr.eni.td2j.bookhub_api.feature.image.dto.ImageResponseDTO;
 import lombok.*;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ public class BookResponseDTO {
     private Long id;
     private String title;
     private String description;
-    private Instant publishDate;
+    private LocalDate publishDate;
     private String language;
     private String isbn;
     private boolean available;

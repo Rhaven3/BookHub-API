@@ -71,7 +71,7 @@ public class BookController {
 
     @GetMapping("/recherche")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> search(
-            @RequestParam String word,
+            @RequestParam("je-cherche") String word,
             Pageable pageable
     ) {
         return ResponseEntity.ok(
@@ -83,7 +83,7 @@ public class BookController {
     }
 
     @GetMapping("/recherche/titre")
-    public ResponseEntity<ApiResponse<BookResponseDTO>> getByTitle(@RequestParam String title) {
+    public ResponseEntity<ApiResponse<BookResponseDTO>> getByTitle(@RequestParam("titre") String title) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         bookService.findByTitle(title),
@@ -104,7 +104,7 @@ public class BookController {
 
     @GetMapping("/dispo")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByAvailable(
-            @RequestParam Boolean available, Pageable pageable) {
+            @RequestParam("dispo") Boolean available, Pageable pageable) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         PageMapper.toDto(

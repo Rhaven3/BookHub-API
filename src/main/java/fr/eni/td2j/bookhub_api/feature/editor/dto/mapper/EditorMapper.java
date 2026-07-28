@@ -10,7 +10,7 @@ import fr.eni.td2j.bookhub_api.feature.editor.dto.EditorResponseDTO;
  * @since 2026-07-28
  */
 public class EditorMapper {
-    public EditorResponseDTO toDto(Editor editor) {
+    public static EditorResponseDTO toDto(Editor editor) {
         if (editor == null) {
             return null;
         }

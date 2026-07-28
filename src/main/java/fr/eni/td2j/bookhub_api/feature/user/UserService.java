@@ -4,8 +4,6 @@ package fr.eni.td2j.bookhub_api.feature.user;
 import fr.eni.td2j.bookhub_api.exception.BadRequestException;
 import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
-
-import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
 import fr.eni.td2j.bookhub_api.feature.address.Address;
 import fr.eni.td2j.bookhub_api.feature.address.AddressService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
@@ -91,6 +89,15 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
+    public User getCurrentUser(UserDetails userDetails) {
+        if (userDetails == null) {
+            return null;
+        }
+
+        return userRepository.findByEmail(userDetails.getUsername())
+                .orElse(null);
+    }
+
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
     }
@@ -107,4 +114,5 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(nouveauMotDePasse));
         userRepository.save(user);
     }
+
 }

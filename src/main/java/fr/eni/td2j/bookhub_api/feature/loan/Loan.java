@@ -17,9 +17,12 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Entity
 public class Loan extends BaseEntity {
+    @Column(nullable = false)
     private LocalDateTime loanDate;
+    @Column(nullable = false)
     private LocalDateTime expectedReturnDate;
     private LocalDateTime actualReturnDate;
+    @Column(nullable = false)
     private LoanEnum status;
     @ManyToOne
     private User user;

@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.feature.loan;
+package fr.eni.td2j.bookhub_api.feature.loan.dto;
 
 import lombok.Builder;
 import lombok.Data;

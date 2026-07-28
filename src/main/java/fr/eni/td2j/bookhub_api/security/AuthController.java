@@ -72,7 +72,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<?>> register(@RequestBody RegisterDTO dto) {
         userService.register(dto);
-        ApiResponse<?> response = ApiResponse.success("Compte créé avec succès", null);
+        ApiResponse<?> response = ApiResponse.success(null,"Compte créé avec succès");
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -16,8 +16,7 @@ public class UserMapper {
             addressDTO.setCountry(user.getAddress().getCountry());
         }
         return UserResponseDTO.builder()
-                .id(user.getId())
-                .name(user.getLastName())
+                .lastName(user.getLastName())
                 .firstName(user.getFirstName())
                 .email(user.getEmail())
                 .phone(user.getPhone())

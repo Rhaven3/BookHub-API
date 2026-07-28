@@ -44,14 +44,19 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserResponseDTO updateProfile(String email, UpdateUserDTO dto) {
-
-        User user = userRepository.findByEmail(email)
+    public UserResponseDTO updateProfile(String currentEmail, UpdateUserDTO dto) {
+        User user = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
 
-        user.setLastName(dto.getName());
+        // Si l'email change, vérifier qu'il n'est pas déjà pris par un autre compte
+        if (!user.getEmail().equals(dto.getEmail())
+                && userRepository.existsByEmail(dto.getEmail())) {
+            throw new EmailAlreadyExistsException("Cet email est déjà utilisé par un autre compte.");
+        }
+        user.setLastName(dto.getLastName());
         user.setFirstName(dto.getFirstName());
         user.setPhone(dto.getPhone());
+        user.setEmail(dto.getEmail());
 
         if (dto.getAddress() != null) {
             Address address = addressService.saveAddress(dto.getAddress());

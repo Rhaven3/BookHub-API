@@ -8,9 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateUserDTO {
-    private String name;
+    private String lastName;
     private String firstName;
     private String phone;
+    private String email;
 
     @Valid
     private AddressDTO address;

@@ -91,4 +91,13 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utilisateur introuvable"));
     }
+
+    public User getConnectedUser(UserDetails userDetails) {
+        if (userDetails == null) {
+            return null;
+        }
+
+        return userRepository.findByEmail(userDetails.getUsername())
+                .orElse(null);
+    }
 }

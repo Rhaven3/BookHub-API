@@ -1,11 +1,10 @@
 package fr.eni.td2j.bookhub_api.advice;
 
 import fr.eni.td2j.bookhub_api.common.ApiResponse;
-import fr.eni.td2j.bookhub_api.exception.BadRequestException;
-import fr.eni.td2j.bookhub_api.exception.EmailAlreadyExistsException;
-import fr.eni.td2j.bookhub_api.exception.FileStorageException;
-import fr.eni.td2j.bookhub_api.exception.InvalidRefreshTokenException;
-import fr.eni.td2j.bookhub_api.exception.NotFoundException;
+import fr.eni.td2j.bookhub_api.exception.*;
+import fr.eni.td2j.bookhub_api.exception.businessRule.BookNotAvailableException;
+import fr.eni.td2j.bookhub_api.exception.businessRule.HasDelayException;
+import fr.eni.td2j.bookhub_api.exception.businessRule.MaxLoanException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,5 +89,33 @@ public class GlobalControllerAdvice {
     public ResponseEntity<ApiResponse<?>> handleInvalidRefreshToken(InvalidRefreshTokenException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ApiResponse.error(HttpStatus.UNAUTHORIZED.value(), ex.getMessage()));
+    }
+
+    // Exception pour un book non disponible
+    @ExceptionHandler(BookNotAvailableException.class)
+    public ResponseEntity<ApiResponse<?>> handleBookNotAvailable(BookNotAvailableException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+    }
+
+    // Exception pour un bloquage du un retard
+    @ExceptionHandler(HasDelayException.class)
+    public ResponseEntity<ApiResponse<?>> handleHasDelay(HasDelayException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+    }
+
+    // Exception pour un maximum de loans
+    @ExceptionHandler(MaxLoanException.class)
+    public ResponseEntity<ApiResponse<?>> handleMaxLoan(MaxLoanException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+    }
+
+    // Exception pour une requete sur une entité non possédé
+    @ExceptionHandler(NotOwnedException.class)
+    public ResponseEntity<ApiResponse<?>> handleNotOwned(NotOwnedException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.error(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
     }
 }

@@ -119,7 +119,7 @@ public class LoanService {
         }
         // check if loan belongs to user
         if (!loan.getUser().equals(user) && user.getRole().equals(Role.USER.name())) {
-            throw new NotOwnedException("l'utilisateur ne possède pas ce livre");
+            throw new NotOwnedException("l'utilisateur ne possède pas cette emprunt");
         }
         // check if book is available and update book status
         Book book = loan.getBook();

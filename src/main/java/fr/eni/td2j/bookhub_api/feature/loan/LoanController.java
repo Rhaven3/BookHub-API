@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class LoanController {
     private final LoanService loanService;
     private final LoanRepository loanRepository;
+    private final LoanMapper loanMapper;
 
-    public LoanController(LoanService loanService, LoanRepository loanRepository) {
+    public LoanController(LoanService loanService, LoanRepository loanRepository, LoanMapper loanMapper) {
         this.loanService = loanService;
         this.loanRepository = loanRepository;
+        this.loanMapper = loanMapper;
     }
 
     @GetMapping
@@ -33,14 +35,14 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody LoanDTO loanDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<LoanResponseDTO> create(@Valid @RequestBody LoanDTO loanDTO, @AuthenticationPrincipal UserDetails userDetails) {
         Loan created = loanService.create(loanDTO, userDetails);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanMapper.toDto(created));
     }
 
     @GetMapping("{id}/return")
-    public ResponseEntity<?> returnLoan( @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        Loan returned = loanService.returnLoan(id, userDetails);
+    public ResponseEntity<LoanResponseDTO> returnLoan( @PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(loanService.returnLoan(id, userDetails));
     }
 }
 

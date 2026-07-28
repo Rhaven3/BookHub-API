@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.book;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

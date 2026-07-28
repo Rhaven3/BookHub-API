@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.author;
 
-import fr.eni.td2j.bookhub_api.seeder.EntitySeeder;
+import fr.eni.td2j.bookhub_api.common.seeder.EntitySeeder;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -8,6 +8,5 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 public class LoanDTO {
-    public LocalDateTime expectedReturnDate;
     public Long bookId;
 }

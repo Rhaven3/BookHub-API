@@ -13,4 +13,5 @@ public class LoanResponseDTO {
     private String expectedReturnDate;
     private String actualReturnDate;
     private String status;
+    private int delay;
 }

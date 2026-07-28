@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.service;
 
-import fr.eni.td2j.bookhub_api.exception.BookNotAvailableException;
+import fr.eni.td2j.bookhub_api.exception.businessRule.BookNotAvailableException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import fr.eni.td2j.bookhub_api.feature.author.Author;
 import fr.eni.td2j.bookhub_api.feature.book.Book;

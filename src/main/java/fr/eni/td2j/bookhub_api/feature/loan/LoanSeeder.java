@@ -4,7 +4,7 @@ import fr.eni.td2j.bookhub_api.feature.book.Book;
 import fr.eni.td2j.bookhub_api.feature.book.BookRepository;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
-import fr.eni.td2j.bookhub_api.seeder.EntitySeeder;
+import fr.eni.td2j.bookhub_api.common.seeder.EntitySeeder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.address;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.eni.td2j.bookhub_api.common.BaseEntity;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import jakarta.persistence.*;
@@ -28,5 +29,6 @@ public class Address extends BaseEntity {
     private String country;
 
     @OneToMany(mappedBy = "address")
+    @JsonIgnore
     private List<User> users;
 }

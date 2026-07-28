@@ -1,26 +1,32 @@
 package fr.eni.td2j.bookhub_api.feature.reservation;
 
 import fr.eni.td2j.bookhub_api.common.BaseEntity;
+import fr.eni.td2j.bookhub_api.feature.book.Book;
+import fr.eni.td2j.bookhub_api.feature.reservation.emuns.ReservationEnum;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
-@Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @SuperBuilder
 @Entity
 public class Reservation extends BaseEntity {
-    private LocalDateTime registrationDate;
-    private LocalDateTime reservationLimitDate;
+    private Instant registrationDate;
+    private Instant reservationLimitDate;
     private ReservationEnum status;
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private Book book;
 
 
 //    /**
@@ -34,5 +40,6 @@ public class Reservation extends BaseEntity {
 //        if (status == ReservationEnum.AVAILABLE) {
 //            return 1;
 //        }
+//        return 0;
 //    }
 }

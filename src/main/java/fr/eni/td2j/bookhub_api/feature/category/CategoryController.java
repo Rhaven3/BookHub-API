@@ -2,11 +2,12 @@ package fr.eni.td2j.bookhub_api.feature.category;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/category")
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -14,7 +15,7 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<Category>> findAll(Pageable pageable) {
         return ResponseEntity.ok(categoryService.findAll(pageable));
     }
@@ -26,33 +27,25 @@ public class CategoryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody Category category) {
-        try {
-            Category created = categoryService.create(category);
-            return ResponseEntity.status(201).body(created);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @PostMapping
+    public ResponseEntity<Category> create(@RequestBody Category category) {
+
+        Category created = categoryService.create(category);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Category category) {
-        try {
-            return ResponseEntity.ok(categoryService.update(id, category));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+        @PutMapping("/{id}")
+        public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category) {
+        Category updated = categoryService.update(id, category);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        try {
-            categoryService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

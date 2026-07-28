@@ -1,5 +1,7 @@
 package fr.eni.td2j.bookhub_api.feature.editor;
 
+import fr.eni.td2j.bookhub_api.exception.BadRequestException;
+import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,23 +27,32 @@ public class EditorService {
 
     public Editor create(Editor editor) {
         if (editor.getId() != null) {
-            throw new IllegalArgumentException("L'id doit être null.");
+            throw new BadRequestException("L'id doit être null.");
         }
 
         if (editorRepository.existsByNameIgnoreCase(editor.getName())) {
-            throw new IllegalArgumentException("Cet éditeur existe déjà.");
+            throw new BadRequestException("Cet éditeur existe déjà.");
         }
         return editorRepository.save(editor);
     }
 
     public Editor update(Editor editor) {
+        Editor existingEditor = findById(editor.getId())
+                .orElseThrow(() -> new NotFoundException("Editeur introuvable"));
+
         if (!editorRepository.existsById(editor.getId())) {
-            throw new IllegalArgumentException("Éditeur introuvable.");
+            throw new NotFoundException("Éditeur introuvable.");
         }
-        return editorRepository.save(editor);
+
+        if (editorRepository.existsByNameIgnoreCase(editor.getName())) {
+            throw new BadRequestException("Cet editeur existe.");
+        }
+
+        existingEditor.setName(editor.getName());
+        return editorRepository.save(existingEditor);
     }
 
-    public void delete(long id) {
+    public void delete(Long id) {
         if (!editorRepository.existsById(id)) {
             throw new IllegalArgumentException("Éditeur introuvable.");
         }

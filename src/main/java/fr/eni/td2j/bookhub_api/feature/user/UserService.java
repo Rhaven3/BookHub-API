@@ -9,6 +9,7 @@ import fr.eni.td2j.bookhub_api.feature.address.AddressService;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.RegisterDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.UpdateUserDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

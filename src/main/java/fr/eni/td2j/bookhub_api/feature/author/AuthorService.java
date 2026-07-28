@@ -63,4 +63,8 @@ public class AuthorService {
         repository.deleteById(id);
 
     }
+
+    Page<Author> search(String search, Pageable pageable) {
+        return repository.findByFnameContainingIgnoreCaseOrLnameContainingIgnoreCase(search, search, pageable);
+    }
 }

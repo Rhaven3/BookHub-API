@@ -51,4 +51,12 @@ public class AuthorController {
         authorService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Author>> search(
+            @RequestParam String name,
+            Pageable pageable) {
+
+        return ResponseEntity.ok(authorService.search(name, pageable));
+    }
 }

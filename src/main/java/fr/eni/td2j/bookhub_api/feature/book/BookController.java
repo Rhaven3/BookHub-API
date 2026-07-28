@@ -1,6 +1,5 @@
 package fr.eni.td2j.bookhub_api.feature.book;
 
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -29,7 +28,7 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Book book) {
+    public ResponseEntity<?> create(@Valid @RequestBody Book book) {
         try {
             Book created = bookService.create(book);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -40,7 +39,7 @@ public class BookController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id,
-                                    @RequestBody Book book) {
+                                    @Valid @RequestBody Book book) {
         try {
             Book updated = bookService.update(id, book);
             return ResponseEntity.ok(updated);

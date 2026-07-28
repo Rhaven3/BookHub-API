@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class UserResponseDTO {
 
+    private Long id;
     private String lastName;
     private String firstName;
     private String email;

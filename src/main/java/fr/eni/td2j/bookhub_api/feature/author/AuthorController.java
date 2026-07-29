@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.author;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/author")
+@RequestMapping("/api/author")
 public class AuthorController {
 
     private final AuthorService authorService;
@@ -16,7 +17,7 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<Page<Author>> findAll(Pageable pageable) {
         return ResponseEntity.ok(authorService.findAll(pageable));
     }
@@ -30,39 +31,32 @@ public class AuthorController {
 
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody Author author) {
+    @PostMapping
+    public ResponseEntity<Author> create(@Valid @RequestBody Author author) {
 
-        try {
-            Author created = authorService.create(author);
-            return ResponseEntity.status(HttpStatus.CREATED).body(created);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
+        Author created = authorService.create(author);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id,
-                                    @RequestBody Author author) {
+    public ResponseEntity<Author> update(@PathVariable Long id, @RequestBody Author author) {
 
-        try {
-            return ResponseEntity.ok(authorService.update(id, author));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
-
+        Author updated = authorService.update(id, author);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
 
-        try {
-            this.authorService.deleteById(id);
-            return ResponseEntity.ok("auteur supprimé");
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        authorService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<Author>> search(
+            @RequestParam String name,
+            Pageable pageable) {
+
+        return ResponseEntity.ok(authorService.search(name, pageable));
     }
 }

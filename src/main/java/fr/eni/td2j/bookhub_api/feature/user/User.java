@@ -1,7 +1,7 @@
 package fr.eni.td2j.bookhub_api.feature.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.eni.td2j.bookhub_api.feature.adresse.Address;
+import fr.eni.td2j.bookhub_api.feature.address.Address;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -17,6 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String role;
 
@@ -38,5 +39,6 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "address_id", nullable = true)
+    @JsonIgnore
     private Address address;
 }

@@ -1,9 +1,11 @@
 package fr.eni.td2j.bookhub_api.feature.user;
 
 import fr.eni.td2j.bookhub_api.common.ApiResponse;
+import fr.eni.td2j.bookhub_api.feature.user.dto.request.UpdatePasswordDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.request.UpdateUserDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -24,7 +26,6 @@ public class UserController {
             Authentication auth,
            @Valid @RequestBody UpdateUserDTO dto
     ) {
-        System.out.println("je passe dans le controller de UPDATE");
         UserResponseDTO response = userService.updateProfile(auth.getName(), dto);
         return ResponseEntity.ok(ApiResponse.success(response, "Profil mis à jour avec succès"));
     }
@@ -44,5 +45,25 @@ public class UserController {
     ) {
 
         return ResponseEntity.ok(ApiResponse.success(null, "Test d'accès réussi pour l'utilisateur : " + auth.getName()));
+    }
+
+    @GetMapping("/profile")
+    public UserResponseDTO me(Authentication auth) {
+
+        return userService.getCurrentUser(auth.getName());
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/update/password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePassword(
+            Authentication auth,
+            @RequestBody UpdatePasswordDTO dto
+    ) {
+        userService.updatePassword(
+                auth.getName(),
+                dto.getCurrentPassword(),
+                dto.getNewPassword()
+        );
     }
 }

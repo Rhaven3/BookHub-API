@@ -1,6 +1,6 @@
 package fr.eni.td2j.bookhub_api.feature.user.dto.request;
 
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
+import fr.eni.td2j.bookhub_api.feature.address.dto.request.AddressDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class RegisterDTO {
 
-    private String name;
+    private String lastName;
 
     private String firstName;
 

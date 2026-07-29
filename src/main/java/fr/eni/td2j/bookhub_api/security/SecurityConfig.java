@@ -2,6 +2,7 @@ package fr.eni.td2j.bookhub_api.security;
 
 import java.util.List;
 
+import fr.eni.td2j.bookhub_api.feature.user.Role;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +46,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // TODO : remplace par l'URL de TON frontend BookHub
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(List.of("http://localhost:4200"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // nécessaire si tu envoies des cookies/credentials
@@ -73,7 +74,13 @@ public class SecurityConfig {
                         // --- Routes publiques (à adapter à TES routes BookHub) ---
                         .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/api/auth/register").permitAll()
+                        // /refresh et /logout s'appuient sur le cookie refreshToken, pas sur l'access token Bearer
+                        .requestMatchers("/api/auth/refresh").permitAll()
+                        .requestMatchers("/api/auth/logout").permitAll()
 
+                        // Les Routes nécessitant d'être un Bibliotécaire
+                        .requestMatchers("/api/loans/*/return").hasAnyRole(Role.LIBRARIAN.name(), Role.ADMIN.name())
+                        .requestMatchers("/api/loans/").hasAnyRole(Role.LIBRARIAN.name(), Role.ADMIN.name())
                         // --- Tout le reste nécessite d'être authentifié ---
                         .anyRequest().authenticated())
                 .exceptionHandling(exception -> exception

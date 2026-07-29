@@ -1,11 +1,12 @@
 package fr.eni.td2j.bookhub_api.feature.user;
 
-import fr.eni.td2j.bookhub_api.feature.adresse.dto.request.AddressDTO;
+import fr.eni.td2j.bookhub_api.common.EntityMapper;
+import fr.eni.td2j.bookhub_api.feature.address.dto.request.AddressDTO;
 import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserMapper {
+public class UserMapper implements EntityMapper<User, UserResponseDTO> {
 
     public UserResponseDTO toDto(User user) {
         AddressDTO addressDTO = new AddressDTO();
@@ -17,7 +18,7 @@ public class UserMapper {
         }
         return UserResponseDTO.builder()
                 .id(user.getId())
-                .name(user.getLastName())
+                .lastName(user.getLastName())
                 .firstName(user.getFirstName())
                 .email(user.getEmail())
                 .phone(user.getPhone())

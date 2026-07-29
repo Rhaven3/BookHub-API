@@ -1,62 +1,156 @@
 package fr.eni.td2j.bookhub_api.feature.book;
 
-import org.springframework.data.domain.Page;
+import fr.eni.td2j.bookhub_api.common.ApiResponse;
+import fr.eni.td2j.bookhub_api.common.dtos.page.PageResponseDTO;
+import fr.eni.td2j.bookhub_api.common.dtos.page.mapper.PageMapper;
+import fr.eni.td2j.bookhub_api.feature.book.dto.BookRequestDTO;
+import fr.eni.td2j.bookhub_api.feature.book.dto.BookResponseDTO;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
-    }
 
-    @GetMapping("/list")
-    public ResponseEntity<Page<Book>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(bookService.findAll(pageable));
+    @GetMapping
+    public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        PageMapper.toDto(
+                                bookService.findAll(pageable)
+                        ),
+                        "Livres récupéré avec succes."
+                )
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> findById(@PathVariable Long id) {
-        return bookService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ApiResponse<BookResponseDTO>> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                ApiResponse.success(bookService.findById(id), "Livre récupéré avec succès.")
+        );
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody Book book) {
-        try {
-            Book created = bookService.create(book);
-            return ResponseEntity.status(HttpStatus.CREATED).body(created);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @PostMapping
+    public ResponseEntity<ApiResponse<BookResponseDTO>> create(@Valid @RequestBody BookRequestDTO book) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        bookService.create(book),
+                        "Livre crée avec succes."
+                )
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id,
-                                    @RequestBody Book book) {
-        try {
-            Book updated = bookService.update(id, book);
-            return ResponseEntity.ok(updated);
-        }  catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ApiResponse<BookResponseDTO>> update(
+            @PathVariable Long id, @Valid @RequestBody BookRequestDTO book) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        bookService.update(id, book),
+                        "Livre modifié avec succes"
+                )
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-
-        try {
-            bookService.delete(id);
-            return ResponseEntity.ok("Livre suprimé");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ApiResponse<BookResponseDTO>> delete(@PathVariable Long id) {
+        bookService.delete(id);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        null,
+                        "Livre supprimé avec succes"
+                )
+        );
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> search(
+            @RequestParam("je-cherche") String word,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        PageMapper.toDto(bookService.search(word, pageable)),
+                        "Livres trouvés avec succès."
+                )
+        );
+    }
+
+    @GetMapping("/search/title")
+    public ResponseEntity<ApiResponse<BookResponseDTO>> getByTitle(@RequestParam("title") String title) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        bookService.findByTitle(title),
+                        "Livre trouvé avec succes."
+                )
+        );
+    }
+
+    @GetMapping("/search/isbn")
+    public ResponseEntity<ApiResponse<BookResponseDTO>> getByIsbn(@RequestParam String isbn) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        bookService.findByIsbn(isbn),
+                        "Livre trouvé avec succes."
+                )
+        );
+    }
+
+    @GetMapping("/search/available")
+    public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByAvailable(
+            @RequestParam("available") Boolean available, Pageable pageable) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        PageMapper.toDto(
+                                bookService.findByAvailable(available, pageable)
+                        ),
+                        "Livres trouvés avec succès."
+                )
+        );
+    }
+
+    @GetMapping("/search/authors/{authorId}")
+    public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByAuthor(
+            @PathVariable Long authorId, Pageable pageable) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        PageMapper.toDto(
+                                bookService.findByAuthor(authorId, pageable)
+                        ),
+                        "Livres trouvés avec succès."
+                )
+        );
+    }
+
+    @GetMapping("/search/categories/{categoryId}")
+    public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByCategory(
+            @PathVariable Long categoryId, Pageable pageable) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        PageMapper.toDto(
+                                bookService.findByCategory(categoryId, pageable)
+                        ),
+                        "Livres trouvés avec succès."
+                )
+        );
+    }
+
+    @GetMapping("/search/editeurs/{editorId}")
+    public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByEditor(
+            @PathVariable Long editorId, Pageable pageable) {
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        PageMapper.toDto(
+                                bookService.findByEditor(editorId, pageable)
+                        ),
+                        "Livres trouvés avec succès."
+                )
+        );
+    }
 }

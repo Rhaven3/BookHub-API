@@ -19,6 +19,7 @@ public class Notification extends BaseEntity {
     private NotificationEnum type;
     private String message;
     private LocalDateTime date;
+    private boolean isRead;
     @ManyToOne
     private User user;
 }

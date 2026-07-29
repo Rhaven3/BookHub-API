@@ -8,8 +8,10 @@ import fr.eni.td2j.bookhub_api.exception.businessRule.MaxLoanException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -72,6 +74,12 @@ public class GlobalControllerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(HttpStatus.NOT_FOUND.value(), "Route non trouvée : " + ex.getRequestURL()));
     }
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiResponse<?>> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ApiResponse.error(HttpStatus.NOT_FOUND.value(), "Méthode non supporté  : " + ex.getMethod()));
+    }
+
     // Exception pour les accès refusés par rôle/permission - 403
     @ExceptionHandler(AuthorizationDeniedException.class)
     public ResponseEntity<ApiResponse<?>> handleAuthorizationDenied(AuthorizationDeniedException ex) {
@@ -129,5 +137,10 @@ public class GlobalControllerAdvice {
                         HttpStatus.BAD_REQUEST.value(),
                         "L'identifiant doit être un nombre."
                 ));
+    }
+
+    @ExceptionHandler(HttpMessageConversionException.class)
+    public ResponseEntity<String> handleConversionException(HttpMessageConversionException ex) {
+        return ResponseEntity.badRequest().body("Invalid request payload: " + ex.getMessage());
     }
 }

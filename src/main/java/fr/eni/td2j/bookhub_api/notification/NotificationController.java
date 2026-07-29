@@ -1,6 +1,7 @@
 package fr.eni.td2j.bookhub_api.notification;
 
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationDTO;
+import fr.eni.td2j.bookhub_api.notification.dto.NotificationReadDTO;
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -33,12 +34,17 @@ public class NotificationController {
     }
 
     @PostMapping
-    public ResponseEntity<NotificationResponseDTO> create(@Valid @RequestBody NotificationDTO notificationDTO, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<NotificationResponseDTO> create(@RequestBody NotificationDTO notificationDTO, @AuthenticationPrincipal UserDetails userDetails) {
         Notification notification = notificationService.create(notificationDTO, userDetails);
         return ResponseEntity.status(HttpStatus.CREATED).body(notificationMapper.toDto(notification));
     }
 
-    @DeleteMapping("{id}")
+    @PatchMapping("/read")
+    public ResponseEntity<NotificationResponseDTO> read(@RequestBody NotificationReadDTO notificationReadDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(notificationService.isRead(notificationReadDTO, userDetails));
+    }
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         notificationService.delete(id, userDetails);
         return ResponseEntity.ok("La notification d'id : "+id+", à été supprimé avec succes");

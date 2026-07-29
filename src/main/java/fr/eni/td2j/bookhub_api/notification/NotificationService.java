@@ -5,12 +5,12 @@ import fr.eni.td2j.bookhub_api.feature.user.User;
 import fr.eni.td2j.bookhub_api.feature.user.UserRepository;
 import fr.eni.td2j.bookhub_api.feature.user.UserService;
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationDTO;
+import fr.eni.td2j.bookhub_api.notification.dto.NotificationReadDTO;
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +27,6 @@ public class NotificationService {
         this.userService = userService;
         this.notificationMapper = notificationMapper;
     }
-
 
 
     public List<NotificationResponseDTO> findByUser(Long id) {
@@ -66,11 +65,30 @@ public class NotificationService {
                 .message(notificationDTO.getMessage())
                 .user(user)
                 .type(NotificationEnum.fromString(notificationDTO.getType()))
+                .isRead(false)
                 .build();
         return notificationRepository.save(notification);
     }
 
     public void delete(Long id, UserDetails userDetails) {
+        Notification notification = getOwnedNotification(id, userDetails);
+        notificationRepository.delete(notification);
+    }
+
+    public NotificationResponseDTO isRead(NotificationReadDTO notificationReadDTO, UserDetails userDetails) {
+        Notification notification = getOwnedNotification(notificationReadDTO.getId(), userDetails);
+        notification.setRead(notificationReadDTO.isRead());
+        return notificationMapper.toDto(notificationRepository.save(notification));
+    }
+
+    /**
+     * retourne la notification qui appartient à l'utilisateur connecter, sinon renvoie une NotFoundException
+     *
+     * @param id          l'id de la notification
+     * @param userDetails l'utilisateur connecter
+     * @return la notification
+     */
+    private Notification getOwnedNotification(Long id, UserDetails userDetails) {
         Notification notification = notificationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Notification introuvable."));
         User user = userService.getCurrentUser(userDetails);
@@ -80,6 +98,6 @@ public class NotificationService {
         if (!notification.getUser().getId().equals(user.getId()) && !user.getRole().equals("ADMIN")) {
             throw new NotFoundException("Vous ne pouvez pas supprimer cette notification.");
         }
-        notificationRepository.delete(notification);
+        return notification;
     }
 }

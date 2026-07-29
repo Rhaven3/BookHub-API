@@ -21,6 +21,7 @@ public class NotificationMapper implements EntityMapper<Notification, Notificati
                                 .orElse(null)
                 )
                 .userId(notification.getUser().getId())
+                .isRead(notification.isRead())
                 .build();
     }
 }

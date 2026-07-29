@@ -1,4 +1,4 @@
-package fr.eni.td2j.bookhub_api.advice;
+package fr.eni.td2j.bookhub_api.config;
 
 import fr.eni.td2j.bookhub_api.common.ApiResponse;
 import fr.eni.td2j.bookhub_api.exception.BadRequestException;

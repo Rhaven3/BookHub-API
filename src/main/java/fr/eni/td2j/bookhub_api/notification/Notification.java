@@ -4,6 +4,7 @@ import fr.eni.td2j.bookhub_api.common.BaseEntity;
 import fr.eni.td2j.bookhub_api.feature.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Builder
+@SuperBuilder
 @Entity
 public class Notification extends BaseEntity {
     private NotificationEnum type;

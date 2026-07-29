@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/loans")
 public class LoanController {
     private final LoanService loanService;
-    private final LoanRepository loanRepository;
     private final LoanMapper loanMapper;
 
-    public LoanController(LoanService loanService, LoanRepository loanRepository, LoanMapper loanMapper) {
+    public LoanController(LoanService loanService, LoanMapper loanMapper) {
         this.loanService = loanService;
-        this.loanRepository = loanRepository;
         this.loanMapper = loanMapper;
     }
 

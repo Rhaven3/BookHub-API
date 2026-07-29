@@ -40,7 +40,7 @@ public class LoanService {
     public Loan create(LoanDTO loanDTO, UserDetails userDetails) {
 
         if (loanDTO == null) {
-            throw new IllegalArgumentException("LoanDTO cannot be null");
+            throw new IllegalArgumentException("L'emprunt est null.");
         }
 
         User user = userRepository.findByEmail(userDetails.getUsername())
@@ -94,7 +94,7 @@ public class LoanService {
         UserResponseDTO userResponseDTO = userService.getCurrentUser(userDetails.getUsername());
         User user = userService.findByEmail(userResponseDTO.getEmail());
         if (user == null) {
-            throw new NotFoundException("User not connected");
+            throw new NotFoundException("l'Utilisateur n'est pas connecter");
         }
         return loanRepository.findByUser(user, pageable).map(loanMapper::toDto);
     }
@@ -109,12 +109,12 @@ public class LoanService {
         UserResponseDTO userResponseDTO = userService.getCurrentUser(userDetails.getUsername());
         User user = userService.findByEmail(userResponseDTO.getEmail());
         if (user == null) {
-            throw new NotFoundException("User not connected");
+            throw new NotFoundException("l'Utilisateur n'est pas connecter");
         }
         // check if loan exists
         Loan loan = loanRepository.findById(id).orElse(null);
         if (loan == null) {
-            throw new NotFoundException("Loan not found");
+            throw new NotFoundException("L'emprunt n'existe pas");
         }
         // check if loan belongs to user
         if (!loan.getUser().equals(user) && user.getRole().equals(Role.USER.name())) {

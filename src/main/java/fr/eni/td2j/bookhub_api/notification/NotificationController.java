@@ -1,8 +1,47 @@
 package fr.eni.td2j.bookhub_api.notification;
 
-import org.springframework.web.bind.annotation.RestController;
+import fr.eni.td2j.bookhub_api.notification.dto.NotificationDTO;
+import fr.eni.td2j.bookhub_api.notification.dto.NotificationResponseDTO;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/notifications")
 public class NotificationController {
-    private final
+    private final NotificationService notificationService;
+    private final NotificationMapper notificationMapper;
+
+    public NotificationController(NotificationService notificationService, NotificationMapper notificationMapper) {
+        this.notificationService = notificationService;
+        this.notificationMapper = notificationMapper;
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<NotificationResponseDTO>> listByUser(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(notificationService.findByConnectedUser(userDetails));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<NotificationResponseDTO> detail(@PathVariable Long id) {
+        return ResponseEntity.ok(notificationService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<NotificationResponseDTO> create(@Valid @RequestBody NotificationDTO notificationDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        Notification notification = notificationService.create(notificationDTO, userDetails);
+        return ResponseEntity.status(HttpStatus.CREATED).body(notificationMapper.toDto(notification));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        notificationService.delete(id, userDetails);
+        return ResponseEntity.ok("La notification d'id : "+id+", à été supprimé avec succes");
+    }
+
 }

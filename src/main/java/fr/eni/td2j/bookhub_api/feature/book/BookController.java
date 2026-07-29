@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/livres")
+@RequestMapping("/api/books")
 @RequiredArgsConstructor
 public class BookController {
 
@@ -69,7 +69,7 @@ public class BookController {
         );
     }
 
-    @GetMapping("/recherche")
+    @GetMapping("/search")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> search(
             @RequestParam("je-cherche") String word,
             Pageable pageable
@@ -82,8 +82,8 @@ public class BookController {
         );
     }
 
-    @GetMapping("/recherche/titre")
-    public ResponseEntity<ApiResponse<BookResponseDTO>> getByTitle(@RequestParam("titre") String title) {
+    @GetMapping("/search/title")
+    public ResponseEntity<ApiResponse<BookResponseDTO>> getByTitle(@RequestParam("title") String title) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         bookService.findByTitle(title),
@@ -92,7 +92,7 @@ public class BookController {
         );
     }
 
-    @GetMapping("/recherche/isbn")
+    @GetMapping("/search/isbn")
     public ResponseEntity<ApiResponse<BookResponseDTO>> getByIsbn(@RequestParam String isbn) {
         return ResponseEntity.ok(
                 ApiResponse.success(
@@ -102,9 +102,9 @@ public class BookController {
         );
     }
 
-    @GetMapping("/dispo")
+    @GetMapping("/search/available")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByAvailable(
-            @RequestParam("dispo") Boolean available, Pageable pageable) {
+            @RequestParam("available") Boolean available, Pageable pageable) {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         PageMapper.toDto(
@@ -115,7 +115,7 @@ public class BookController {
         );
     }
 
-    @GetMapping("/auteurs/{authorId}")
+    @GetMapping("/search/authors/{authorId}")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByAuthor(
             @PathVariable Long authorId, Pageable pageable) {
         return ResponseEntity.ok(
@@ -128,7 +128,7 @@ public class BookController {
         );
     }
 
-    @GetMapping("/categories/{categoryId}")
+    @GetMapping("/search/categories/{categoryId}")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByCategory(
             @PathVariable Long categoryId, Pageable pageable) {
         return ResponseEntity.ok(
@@ -141,7 +141,7 @@ public class BookController {
         );
     }
 
-    @GetMapping("/editeurs/{editorId}")
+    @GetMapping("/search/editeurs/{editorId}")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> getByEditor(
             @PathVariable Long editorId, Pageable pageable) {
         return ResponseEntity.ok(

@@ -87,6 +87,105 @@ public class UserSeeder implements EntitySeeder {
                 .password(passwordEncoder.encode("User123!"))
                 .phone("0600000005")
                 .build());
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Camille")
+                .lastName("Roux")
+                .email("camille.roux@mail.com")
+                .address(rennes)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000006")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Hugo")
+                .lastName("Fontaine")
+                .email("hugo.fontaine@mail.com")
+                .address(nantes)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000007")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Léa")
+                .lastName("Girard")
+                .email("lea.girard@mail.com")
+                .address(paris)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000008")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Thomas")
+                .lastName("Morel")
+                .email("thomas.morel@mail.com")
+                .address(rennes)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000009")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Manon")
+                .lastName("Lefevre")
+                .email("manon.lefevre@mail.com")
+                .address(nantes)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000010")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Nathan")
+                .lastName("Simon")
+                .email("nathan.simon@mail.com")
+                .address(paris)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000011")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Chloé")
+                .lastName("Michel")
+                .email("chloe.michel@mail.com")
+                .address(rennes)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000012")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Enzo")
+                .lastName("Garnier")
+                .email("enzo.garnier@mail.com")
+                .address(nantes)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000013")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.USER.name())
+                .firstName("Sarah")
+                .lastName("Faure")
+                .email("sarah.faure@mail.com")
+                .address(paris)
+                .password(passwordEncoder.encode("User123!"))
+                .phone("0600000014")
+                .build());
+
+        userRepository.save(User.builder()
+                .role(Role.LIBRARIAN.name())
+                .firstName("Julie")
+                .lastName("Blanc")
+                .email("julie.blanc@bookhub.fr")
+                .address(rennes)
+                .password(passwordEncoder.encode("Libraire123!"))
+                .phone("0600000015")
+                .build());
     }
 
     @Override

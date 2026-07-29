@@ -20,6 +20,7 @@ public class UserMapper implements EntityMapper<User, UserResponseDTO> {
                 .id(user.getId())
                 .lastName(user.getLastName())
                 .firstName(user.getFirstName())
+                .role(user.getRole())
                 .email(user.getEmail())
                 .phone(user.getPhone())
                 .addressDTO(user.getAddress() != null ? addressDTO : null)

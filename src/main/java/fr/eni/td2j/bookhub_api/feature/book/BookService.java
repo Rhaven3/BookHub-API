@@ -291,4 +291,11 @@ public class BookService {
         }
         return true;
     }
+
+    public Page<BookResponseDTO> filter(Long authorId, Long categoryId, Long editorId, Pageable pageable) {
+
+        Page<Book> books = bookRepository.filter(authorId, categoryId, editorId, pageable);
+        return books.map(bookMapper::toDto);
+
+    }
 }

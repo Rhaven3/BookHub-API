@@ -11,6 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
@@ -18,6 +20,12 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<ApiResponse<List<UserResponseDTO>>> getAllUsers() {
+        List<UserResponseDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(ApiResponse.success(users, "Liste des utilisateurs récupérée avec succès"));
     }
 
     @PreAuthorize("hasRole('USER')")

@@ -94,7 +94,7 @@ public class ReservationController {
         );
     }
 
-    @GetMapping("/expirer/{bookId}")
+    @GetMapping("/expire/{bookId}")
     public ResponseEntity<ApiResponse<List<ReservationResponseDTO>>> getByReservationLimitDateBefore(
             @PathVariable Long bookId,
             @RequestParam Instant now) {

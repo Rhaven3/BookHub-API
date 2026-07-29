@@ -38,4 +38,22 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             @Param("word") String word,
             Pageable pageable
     );
+
+
+    @Query("""
+    SELECT DISTINCT b
+    FROM Book b
+    LEFT JOIN b.authors a
+    LEFT JOIN b.categories c
+    LEFT JOIN b.editor e
+    WHERE (:authorId IS NULL OR a.id = :authorId)
+    AND (:categoryId IS NULL OR c.id = :categoryId)
+    AND (:editorId IS NULL OR e.id = :editorId)
+""")
+    Page<Book> filter(
+            @Param("authorId") Long authorId,
+            @Param("categoryId") Long categoryId,
+            @Param("editorId") Long editorId,
+            Pageable pageable
+    );
 }

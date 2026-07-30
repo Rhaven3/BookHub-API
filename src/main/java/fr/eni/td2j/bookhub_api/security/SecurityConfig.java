@@ -77,6 +77,7 @@ public class SecurityConfig {
                         // /refresh et /logout s'appuient sur le cookie refreshToken, pas sur l'access token Bearer
                         .requestMatchers("/api/auth/refresh").permitAll()
                         .requestMatchers("/api/auth/logout").permitAll()
+                        .requestMatchers("/api/images/download/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

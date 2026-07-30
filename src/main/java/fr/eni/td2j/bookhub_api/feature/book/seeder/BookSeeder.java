@@ -112,32 +112,32 @@ public class BookSeeder implements EntitySeeder {
         // ---------- Images ----------
         Image cover1984 = Image.builder()
                 .name("1984-cover")
-                .path("/images/books/1984-cover.jpg")
+                .path("./uploads/fleur.jpg")
                 .build();
 
         Image coverDune = Image.builder()
                 .name("dune-cover")
-                .path("/images/books/dune-cover.jpg")
+                .path("./uploads/fleur.jpg")
                 .build();
 
         Image coverFondation = Image.builder()
                 .name("fondation-cover")
-                .path("/images/books/fondation-cover.jpg")
+                .path("./uploads/fleur.jpg")
                 .build();
 
         Image coverHobbit = Image.builder()
                 .name("hobbit-cover")
-                .path("/images/books/hobbit-cover.jpg")
+                .path("./uploads/fleur.jpg")
                 .build();
 
         Image coverHarryPotter = Image.builder()
                 .name("harry-potter-cover")
-                .path("/images/books/harry-potter-cover.jpg")
+                .path("./uploads/fleur.jpg")
                 .build();
 
         Image coverPetitPrince = Image.builder()
                 .name("petit-prince-cover")
-                .path("/images/books/petit-prince-cover.jpg")
+                .path("./uploads/fleur.jpg")
                 .build();
 
         Book book1984 = Book.builder()

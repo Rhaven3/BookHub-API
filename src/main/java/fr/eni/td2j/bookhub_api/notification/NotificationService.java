@@ -8,6 +8,7 @@ import fr.eni.td2j.bookhub_api.notification.dto.NotificationDTO;
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationReadDTO;
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationResponseDTO;
 import jakarta.validation.Valid;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,14 @@ public class NotificationService {
     private final UserRepository userRepository;
     private final UserService userService;
     private final NotificationMapper notificationMapper;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public NotificationService(NotificationRepository notificationRepository, UserRepository userRepository, UserService userService, NotificationMapper notificationMapper) {
+    public NotificationService(NotificationRepository notificationRepository, UserRepository userRepository, UserService userService, NotificationMapper notificationMapper, SimpMessagingTemplate messagingTemplate) {
         this.notificationRepository = notificationRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.notificationMapper = notificationMapper;
+        this.messagingTemplate = messagingTemplate;
     }
 
 
@@ -70,6 +73,26 @@ public class NotificationService {
         return notificationRepository.save(notification);
     }
 
+    public Notification create(@Valid NotificationDTO notificationDTO, String email) {
+        if (notificationDTO == null) {
+            throw new IllegalArgumentException("La notification est null.");
+        }
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Utilisateur introuvable."));
+
+        LocalDateTime now = LocalDateTime.now();
+
+        Notification notification = Notification.builder()
+                .date(now)
+                .message(notificationDTO.getMessage())
+                .user(user)
+                .type(NotificationEnum.fromString(notificationDTO.getType()))
+                .isRead(false)
+                .build();
+        return notificationRepository.save(notification);
+    }
+
+
     public void delete(Long id, UserDetails userDetails) {
         Notification notification = getOwnedNotification(id, userDetails);
         notificationRepository.delete(notification);
@@ -79,6 +102,31 @@ public class NotificationService {
         Notification notification = getOwnedNotification(notificationReadDTO.getId(), userDetails);
         notification.setRead(notificationReadDTO.isRead());
         return notificationMapper.toDto(notificationRepository.save(notification));
+    }
+
+    /**
+     * sert à envoyer une notification à un utilisateur précis
+     * @param email l'email de l'utilisateur
+     * @param notificationDTO la notification à envoyer
+     */
+    public void sendToUser(String email, @Valid NotificationDTO notificationDTO) {
+        // 1. Persister en base (pour l'historique / les notifs non lues au reload)
+        create(notificationDTO, email);
+
+        // 2. Pousser en temps réel si l'utilisateur est connecté
+        messagingTemplate.convertAndSendToUser(
+                email,
+                "/queue/notifications",
+                notificationDTO
+        );
+    }
+
+    /**
+     * sert à envoyer une notification à tous les clients connectés et abonnés
+     * @param notification la notification à envoyer
+     */
+    public void broadcast(NotificationDTO notification) {
+        messagingTemplate.convertAndSend("/topic/notifications", notification);
     }
 
     /**

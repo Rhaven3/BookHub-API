@@ -6,6 +6,9 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +29,15 @@ public class JwtService {
     /** Durée de validité du token : 15 minutes. */
     public static final long ACCESS_TOKEN_DURATION = 1000L * 60 * 15;
 
+    private final UserDetailsCustomService userDetailsCustomService;
     /** Clé secrète utilisée pour signer et vérifier les tokens. */
     private final SecretKey key;
 
     /**
      * @param secret clé secrète brute, injectée depuis application.properties (jwt.secret)
      */
-    public JwtService(@Value("${jwt.secret}") String secret) {
+    public JwtService(UserDetailsCustomService userDetailsCustomService, @Value("${jwt.secret}") String secret) {
+        this.userDetailsCustomService = userDetailsCustomService;
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -93,5 +98,24 @@ public class JwtService {
                 .getExpiration();
 
         return expiration.before(new Date());
+    }
+
+    /**
+     * La méthode qu'on utilise dans l'interceptor WebSocket :
+     * valide le token et construit un objet Authentication utilisable par Spring Security
+     */
+    public Authentication getAuthentication(String token) {
+        String email = extractEmail(token);
+        UserDetails userDetails = userDetailsCustomService.loadUserByUsername(email);
+
+        if (!isTokenValid(token, userDetails)) {
+            throw new BadCredentialsException("Invalid or expired JWT token");
+        }
+
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null, // pas de credentials nécessaires ici, le token a déjà prouvé l'identité
+                userDetails.getAuthorities()
+        );
     }
 }

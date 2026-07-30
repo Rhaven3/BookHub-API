@@ -53,22 +53,22 @@ public class BookSeeder implements EntitySeeder {
                 .orElseThrow();
 
         Author asimov = authorRepository.findAll().stream()
-                .filter(a -> a.getLname().equals("Asimov"))
+                .filter(a -> a.getLastName().equals("Asimov"))
                 .findFirst()
                 .orElseThrow();
 
         Author tolkien = authorRepository.findAll().stream()
-                .filter(a -> a.getLname().equals("Tolkien"))
+                .filter(a -> a.getLastName().equals("Tolkien"))
                 .findFirst()
                 .orElseThrow();
 
         Author rowling = authorRepository.findAll().stream()
-                .filter(a -> a.getLname().equals("Rowling"))
+                .filter(a -> a.getLastName().equals("Rowling"))
                 .findFirst()
                 .orElseThrow();
 
         Author saintExupery = authorRepository.findAll().stream()
-                .filter(a -> a.getLname().equals("de Saint-Exupéry"))
+                .filter(a -> a.getLastName().equals("de Saint-Exupéry"))
                 .findFirst()
                 .orElseThrow();
 

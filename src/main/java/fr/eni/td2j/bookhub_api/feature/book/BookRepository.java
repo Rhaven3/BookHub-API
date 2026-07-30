@@ -41,16 +41,24 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 
     @Query("""
-    SELECT DISTINCT b
-    FROM Book b
-    LEFT JOIN b.authors a
-    LEFT JOIN b.categories c
-    LEFT JOIN b.editor e
-    WHERE (:authorId IS NULL OR a.id = :authorId)
-    AND (:categoryId IS NULL OR c.id = :categoryId)
-    AND (:editorId IS NULL OR e.id = :editorId)
+SELECT DISTINCT b
+FROM Book b
+LEFT JOIN b.authors a
+LEFT JOIN b.categories c
+WHERE
+    (:word IS NULL
+        OR LOWER(b.title) LIKE LOWER(CONCAT('%', :word, '%'))
+        OR LOWER(a.lname) LIKE LOWER(CONCAT('%', :word, '%'))
+        OR LOWER(c.name) LIKE LOWER(CONCAT('%', :word, '%'))
+        OR LOWER(b.editor.name) LIKE LOWER(CONCAT('%', :word, '%'))
+        OR LOWER(b.isbn) LIKE LOWER(CONCAT('%', :word, '%'))
+    )
+AND (:authorId IS NULL OR a.id = :authorId)
+AND (:categoryId IS NULL OR c.id = :categoryId)
+AND (:editorId IS NULL OR b.editor.id = :editorId)
 """)
     Page<Book> filter(
+            @Param("word") String word,
             @Param("authorId") Long authorId,
             @Param("categoryId") Long categoryId,
             @Param("editorId") Long editorId,

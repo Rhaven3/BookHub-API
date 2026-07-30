@@ -17,8 +17,8 @@ public class EditorSeeder implements EntitySeeder {
         if (editorRepository.count() > 0) return;
 
         editorRepository.save(Editor.builder().name("Gallimard").build());
-        editorRepository.save(Editor.builder().name("Penguin Books").build());
-        editorRepository.save(Editor.builder().name("Bragelonne").build());
+        editorRepository.save(Editor.builder().name("Folio").build());
+        editorRepository.save(Editor.builder().name("Pocket").build());
     }
 
     @Override

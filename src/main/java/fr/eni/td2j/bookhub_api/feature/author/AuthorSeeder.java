@@ -20,6 +20,9 @@ public class AuthorSeeder implements EntitySeeder {
         authorRepository.save(Author.builder().fname("J.K.").lname("Rowling").build());
         authorRepository.save(Author.builder().fname("Frank").lname("Herbert").build());
         authorRepository.save(Author.builder().fname("Isaac").lname("Asimov").build());
+        authorRepository.save(Author.builder().fname("Antoine").lname("de Saint-Exupéry").build());
+        authorRepository.save(Author.builder().fname("J.R.R").lname("Tolkien").build());
+
     }
 
     @Override

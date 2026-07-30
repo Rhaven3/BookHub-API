@@ -41,6 +41,7 @@ public class BookSeeder implements EntitySeeder {
     public void seed() {
         if (bookRepository.count() > 0) return;
 
+        // ---------- Auteurs ----------
         Author orwell = authorRepository.findAll().stream()
                 .filter(a -> a.getLname().equals("Orwell"))
                 .findFirst()
@@ -51,6 +52,27 @@ public class BookSeeder implements EntitySeeder {
                 .findFirst()
                 .orElseThrow();
 
+        Author asimov = authorRepository.findAll().stream()
+                .filter(a -> a.getLname().equals("Asimov"))
+                .findFirst()
+                .orElseThrow();
+
+        Author tolkien = authorRepository.findAll().stream()
+                .filter(a -> a.getLname().equals("Tolkien"))
+                .findFirst()
+                .orElseThrow();
+
+        Author rowling = authorRepository.findAll().stream()
+                .filter(a -> a.getLname().equals("Rowling"))
+                .findFirst()
+                .orElseThrow();
+
+        Author saintExupery = authorRepository.findAll().stream()
+                .filter(a -> a.getLname().equals("de Saint-Exupéry"))
+                .findFirst()
+                .orElseThrow();
+
+        // ---------- Catégories ----------
         Category dystopie = categoryRepository.findAll().stream()
                 .filter(c -> c.getName().equals("Dystopie"))
                 .findFirst()
@@ -61,11 +83,33 @@ public class BookSeeder implements EntitySeeder {
                 .findFirst()
                 .orElseThrow();
 
+        Category fantasy =categoryRepository.findAll().stream()
+                .filter(c -> c.getName().equals("Fantasy"))
+                .findFirst()
+                .orElseThrow();
+
+        Category classique = categoryRepository.findAll().stream()
+                .filter(c -> c.getName().equals("Roman"))
+                .findFirst()
+                .orElseThrow();
+
+        // ---------- Éditeurs ----------
         Editor gallimard = editorRepository.findAll().stream()
                 .filter(e -> e.getName().equals("Gallimard"))
                 .findFirst()
                 .orElseThrow();
 
+        Editor folio = editorRepository.findAll().stream()
+                .filter(e -> e.getName().equals("Folio"))
+                .findFirst()
+                .orElseThrow();
+
+        Editor pocket = editorRepository.findAll().stream()
+                .filter(e -> e.getName().equals("Pocket"))
+                .findFirst()
+                .orElseThrow();
+
+        // ---------- Images ----------
         Image cover1984 = Image.builder()
                 .name("1984-cover")
                 .path("/images/books/1984-cover.jpg")
@@ -74,6 +118,26 @@ public class BookSeeder implements EntitySeeder {
         Image coverDune = Image.builder()
                 .name("dune-cover")
                 .path("/images/books/dune-cover.jpg")
+                .build();
+
+        Image coverFondation = Image.builder()
+                .name("fondation-cover")
+                .path("/images/books/fondation-cover.jpg")
+                .build();
+
+        Image coverHobbit = Image.builder()
+                .name("hobbit-cover")
+                .path("/images/books/hobbit-cover.jpg")
+                .build();
+
+        Image coverHarryPotter = Image.builder()
+                .name("harry-potter-cover")
+                .path("/images/books/harry-potter-cover.jpg")
+                .build();
+
+        Image coverPetitPrince = Image.builder()
+                .name("petit-prince-cover")
+                .path("/images/books/petit-prince-cover.jpg")
                 .build();
 
         Book book1984 = Book.builder()
@@ -104,8 +168,70 @@ public class BookSeeder implements EntitySeeder {
                 .images(List.of(coverDune))
                 .build();
 
-        bookRepository.save(book1984);
-        bookRepository.save(bookDune);
+        Book bookFondation = Book.builder()
+                .title("Fondation")
+                .description("Le premier tome de la célèbre saga imaginée par Isaac Asimov.")
+                .publishDate(LocalDate.of(1951, 6, 1))
+                .language("Français")
+                .isbn("9782070360536")
+                .available(true)
+                .owned(true)
+                .authors(List.of(asimov))
+                .categories(List.of(sf))
+                .editor(folio)
+                .images(List.of(coverFondation))
+                .build();
+
+        Book bookHobbit = Book.builder()
+                .title("Le Hobbit")
+                .description("Les aventures de Bilbon Sacquet avant les événements du Seigneur des Anneaux.")
+                .publishDate(LocalDate.of(1937, 9, 21))
+                .language("Français")
+                .isbn("9782266283038")
+                .available(false)
+                .owned(true)
+                .authors(List.of(tolkien))
+                .categories(List.of(fantasy))
+                .editor(pocket)
+                .images(List.of(coverHobbit))
+                .build();
+
+        Book bookHarryPotter = Book.builder()
+                .title("Harry Potter à l'école des sorciers")
+                .description("Le premier tome des aventures du jeune sorcier Harry Potter.")
+                .publishDate(LocalDate.of(1997, 6, 26))
+                .language("Français")
+                .isbn("9782070643028")
+                .available(true)
+                .owned(false)
+                .authors(List.of(rowling))
+                .categories(List.of(fantasy))
+                .editor(gallimard)
+                .images(List.of(coverHarryPotter))
+                .build();
+
+        Book bookLePetitPrince = Book.builder()
+                .title("Le Petit Prince")
+                .description("Un conte poétique et philosophique d'Antoine de Saint-Exupéry.")
+                .publishDate(LocalDate.of(1943, 4, 6))
+                .language("Français")
+                .isbn("9782070408504")
+                .available(true)
+                .owned(true)
+                .authors(List.of(saintExupery))
+                .categories(List.of(classique))
+                .editor(folio)
+                .images(List.of(coverPetitPrince))
+                .build();
+
+        bookRepository.saveAll(List.of(
+                book1984,
+                bookDune,
+                bookFondation,
+                bookHobbit,
+                bookHarryPotter,
+                bookLePetitPrince
+        ));
     }
 
     @Override

@@ -13,6 +13,7 @@ import fr.eni.td2j.bookhub_api.security.dto.response.AuthResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -70,10 +71,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<?>> register(@RequestBody RegisterDTO dto) {
-        userService.register(dto);
-        ApiResponse<?> response = ApiResponse.success(null,"Compte créé avec succès");
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<ApiResponse<UserResponseDTO>> register(@Valid @RequestBody RegisterDTO dto) {
+        UserResponseDTO response = userService.register(dto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(response, "Compte créé avec succès"));
     }
 
     @PostMapping("/refresh")

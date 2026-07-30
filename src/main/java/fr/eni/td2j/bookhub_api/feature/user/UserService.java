@@ -38,7 +38,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public void register(RegisterDTO dto) {
+    public UserResponseDTO register(RegisterDTO dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
             throw new EmailAlreadyExistsException("Cet email est déjà utilisé par un autre compte.");
         }
@@ -54,6 +54,7 @@ public class UserService {
                 .address(address)
                 .build();
         userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
     public UserResponseDTO updateProfile(String currentEmail, UpdateUserDTO dto) {

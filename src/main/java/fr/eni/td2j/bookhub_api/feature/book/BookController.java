@@ -8,8 +8,12 @@ import fr.eni.td2j.bookhub_api.feature.book.dto.BookResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/book")
@@ -37,23 +41,24 @@ public class BookController {
         );
     }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<BookResponseDTO>> create(@Valid @RequestBody BookRequestDTO book) {
-        return ResponseEntity.ok(
-                ApiResponse.success(
-                        bookService.create(book),
-                        "Livre crée avec succes."
-                )
-        );
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ApiResponse<BookResponseDTO>> create(
+            @RequestPart("book") @Valid BookRequestDTO book,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files
+    ) {
+        return ResponseEntity.ok(ApiResponse.success(bookService.create(book, files), "Livre créé avec succès."));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<BookResponseDTO>> update(
-            @PathVariable Long id, @Valid @RequestBody BookRequestDTO book) {
+            @PathVariable Long id,
+            @RequestPart("book") @Valid BookRequestDTO book,
+            @RequestPart(value = "files", required = false) List<MultipartFile> files
+    ) {
         return ResponseEntity.ok(
                 ApiResponse.success(
-                        bookService.update(id, book),
-                        "Livre modifié avec succes"
+                        bookService.update(id, book, files),
+                        "Livre modifié avec succès"
                 )
         );
     }

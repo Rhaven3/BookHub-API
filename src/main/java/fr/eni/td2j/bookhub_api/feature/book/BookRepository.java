@@ -28,7 +28,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     LEFT JOIN b.categories c
     WHERE (:word IS NULL
         OR LOWER(b.title) LIKE LOWER(CONCAT('%', :word, '%'))
-        OR LOWER(a.lname) LIKE LOWER(CONCAT('%', :word, '%'))
+        OR LOWER(a.lastName) LIKE LOWER(CONCAT('%', :word, '%'))
         OR LOWER(c.name) LIKE LOWER(CONCAT('%', :word, '%'))
         OR LOWER(b.editor.name) LIKE LOWER(CONCAT('%', :word, '%'))
         OR LOWER(b.isbn) LIKE LOWER(CONCAT('%', :word, '%'))

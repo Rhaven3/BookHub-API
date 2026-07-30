@@ -21,8 +21,8 @@ public class AuthorMapper {
 
         return AuthorResponseDTO.builder()
                 .id(author.getId())
-                .fname(author.getFname())
-                .lname(author.getLname())
+                .fname(author.getFirstName())
+                .lname(author.getLastName())
                 .build();
     }
 }

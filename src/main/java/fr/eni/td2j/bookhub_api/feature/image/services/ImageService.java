@@ -28,12 +28,12 @@ public class ImageService {
         return repository.findByName(name).orElseThrow(() -> new NotFoundException("Image non trouvé."));
     }
 
-    public void addImage(Image image) {
+    public Image addImage(Image image) {
         if (repository.existsByName(image.getName())) {
             throw new BadRequestException("Une image avec ce nom existe déjà");
         }
 
-        repository.save(image);
+        return repository.save(image);
     }
 
     public void deleteImage(Long id) {

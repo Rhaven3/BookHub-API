@@ -36,7 +36,7 @@ public class Loan extends BaseEntity {
     public Integer getDelay() {
         LocalDateTime now = LocalDateTime.now();
         if (now.isAfter(expectedReturnDate) && status == LoanEnum.IN_PROGRESS) {
-            return expectedReturnDate.getDayOfYear() - now.getDayOfYear();
+            return  now.getDayOfYear() - expectedReturnDate.getDayOfYear();
         }
         return -1;
     }

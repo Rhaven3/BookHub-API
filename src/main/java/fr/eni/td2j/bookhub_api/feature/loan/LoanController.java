@@ -5,11 +5,14 @@ import fr.eni.td2j.bookhub_api.feature.loan.dto.LoanResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/loans")
@@ -28,8 +31,17 @@ public class LoanController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<Page<LoanResponseDTO>> findAllByUser(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
-        return ResponseEntity.ok(loanService.findByConnectedUser(userDetails, pageable));
+    public ResponseEntity<Page<LoanResponseDTO>> findAllByUser(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(required = false) LoanEnum status,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate date,
+            Pageable pageable) {
+
+        return ResponseEntity.ok(
+                loanService.findByConnectedUser(userDetails, status, date, pageable)
+        );
     }
 
     @PostMapping

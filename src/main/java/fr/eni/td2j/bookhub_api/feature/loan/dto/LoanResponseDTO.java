@@ -1,5 +1,7 @@
 package fr.eni.td2j.bookhub_api.feature.loan.dto;
 
+import fr.eni.td2j.bookhub_api.feature.book.dto.BookResponseDTO;
+import fr.eni.td2j.bookhub_api.feature.user.dto.response.UserResponseDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,8 +9,8 @@ import lombok.Data;
 @Builder
 public class LoanResponseDTO {
     private Long id;
-    private Long bookId;
-    private Long userId;
+    private BookResponseDTO book;
+    private UserResponseDTO user;
     private String loanDate;
     private String expectedReturnDate;
     private String actualReturnDate;

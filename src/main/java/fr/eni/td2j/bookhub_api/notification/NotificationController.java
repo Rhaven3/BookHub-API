@@ -1,5 +1,6 @@
 package fr.eni.td2j.bookhub_api.notification;
 
+import fr.eni.td2j.bookhub_api.common.ApiResponse;
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationDTO;
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationReadDTO;
 import fr.eni.td2j.bookhub_api.notification.dto.NotificationResponseDTO;
@@ -11,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static fr.eni.td2j.bookhub_api.common.ApiResponse.success;
 
 @RestController
 @RequestMapping("/api/notifications")
@@ -45,9 +48,9 @@ public class NotificationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<ApiResponse<String>> delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         notificationService.delete(id, userDetails);
-        return ResponseEntity.ok("La notification d'id : "+id+", à été supprimé avec succes");
+        return ResponseEntity.ok(ApiResponse.success(null, "La notification d'id : " + id + ", a été supprimée avec succès"));
     }
 
 }

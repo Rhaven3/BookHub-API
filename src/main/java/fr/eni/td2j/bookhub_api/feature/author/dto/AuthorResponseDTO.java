@@ -15,6 +15,6 @@ import lombok.*;
 @AllArgsConstructor
 public class AuthorResponseDTO {
     private Long id;
-    private String fname;
-    private String lname;
+    private String firstName;
+    private String lastName;
 }

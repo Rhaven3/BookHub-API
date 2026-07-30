@@ -4,6 +4,7 @@ import fr.eni.td2j.bookhub_api.exception.BadRequestException;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import fr.eni.td2j.bookhub_api.feature.author.Author;
 import fr.eni.td2j.bookhub_api.feature.author.AuthorRepository;
+import fr.eni.td2j.bookhub_api.feature.author.AuthorService;
 import fr.eni.td2j.bookhub_api.feature.book.dto.BookRequestDTO;
 import fr.eni.td2j.bookhub_api.feature.book.dto.BookResponseDTO;
 import fr.eni.td2j.bookhub_api.feature.book.dto.mapper.BookMapper;
@@ -13,6 +14,9 @@ import fr.eni.td2j.bookhub_api.feature.editor.Editor;
 import fr.eni.td2j.bookhub_api.feature.editor.EditorRepository;
 import fr.eni.td2j.bookhub_api.feature.image.Image;
 import fr.eni.td2j.bookhub_api.feature.image.ImageRepository;
+import fr.eni.td2j.bookhub_api.feature.image.dto.ImageRequestDTO;
+import fr.eni.td2j.bookhub_api.feature.image.services.ImageService;
+import fr.eni.td2j.bookhub_api.feature.image.services.storage.IFileStorageService;
 import fr.eni.td2j.bookhub_api.feature.loan.Loan;
 import fr.eni.td2j.bookhub_api.feature.loan.LoanEnum;
 import fr.eni.td2j.bookhub_api.feature.loan.LoanRepository;
@@ -24,8 +28,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +46,9 @@ public class BookService {
     private final LoanRepository loanRepository;
     private final ImageRepository imageRepository;
     private final BookMapper bookMapper;
+    private final AuthorService authorService;
+    private final IFileStorageService fileStorageService;
+    private final ImageService imageService;
 
     public Page<BookResponseDTO> findAll(Pageable pageable) {
          Page<Book> books = bookRepository.findAll(pageable);
@@ -54,22 +63,27 @@ public class BookService {
         return bookMapper.toDto(book);
     }
 
-    public BookResponseDTO create(BookRequestDTO requestDTO) {
+    @Transactional
+    public BookResponseDTO create(BookRequestDTO dto, List<MultipartFile> files) {
+        List<Author> authors = new ArrayList<>();
+        authors.addAll(getAuthors(dto.getAuthorIds()));
+        authors.addAll(authorService.createAuthors(dto.getNewAuthors()));
 
-        Editor editor = getEditor(requestDTO.getEditorId());
+        if (authors.isEmpty()) {
+            throw new BadRequestException("Le livre doit avoir au moins un auteur.");
+        }
 
-        List<Author> authors = getAuthors(requestDTO.getAuthorIds());
+        List<Category> categories = getCategories(dto.getCategoryIds());
+        List<Image> images = createImages(dto.getNewImageNames(), files);
 
-        List<Category> categories = getCategories(requestDTO.getCategoryIds());
-
-        List<Image> images = getImages(requestDTO.getImageIds());
+        Editor editor = getEditor(dto.getEditorId());
 
         Book book = Book.builder()
-                .title(requestDTO.getTitle())
-                .description(requestDTO.getDescription())
-                .publishDate(LocalDate.from(requestDTO.getPublishDate()))
-                .language(requestDTO.getLanguage())
-                .isbn(requestDTO.getIsbn())
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .publishDate(dto.getPublishDate())
+                .language(dto.getLanguage())
+                .isbn(dto.getIsbn())
                 .available(true)
                 .owned(true)
                 .editor(editor)
@@ -79,6 +93,24 @@ public class BookService {
                 .build();
 
         return bookMapper.toDto(bookRepository.save(book));
+    }
+
+    private List<Image> createImages(List<String> imageNames, List<MultipartFile> files) {
+        if (imageNames == null || imageNames.isEmpty()) return List.of();
+
+        if (files == null || files.size() != imageNames.size()) {
+            throw new BadRequestException("Le nombre de fichiers ne correspond pas au nombre de noms fournis.");
+        }
+
+        List<Image> result = new ArrayList<>();
+        for (int i = 0; i < imageNames.size(); i++) {
+            String name = imageNames.get(i);
+            imageService.isExisting(name); // lève déjà BadRequestException si nom pris
+
+            String path = fileStorageService.store(files.get(i));
+            result.add(imageService.addImage(Image.builder().name(name).path(path).build()));
+        }
+        return result;
     }
 
     private List<Category> getCategories(List<Long> categoryIds) {
@@ -130,7 +162,7 @@ public class BookService {
     }
 
     @Transactional
-    public BookResponseDTO update(Long id, BookRequestDTO requestBook) {
+    public BookResponseDTO update(Long id, BookRequestDTO requestBook, List<MultipartFile> files) {
 
         Book existingBook = bookRepository.findById(id).orElseThrow(() -> new NotFoundException("Livre introuvable."));
 
@@ -158,18 +190,42 @@ public class BookService {
             existingBook.setEditor(getEditor(requestBook.getEditorId()));
         }
 
-        if (requestBook.getAuthorIds() != null) {
-            existingBook.setAuthors(getAuthors(requestBook.getAuthorIds()));
+        if (requestBook.getAuthorIds() != null || requestBook.getNewAuthors() != null) {
+            List<Author> authors = new ArrayList<>();
+
+            if (requestBook.getAuthorIds() != null) {
+                authors.addAll(getAuthors(requestBook.getAuthorIds()));
+            }
+            if (requestBook.getNewAuthors() != null) {
+                authors.addAll(authorService.createAuthors(requestBook.getNewAuthors()));
+            }
+
+            if (authors.isEmpty()) {
+                throw new BadRequestException("Le livre doit avoir au moins un auteur.");
+            }
+
+            existingBook.setAuthors(authors);
         }
 
         if (requestBook.getCategoryIds() != null) {
             existingBook.setCategories(getCategories(requestBook.getCategoryIds()));
         }
 
-        if (requestBook.getImageIds() != null) {
-            List<Image> images = getImages(requestBook.getImageIds());
+        // Images : remplacement complet — les images existantes conservées
+        // (keepImageIds) + les nouvelles créées à partir des fichiers reçus
+        if (requestBook.getKeepImageIds() != null || requestBook.getNewImageNames() != null) {
+            List<Image> keptImages = requestBook.getKeepImageIds() != null
+                    ? getImages(requestBook.getKeepImageIds())
+                    : List.of();
+
+            List<Image> newImages = createImages(requestBook.getNewImageNames(), files);
+
+            List<Image> allImages = new ArrayList<>();
+            allImages.addAll(keptImages);
+            allImages.addAll(newImages);
+
             existingBook.getImages().clear();
-            existingBook.getImages().addAll(images);
+            existingBook.getImages().addAll(allImages);
         }
 
         return bookMapper.toDto(bookRepository.save(existingBook));
@@ -298,4 +354,5 @@ public class BookService {
         return books.map(bookMapper::toDto);
 
     }
+
 }

@@ -42,12 +42,12 @@ public class BookSeeder implements EntitySeeder {
         if (bookRepository.count() > 0) return;
 
         Author orwell = authorRepository.findAll().stream()
-                .filter(a -> a.getLname().equals("Orwell"))
+                .filter(a -> a.getLastName().equals("Orwell"))
                 .findFirst()
                 .orElseThrow();
 
         Author herbert = authorRepository.findAll().stream()
-                .filter(a -> a.getLname().equals("Herbert"))
+                .filter(a -> a.getLastName().equals("Herbert"))
                 .findFirst()
                 .orElseThrow();
 

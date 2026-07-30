@@ -14,13 +14,13 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"fname", "lname"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"firstName", "lastName"}))
 public class Author extends BaseEntity {
     @NotBlank(message = "Le prénom est obligatoire.")
     @Column(nullable = false)
-    private String fname;
+    private String firstName;
     @NotBlank(message = "Le nom est obligatoire.")
     @Column(nullable = false)
-    private String lname;
+    private String lastName;
 
 }

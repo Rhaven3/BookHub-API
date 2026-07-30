@@ -5,6 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AuthorRepository extends JpaRepository<Author,Long> {
-    boolean existsByFnameIgnoreCaseAndLnameIgnoreCase(String fname, String lname);
-    Page<Author> findByFnameContainingIgnoreCaseOrLnameContainingIgnoreCase(String fname, String lname, Pageable pageable);
+    boolean existsByFirstNameIgnoreCaseAndLastNameIgnoreCase(String firstName, String lastName);
+    Page<Author> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName, Pageable pageable);
 }

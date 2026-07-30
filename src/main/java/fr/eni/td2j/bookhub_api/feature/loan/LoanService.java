@@ -81,7 +81,12 @@ public class LoanService {
 
         return loanRepository.save(loan);
     }
-
+    public Page<LoanResponseDTO> findAllDelayed(Pageable pageable) {
+        Page<Loan> loans = loanRepository.findByActualReturnDateIsNullAndExpectedReturnDateBefore(
+                LocalDateTime.now(), pageable
+        );
+        return loans.map(loanMapper::toDto);
+    }
     private boolean hasDelay(List<Loan> loansUser) {
         for (Loan loan : loansUser) {
             if (loan.getDelay() > 0) {

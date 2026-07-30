@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface LoanRepository extends JpaRepository<Loan, Long> {
@@ -30,4 +31,5 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
             @Param("date") LocalDate date,
             Pageable pageable
     );
+    Page<Loan> findByActualReturnDateIsNullAndExpectedReturnDateBefore(LocalDateTime date, Pageable pageable);
 }

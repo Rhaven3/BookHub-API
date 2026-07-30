@@ -6,6 +6,7 @@ import fr.eni.td2j.bookhub_api.common.dtos.page.mapper.PageMapper;
 import fr.eni.td2j.bookhub_api.exception.NotFoundException;
 import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingCreateDTO;
 import fr.eni.td2j.bookhub_api.feature.rating.DTO.RatingUpdateDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +74,19 @@ public class RatingController {
 
         return ResponseEntity.ok(
                 ApiResponse.success(null, "Avis supprimé avec succès")
+        );
+    }
+
+    @GetMapping("/book/{bookId}")
+    public ResponseEntity<ApiResponse<Page<Rating>>> findByBook(
+            @PathVariable Long bookId,
+            Pageable pageable) {
+
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        ratingService.findByBook(bookId, pageable),
+                        "Avis du livre récupérés avec succès."
+                )
         );
     }
 }

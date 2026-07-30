@@ -106,4 +106,12 @@ public class RatingService {
                 .orElseThrow(() -> new NotFoundException("Livre non trouvé."));
     }
 
+    public Page<Rating> findByBook(Long bookId, Pageable pageable) {
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new RuntimeException("Livre introuvable"));
+
+        return ratingRepository.findByBook(book, pageable);
+    }
+
 }

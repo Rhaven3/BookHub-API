@@ -26,11 +26,16 @@ public class LoanController {
     public ResponseEntity<Page<LoanResponseDTO>> findAll(Pageable pageable) {
         return ResponseEntity.ok(loanService.findAll(pageable));
     }
+    @GetMapping("/all-delay")
+    public ResponseEntity<Page<LoanResponseDTO>> findAllDelayed(Pageable pageable) {
+        return ResponseEntity.ok(loanService.findAllDelayed(pageable));
+    }
 
     @GetMapping("/me")
     public ResponseEntity<Page<LoanResponseDTO>> findAllByUser(@AuthenticationPrincipal UserDetails userDetails, Pageable pageable) {
         return ResponseEntity.ok(loanService.findByConnectedUser(userDetails, pageable));
     }
+
 
     @PostMapping
     public ResponseEntity<LoanResponseDTO> create(@Valid @RequestBody LoanDTO loanDTO, @AuthenticationPrincipal UserDetails userDetails) {

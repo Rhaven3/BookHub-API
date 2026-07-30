@@ -23,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -90,15 +91,22 @@ public class LoanService {
         return false;
     }
 
-    public Page<LoanResponseDTO> findByConnectedUser(UserDetails userDetails, Pageable pageable) {
+    public Page<LoanResponseDTO> findByConnectedUser(
+            UserDetails userDetails,
+            LoanEnum status,
+            LocalDate date,
+            Pageable pageable) {
+
         UserResponseDTO userResponseDTO = userService.getCurrentUser(userDetails.getUsername());
         User user = userService.findByEmail(userResponseDTO.getEmail());
-        if (user == null) {
-            throw new NotFoundException("l'Utilisateur n'est pas connecter");
-        }
-        return loanRepository.findByUser(user, pageable).map(loanMapper::toDto);
-    }
 
+        if (user == null) {
+            throw new NotFoundException("User is not connected.");
+        }
+
+        return loanRepository.findByUserAndFilters(user, status, date, pageable)
+                .map(loanMapper::toDto);
+    }
     public Page<LoanResponseDTO> findAll(Pageable pageable) {
         Page<Loan> loansPage = loanRepository.findAll(pageable);
         return loansPage.map(loanMapper::toDto);

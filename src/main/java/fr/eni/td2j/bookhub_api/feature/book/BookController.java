@@ -156,6 +156,7 @@ public class BookController {
 
     @GetMapping("/filter")
     public ResponseEntity<ApiResponse<PageResponseDTO<BookResponseDTO>>> filter(
+            @RequestParam(value = "cherche", required = false) String word,
             @RequestParam(required = false) Long authorId,
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) Long editorId,
@@ -165,7 +166,7 @@ public class BookController {
         return ResponseEntity.ok(
                 ApiResponse.success(
                         PageMapper.toDto(
-                                bookService.filter(authorId, categoryId, editorId, pageable)
+                                bookService.filter(word, authorId, categoryId, editorId, pageable)
                         ),
                         "Livres trouvés avec succès."
                 )

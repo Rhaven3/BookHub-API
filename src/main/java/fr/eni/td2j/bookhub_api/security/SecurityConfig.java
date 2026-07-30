@@ -77,6 +77,12 @@ public class SecurityConfig {
                         // /refresh et /logout s'appuient sur le cookie refreshToken, pas sur l'access token Bearer
                         .requestMatchers("/api/auth/refresh").permitAll()
                         .requestMatchers("/api/auth/logout").permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml"
+                        ).permitAll()
 
                         // Les Routes nécessitant d'être un Bibliotécaire
                         .requestMatchers("/api/loans/*/return").hasAnyRole(Role.LIBRARIAN.name(), Role.ADMIN.name())

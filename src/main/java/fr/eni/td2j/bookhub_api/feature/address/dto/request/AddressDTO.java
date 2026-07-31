@@ -1,0 +1,23 @@
+package fr.eni.td2j.bookhub_api.feature.address.dto.request;
+
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class AddressDTO {
+    @NotBlank(message = "La rue est obligatoire")
+    private String street;
+
+    @NotBlank(message = "La ville est obligatoire")
+    private String city;
+
+    @NotBlank(message = "Le code postal est obligatoire")
+    private String postalCode;
+
+    @NotBlank(message = "Le pays est obligatoire")
+    private String country;
+}

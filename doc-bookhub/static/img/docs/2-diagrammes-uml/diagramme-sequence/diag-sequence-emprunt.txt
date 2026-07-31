@@ -1,0 +1,51 @@
+@startuml
+!theme plain
+title "Diagramme de séquence - Emprunt d'un livre"
+actor Utilisateur
+participant "Frontend" as Front
+participant "API" as API
+participant "LoansService" as Service
+participant "Base de données" as DB
+
+Utilisateur -> Front : Choix Livre
+Utilisateur -> Front : Choix date
+Utilisateur -> Front : Click sur Emprunter
+Front -> API : POST /api/loans
+API -> Service : Vérification de l'emprunt
+
+Service -> DB : Nombre d'emprunts en cours ?
+DB --> Service : Nombre d'emprunts
+
+alt Nombre d'emprunts >= 3
+    Service --> API : Erreur - limite atteinte
+    API --> Front : Retourne message erreur
+    Front --> Utilisateur : Afficher "Maximum 3 emprunts atteint"
+else Moins de 3 emprunts
+
+    Service -> DB : Retards en cours ?
+    DB --> Service : Statut retards
+
+    alt Retard en cours
+        Service --> API : Erreur - retard non régularisé
+        API --> Front : Retourne message erreur
+        Front --> Utilisateur : Afficher "Vous avez un retard en cours"
+    else Pas de retard
+
+        Service -> DB : Livre disponible ?
+        DB --> Service : Confirmation
+
+        alt Livre disponible
+            Service --> API : Emprunt enregistré
+            API --> Front : Retourne message succès
+            Front --> Utilisateur : Afficher confirmation
+        else Livre pas dispo
+            Service --> API : Erreur - indisponible
+            API --> Front : Retourne message erreur
+            Front --> Utilisateur : Afficher message d'erreur
+        end
+
+    end
+
+end
+
+@enduml
